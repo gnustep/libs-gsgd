@@ -3,6 +3,8 @@
    
    Written by:  Manuel Guesdon <mguesdon@orange-concept.com>
    Created: August 1999
+   Modified: Nicola Pero <n.pero@mi.flashnet.it>
+   July 2002
    
    This file is part of the GNUstep GD Library.
 
@@ -21,175 +23,272 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#include <gsgd/GDCom.h>
-#include <string.h>
+#include <gsgd/GDImage.h>
 #include <Foundation/NSData.h>
 #include <Foundation/NSDebug.h>
 #include <Foundation/NSException.h>
+
 #include <gsgd/GDSimpleFont.h>
-#include <gsgd/GDImage.h>
+
+/* For cos, sin */
 #include <math.h>
 
-//--------------------------------------------------------------------
-static int dataReadWrapper(void* context,char* buf,int len)
+/* We use this context to keep track of the state of the process when
+ * we have data to be fed to the gd library.  */
+typedef struct _GDDataReadContext
 {
-  NSMutableData* inData=(NSMutableData*)context;
-  int inDataLength=[inData length];
-  void* inDataBytes=[inData mutableBytes];
-  len=min(len,inDataLength);
-  [inData getBytes:(void*)buf
-		  length:len];
-  memmove(inDataBytes,inDataBytes+len,inDataLength-len);
-  [inData setLength:inDataLength-len];
+  unsigned length;
+  const void *bytes;
+  unsigned position;
+} GDDataReadContext;
+
+
+/* This is the function that reads the data and feeds them to the gd
+ * library.  */
+static int GDDataReadWrapper (void *context, char *buf, int len)
+{
+  GDDataReadContext *readContext = (GDDataReadContext *)context;
+
+  /* We need to clip data reading at the boundary.  */
+  if (readContext->position + len > readContext->length)
+    {
+      len = readContext->length - readContext->position;
+    }
+
+  /* Copy the data in the output buffer.  */
+  memcpy (buf, readContext->bytes + readContext->position, len);
+  
+  /* Update position.  */
+  readContext->position += len;
+
   return len;
 };
 
-//====================================================================
+
 @implementation GDImage
 
-//--------------------------------------------------------------------
--(gdImagePtr)imagePtr
+/* 
+ * Designated initializers.
+ */
+- (id) initWithWidth: (int)width
+	      height: (int)height
 {
-  return imagePtr;
-};
-
-//--------------------------------------------------------------------
--(id)initWithWidth:(int)width
-			 height:(int)height
-{
-  if ((self=[super init]))
-	{
-	  imagePtr=gdImageCreate(width,height);
-	};
+  _imagePtr = gdImageCreate (width, height);
   return self;
-};
+}
 
-//--------------------------------------------------------------------
--(id)initWithPngFilename:(NSString*)filename
+- (id) initWithData: (NSData *)data
+	     format: (GDImageDataFormat)f
 {
-  NSData* data=[NSData dataWithContentsOfFile:filename];
-  if ((self=[self initWithPngData:data]))
-	{
-	};
+  GDDataReadContext *ctx;
+  gdSource *ourGdSource;
+  gdIOCtx *gdCtx;
+
+  ctx = (GDDataReadContext *)(objc_malloc (sizeof (GDDataReadContext)));
+  ctx->length = [data length];
+  ctx->bytes = [data bytes];
+  ctx->position = 0;
+
+  ourGdSource = (gdSource *)(objc_malloc (sizeof (gdSource)));
+  ourGdSource->source = GDDataReadWrapper;
+  ourGdSource->context = ctx;
+
+  gdCtx = gdNewSSCtx (ourGdSource, NULL);
+  
+  switch (f)
+    {
+    case GDPNGImageDataFormat:
+      {
+	_imagePtr = gdImageCreateFromPngCtx (gdCtx);
+	break;
+      }
+    case GDJPEGImageDataFormat:
+      {
+	_imagePtr = gdImageCreateFromJpegCtx (gdCtx);
+	break;
+      }
+    case GDGDImageDataFormat:
+      {
+	_imagePtr = gdImageCreateFromGdCtx (gdCtx);
+	break;
+      }
+    case GDWBMPImageDataFormat:
+      {
+	_imagePtr = gdImageCreateFromWBMPCtx (gdCtx);
+	break;
+      }
+    default:
+      {
+	[NSException raise: NSGenericException  
+		     format: @"Unknown data format to read"];
+      }
+    }
+
+  gdFree (gdCtx);
+  objc_free (ourGdSource);
+  objc_free (ctx);
+
   return self;
+}
+
+/*
+ * Other initializers.
+ */
++ (id) imageWithWidth: (int)width
+	       height: (int)height
+{
+  return [[[self alloc] initWithWidth: width  height: height] autorelease];
+}
+
++ (id) imageWithData: (NSData *)data
+	      format: (GDImageDataFormat)f
+{
+  return [[[self alloc] initWithData: data  format: f] autorelease];
 };
 
-//--------------------------------------------------------------------
--(id)initWithJpegFilename:(NSString*)filename
+/*
+ * Deallocating the object.
+ */
+- (void) dealloc
 {
-  NSData* data=[NSData dataWithContentsOfFile:filename];
-  if ((self=[self initWithJpegData:data]))
-	{
-	};
-  return self;
-};
-
-//--------------------------------------------------------------------
--(id)initWithPngData:(NSData*)data
-{
-  if ((self=[super init]))
-	{
-	  gdSource s;
-	  s.source = dataReadWrapper;
-	  s.context = [data mutableCopy];
-//TODO	  imagePtr=gdImageCreateFromPngSource(&s);
-	};
-  return self;
-};
-
-//--------------------------------------------------------------------
--(id)initWithJpegData:(NSData*)data
-{
-  if ((self=[super init]))
-	{
-	  gdSource s;
-	  s.source = dataReadWrapper;
-	  s.context = [data mutableCopy];
-//TODO	  imagePtr=gdImageCreateFromJpegSource(&s);
-	};
-  return self;
-};
-
-//--------------------------------------------------------------------
-+(id)imageWithWidth:(int)width
-			 height:(int)height
-{
-  return [[[self alloc]initWithWidth:width
-					  height:height] autorelease];
-};
-
-//--------------------------------------------------------------------
-+(id)imageWithFilename:(NSString*)filename
-{
-  NSData* _data=[NSData dataWithContentsOfFile:filename];
-  return [[[self alloc]initWithData:_data] autorelease];
-};
-
-//--------------------------------------------------------------------
-+(id)imageWithData:(NSData*)data
-{
-  return [[[self alloc]initWithData:data] autorelease];
-};
-
-//--------------------------------------------------------------------
--(void)dealloc
-{
-  [self destroyImage];
+  gdImageDestroy (_imagePtr);
   [super dealloc];
 };
 
-//--------------------------------------------------------------------
--(void)destroyImage
+/*
+ * Accessing the underlying gdImage object
+ */
+- (gdImagePtr) imagePtr
 {
-  gdImageDestroy(imagePtr);
-};
+  return _imagePtr;
+}
 
-//--------------------------------------------------------------------
--(BOOL)interlace
+/*
+ * Writing the image
+ */
+- (NSData *) dataWithFormat: (GDImageDataFormat)f
+		  extraInfo: (int)info
 {
-  return (gdImageGetInterlaced(imagePtr)!=0);
-};
+  NSData *output = nil;
+  void *bytes = NULL;
+  int size;
 
-//--------------------------------------------------------------------
--(void)setInterlace:(BOOL)interlace
-{
-  gdImageInterlace(imagePtr,interlace ? 1 : 0);
-};
+  switch (f)
+    {
+    case GDPNGImageDataFormat:
+      {
+	bytes = gdImagePngPtr (_imagePtr, &size);
+	break;
+      }
+    case GDJPEGImageDataFormat:
+      {
+	/* Info is quality in this case, a value between 0-95.
+	   Pass -1 to get the default quality.  */
+	bytes = gdImageJpegPtr (_imagePtr, &size, info);
+	break;
+      }
+    case GDGDImageDataFormat:
+      {
+	bytes = gdImageGdPtr (_imagePtr, &size);
+	break;
+      }
+    case GDWBMPImageDataFormat:
+      {
+	/* Info is the color to use as foreground in this case.
+	   Pass -1 to get 'black' (or if black is not found, the best
+	   match for black) used.  */
+	if (info < 0)
+	  {
+	    info = gdImageColorClosest (_imagePtr, 0, 0, 0);
+	    
+	    /* No colors defined in the image! */
+	    if (info < 0)
+	      {
+		return nil;
+	      }
+	  }
+	
+	bytes = gdImageWBMPPtr (_imagePtr, &size, info);
+	break;
+      }
+    default:
+      {
+	[NSException raise: NSGenericException  
+		     format: @"Unknown data format to write"];
+      }
+    }
+  
+  NS_DURING
+    {
+      output = [NSData dataWithBytes: bytes  length: size];
+    }
+  NS_HANDLER
+    {    
+      gdFree (bytes);
+      [localException raise];
+    }
+  NS_ENDHANDLER
 
-//--------------------------------------------------------------------
--(NSData*)pngImageData
-{
-  int size=0;
-  void* dataPtr=gdImagePngPtr(imagePtr,&size);
-  return [NSData dataWithBytesNoCopy:dataPtr
-				 length:size];
-};
+  gdFree (bytes);
+  
+  return output;
+}
 
-//--------------------------------------------------------------------
--(NSData*)jpegImageDataWithQuality:(int)quality_
+- (NSData *) dataWithFormat: (GDImageDataFormat)f
 {
-  int size=0;
-  void* dataPtr=gdImageJpegPtr(imagePtr,&size,quality_);
-  return [NSData dataWithBytesNoCopy:dataPtr
-				 length:size];
-};
+  return [self dataWithFormat: f  extraInfo: -1];
+}
 
-//--------------------------------------------------------------------
--(BOOL)writeToPngFile:(NSString*)filename
+- (NSData *) pngData
 {
-  NSData* _imageData=[self pngImageData];
-  return ([_imageData writeToFile:filename
-					  atomically:NO]);
-};
+  return [self dataWithFormat: GDPNGImageDataFormat];
+}
 
-//--------------------------------------------------------------------
--(BOOL)writeToJpegFile:(NSString*)filename
-		   withQuality:(int)quality_
+- (NSData *) jpegData
 {
-  NSData* _imageData=[self jpegImageDataWithQuality:quality_];
-  return ([_imageData writeToFile:filename
-					  atomically:NO]);
-};
+  return [self dataWithFormat: GDJPEGImageDataFormat];
+}
+
+- (NSData *) jpegDataWithQuality: (int)q
+{
+  return [self dataWithFormat: GDJPEGImageDataFormat  extraInfo: q];
+}
+
+- (NSData *) wbmpData
+{
+  return [self dataWithFormat: GDWBMPImageDataFormat];
+}
+
+- (NSData *) wbmpDataWithForegroundColor: (int)c
+{
+  return [self dataWithFormat: GDWBMPImageDataFormat  extraInfo: c];
+}
+
+- (NSData *) gdData
+{
+  return [self dataWithFormat: GDGDImageDataFormat];
+}
+
+/*
+ * Setting writing properties.
+ */
+- (BOOL) interlace
+{
+  if (gdImageGetInterlaced (_imagePtr))
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
+}
+
+- (void) setInterlace: (BOOL)interlace
+{
+  gdImageInterlace (_imagePtr, interlace ? 1 : 0);
+}
+
 
 //--------------------------------------------------------------------
 -(void)setPixelX:(int)x
@@ -197,26 +296,26 @@ static int dataReadWrapper(void* context,char* buf,int len)
 			color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageSetPixel(imagePtr,x,y,color);
+  gdImageSetPixel(_imagePtr,x,y,color);
 };
 
 //--------------------------------------------------------------------
 -(int)pixelX:(int)x
-		   y:(int)y
+	   y:(int)y
 {
-  return gdImageGetPixel(imagePtr,x,y);
+  return gdImageGetPixel(_imagePtr,x,y);
 };
 
 //--------------------------------------------------------------------
 -(int)width
 {
-  return gdImageSX(imagePtr);
+  return gdImageSX(_imagePtr);
 };
 
 //--------------------------------------------------------------------
 -(int)height
 {
-  return gdImageSY(imagePtr); 
+  return gdImageSY(_imagePtr); 
 };
 
 //--------------------------------------------------------------------
@@ -228,7 +327,7 @@ static int dataReadWrapper(void* context,char* buf,int len)
 		   color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageLine(imagePtr,x1,y1,x2,y2,color);
+  gdImageLine(_imagePtr,x1,y1,x2,y2,color);
 };
 
 //--------------------------------------------------------------------
@@ -239,7 +338,7 @@ static int dataReadWrapper(void* context,char* buf,int len)
 				 color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageDashedLine(imagePtr,x1,y1,x2,y2,color);
+  gdImageDashedLine(_imagePtr,x1,y1,x2,y2,color);
 };
 
 //--------------------------------------------------------------------
@@ -248,7 +347,7 @@ static int dataReadWrapper(void* context,char* buf,int len)
 		 color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImagePolygon(imagePtr,points,numPoints,color);
+  gdImagePolygon(_imagePtr,points,numPoints,color);
 };
 
 //--------------------------------------------------------------------
@@ -257,7 +356,7 @@ static int dataReadWrapper(void* context,char* buf,int len)
 			   color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageFilledPolygon(imagePtr,points,numPoints,color);
+  gdImageFilledPolygon(_imagePtr,points,numPoints,color);
 };
 
 //--------------------------------------------------------------------
@@ -268,7 +367,7 @@ static int dataReadWrapper(void* context,char* buf,int len)
 		   color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageRectangle(imagePtr,x1,y1,x2,y2,color);
+  gdImageRectangle(_imagePtr,x1,y1,x2,y2,color);
 };
 
 //--------------------------------------------------------------------
@@ -279,7 +378,7 @@ static int dataReadWrapper(void* context,char* buf,int len)
 				 color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageFilledRectangle(imagePtr,x1,y1,x2,y2,color);
+  gdImageFilledRectangle(_imagePtr,x1,y1,x2,y2,color);
 };
 
 //--------------------------------------------------------------------
@@ -289,7 +388,7 @@ static int dataReadWrapper(void* context,char* buf,int len)
 			   color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageFillToBorder(imagePtr,x,y,border,color);
+  gdImageFillToBorder(_imagePtr,x,y,border,color);
 };
 
 //--------------------------------------------------------------------
@@ -298,33 +397,33 @@ static int dataReadWrapper(void* context,char* buf,int len)
 	   color:(int)color;
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageFill(imagePtr,x,y,color);
+  gdImageFill(_imagePtr,x,y,color);
 };
 
 //--------------------------------------------------------------------
 -(void)setBrush:(GDImage*)brush
 {
-  gdImageSetBrush(imagePtr,[brush imagePtr]);
+  gdImageSetBrush(_imagePtr,[brush imagePtr]);
 };
 
 //--------------------------------------------------------------------
 -(void)setTile:(GDImage*)tile
 {
-  gdImageSetTile(imagePtr, [tile imagePtr]);
+  gdImageSetTile(_imagePtr, [tile imagePtr]);
 };
 
 //--------------------------------------------------------------------
 -(void)setStyle:(int*)style
 		 length:(int)length
 {
-  gdImageSetStyle(imagePtr,style,length);
+  gdImageSetStyle(_imagePtr,style,length);
 };
 
 //--------------------------------------------------------------------
 -(BOOL)boundsSafeX:(int)x
 				 y:(int)y
 {
-  return (gdImageBoundsSafe(imagePtr,x,y)!=0);
+  return (gdImageBoundsSafe(_imagePtr,x,y)!=0);
 };
 
 //--------------------------------------------------------------------
@@ -338,7 +437,7 @@ static int dataReadWrapper(void* context,char* buf,int len)
 			color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageArc(imagePtr,x,y,width,height,start,stop,color);
+  gdImageArc(_imagePtr,x,y,width,height,start,stop,color);
 };
 
 //--------------------------------------------------------------------
@@ -370,7 +469,7 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
   NSAssert1(color>=0,@"bad color index: %d",color);
   XYFromDegWithHeight(&startX,&startY,start,width,height,x,y);
   XYFromDegWithHeight(&stopX,&stopY,stop,width,height,x,y);
-  gdImageArc(imagePtr,x,y,width,height,start,stop,color);
+  gdImageArc(_imagePtr,x,y,width,height,start,stop,color);
   if (stop%360!=start%360)
 	{
 	  [self lineFromX:x
@@ -440,21 +539,21 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 -(int)blueOf:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  return gdImageBlue(imagePtr,color);
+  return gdImageBlue(_imagePtr,color);
 };
 
 //--------------------------------------------------------------------
 -(int)greenOf:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  return gdImageGreen(imagePtr,color);
+  return gdImageGreen(_imagePtr,color);
 };
 
 //--------------------------------------------------------------------
 -(int)redOf:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
-  return gdImageRed(imagePtr,color);
+  return gdImageRed(_imagePtr,color);
 };
 
 //--------------------------------------------------------------------
@@ -504,7 +603,7 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 				green:(int)green
 				 blue:(int)blue
 {
-  return gdImageColorAllocate(imagePtr,red,green,blue);
+  return gdImageColorAllocate(_imagePtr,red,green,blue);
 };
 
 //--------------------------------------------------------------------
@@ -512,7 +611,7 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 				  green:(int)green
 				   blue:(int)blue
 {
-  return gdImageColorClosest(imagePtr,red,green,blue);
+  return gdImageColorClosest(_imagePtr,red,green,blue);
 };
 
 //--------------------------------------------------------------------
@@ -520,25 +619,25 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 				  green:(int)green
 				   blue:(int)blue
 {
-  return gdImageColorExact(imagePtr,red,green,blue);
+  return gdImageColorExact(_imagePtr,red,green,blue);
 };
 
 //--------------------------------------------------------------------
 -(int)totalColors
 {
-  return gdImageColorsTotal(imagePtr);
+  return gdImageColorsTotal(_imagePtr);
 };
 
 //--------------------------------------------------------------------
 -(int)transparent
 {
-  return gdImageGetTransparent(imagePtr);
+  return gdImageGetTransparent(_imagePtr);
 };
 
 //--------------------------------------------------------------------
 -(void)setTransparent:(int)color
 {
-  gdImageColorTransparent(imagePtr,color);
+  gdImageColorTransparent(_imagePtr,color);
 };
 
 //--------------------------------------------------------------------
@@ -565,7 +664,7 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 				toX:(int)destX
 				  y:(int)destY
 {
-  gdImageCopy(imagePtr,[image imagePtr],
+  gdImageCopy(_imagePtr,[image imagePtr],
 			  destX,
 			  destY,
 			  sourceX,
@@ -585,7 +684,7 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 			  width:(int)destWidth
 			 height:(int)destHeight
 {
-  gdImageCopyResized(imagePtr,[image imagePtr],
+  gdImageCopyResized(_imagePtr,[image imagePtr],
 					 destX,
 					 destY,
 					 sourceX,
@@ -607,7 +706,7 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
   NSDebugMLog(@"GDImage character: char_=%d",(int)char_);
   NSAssert(font,@"no Font");
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageChar(imagePtr,[font fontPtr],x,y,char_,color);
+  gdImageChar(_imagePtr,[font fontPtr],x,y,char_,color);
   NSDebugMLog(@"Stop GDImage character %@",@"");
 };
 
@@ -621,7 +720,7 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
   NSDebugMLog(@"GDImage characterUp: char_=%d",(int)char_);
   NSAssert(font,@"no Font");
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageCharUp(imagePtr,[font fontPtr],x,y,char_,color);
+  gdImageCharUp(_imagePtr,[font fontPtr],x,y,char_,color);
   NSDebugMLog(@"Stop GDImage characterUp %@",@"");
 };
 
@@ -636,7 +735,7 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
   NSAssert(font,@"no Font");
   NSAssert(string_,@"no String");
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageString(imagePtr,[font fontPtr],x,y,[string_ cString],color);
+  gdImageString(_imagePtr,[font fontPtr],x,y,[string_ cString],color);
   NSDebugMLog(@"Stop GDImage string %@",@"");
 };
 
@@ -662,7 +761,7 @@ upperRightBoundingCorner:(NSPoint*)upperRight_
   NSAssert([fontPath_ length]>0,@"no Font");
   NSAssert(string,@"no String");
   NSAssert1(color>=0,@"bad color index: %d",color);
-  err=gdImageStringTTF((boundingOnly_ ? NULL : imagePtr),
+  err=gdImageStringTTF((boundingOnly_ ? NULL : _imagePtr),
 					   corners,
 					   (disableAA_ ? (-color) : (color)),
 					   [fontPath_ cString],
@@ -791,7 +890,7 @@ upperRightBoundingCorner:(NSPoint*)upperRight_
   NSAssert(font,@"no Font");
   NSAssert(string_,@"no String");
   NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageStringUp(imagePtr,[font fontPtr],x,y,[string_ cString],color);
+  gdImageStringUp(_imagePtr,[font fontPtr],x,y,[string_ cString],color);
   NSDebugMLog(@"Stop GDImage stringUp %@",@"");
 };
 
