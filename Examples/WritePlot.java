@@ -18,8 +18,6 @@
    59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
    */
 
-
-
 import gnu.gnustep.base.*;
 import gnu.gnustep.gd.*;
 
@@ -66,6 +64,14 @@ class WritePlot
       }
 
     System.err.println ("Saving it as plot_java.png...");
+
+    /* FIXME ... If we don't refer the NSData class before using it,
+       it's never loaded, so the object returned by image.pngData() is
+       not recognized as being an NSData, but rather returned as NSObject,
+       causing a crash.  The fix is not clear - manually loading the
+       NSData class by referring to it is a workaround.  */
+    NSData data = new NSData ();
+    
     NSData d = image.pngData ();
     d.writeToFile ("plot_java.png", true);
   }
