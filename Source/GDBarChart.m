@@ -125,14 +125,28 @@
       total += [(NSNumber *)[values objectAtIndex: i] doubleValue];
     }
 
-  /* Now prepare the 5 y labels we use.  */
-  yLabels = [NSMutableArray array];
-  [yLabels addObject: @"0"];
-  [yLabels addObject: [NSString stringWithFormat: @"%d", (int)(total / 4)]];
-  [yLabels addObject: [NSString stringWithFormat: @"%d", (int)(total / 2)]];
-  [yLabels addObject: [NSString stringWithFormat: @"%d", 
-				(int)((total * 3) / 4)]];
-  [yLabels addObject: [NSString stringWithFormat: @"%d", (int)(total)]];
+  if (total >= 4)
+    {
+      /* Now prepare the 5 y labels we use.  */      
+      yLabels = [NSMutableArray array];
+      [yLabels addObject: @"0"];
+      [yLabels addObject: [NSString stringWithFormat: @"%d", 
+				    (int)(total / 4)]];
+      [yLabels addObject: [NSString stringWithFormat: @"%d", 
+				    (int)(total / 2)]];
+      [yLabels addObject: [NSString stringWithFormat: @"%d", 
+				    (int)((total * 3) / 4)]];
+      [yLabels addObject: [NSString stringWithFormat: @"%d", 
+				    (int)(total)]];
+    }
+  else
+    {
+      /* Oh oh - we are in trouble here.  We draw only the top line in 
+       * this case.  */
+      yLabels = [NSMutableArray array];
+      [yLabels addObject: @"0"];
+      [yLabels addObject: [NSString stringWithFormat: @"%d", (int)(total)]];
+    }
 
   /* Get the maximum width of the y labels.  */
   ySize.width = [yFont boundingBoxForStrings: yLabels].width;
@@ -179,7 +193,7 @@
     for (i = 0; i < count; i++)
       {
 	NSString *string = [yLabels objectAtIndex: i];
-	int y = minY + i * ((maxY - minY) / 4);
+	int y = minY + i * ((maxY - minY) / ([yLabels count] - 1));
 	NSPoint p1, p2;
 
 	p1 = [frame convertFrameToImage: NSMakePoint (minX - 5, y + 5)];
