@@ -212,10 +212,7 @@
       r = NSMakeRect ((width - side) / 2, (height - side) / 2, side, side);
       r = [frame convertFrameRectToImage: r];
 
-      [[frame image] filledRectangleFromX: r.origin.x
-		     y: r.origin.y
-		     toX: NSMaxX (r)
-		     y: NSMaxY (r)
+      [[frame image] drawFilledRectangle: r
 		     color: colors[0]];
     }
   else

@@ -48,36 +48,23 @@ int main (void)
 
     for (i = 0; i < 100; i++)
       {
-	[image setPixelColor: black
-	       at: NSMakePoint (50, i)];
+	[image setPixelColor: black  at: NSMakePoint (50, i)];
       }
 
-    [image lineFromX: 47
-	   y: 0
-	   toX: 47
-	   y: 100
+    [image drawLine: NSMakePoint (47, 0)
+	   to: NSMakePoint (47, 100)
 	   color: red];
 
-    [image rectangleFromX: 20
-	   y: 20
-	   toX: 40
-	   y: 40
+    [image drawRectangle: NSMakeRect (20, 20, 20, 20)
 	   color: blue];
 
-    [image filledRectangleFromX: 60
-	   y: 60
-	   toX: 80
-	   y: 80
+    [image drawFilledRectangle: NSMakeRect (60, 60, 20, 20)
 	   color: yellow];
 
-    [image rectangleFromX: 30
-	   y: 30
-	   toX: 50
-	   y: 50
+    [image drawRectangle: NSMakeRect (30, 30, 20, 20)
 	   color: red];
     
-    [image fillFromX: 35
-	   y: 35
+    [image fillFrom: NSMakePoint (35, 35)
 	   usingColor: black
 	   toBorder: red];
 

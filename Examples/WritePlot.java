@@ -42,16 +42,19 @@ class WritePlot
     yellow = image.allocatePaletteColorWithName ("yellow");
     gray = image.allocatePaletteColorWithName ("Gray");
 
-    image.rectangle (10, 10, 210, 210, black);
+    image.drawRectangle (new NSRect (10, 10, 200, 200), black);
     image.setLineStyle (LineStyle.dottedLineWithColor (gray));
 
     for (i = 30; i < 210; i += 20)
       {
-	image.line (11, i, 209, i, Image.styledColor ());
-	image.line (i, 11, i, 209, Image.styledColor ());
+	image.drawLine (new NSPoint (11, i), new NSPoint (209, i), 
+			Image.styledColor ());
+	image.drawLine (new NSPoint (i, 11), new NSPoint (i, 209),
+			Image.styledColor ());
       }
 
-    image.string ("y = sin (x)", 70, 30, black, Font.mediumBoldFont ());
+    image.drawString ("y = sin (x)", new NSPoint (70, 30), 
+		      black, Font.mediumBoldFont ());
     
     /* Let's plot a rough  y = sin (x)  */
     int x;

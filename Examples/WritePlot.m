@@ -49,32 +49,24 @@ int main (void)
     yellow = [image allocatePaletteColorWithName: @"yellow"];
     gray = [image allocatePaletteColorWithName: @"Gray"];
 
-    [image rectangleFromX: 10
-	   y: 10
-	   toX: 210
-	   y: 210
+    [image drawRectangle: NSMakeRect (10, 10, 200, 200)
 	   color: black];
     
     [image setLineStyle: [GDLineStyle dottedLineWithColor: gray]];
 
     for (i = 30; i < 210; i += 20)
       {
-	[image lineFromX: 11
-	       y: i
-	       toX: 209
-	       y: i
+	[image drawLine: NSMakePoint (11, i)
+	       to: NSMakePoint (209, i)
 	       color: [GDImage styledColor]];
 
-	[image lineFromX: i
-	       y: 11
-	       toX: i
-	       y: 209
+	[image drawLine: NSMakePoint (i, 11)
+	       to: NSMakePoint (i, 209)
 	       color: [GDImage styledColor]];	
       }
 
-    [image string: @"y = sin (x)"
-	   x: 70
-	   y: 30
+    [image drawString: @"y = sin (x)"
+	   from: NSMakePoint (70, 30)
 	   color: black
 	   font: [GDFont mediumBoldFont]];
 
