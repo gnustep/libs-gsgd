@@ -599,8 +599,6 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   unsigned int x2 = (unsigned int)(endPoint.x);
   unsigned int y2 = (unsigned int)(endPoint.y);
 
-  NSLog (@"Line from (%d, %d) to (%d, %d)", x1, y1, x2, y2);
-
   gdImageLine (_imagePtr, x1, y1, x2, y2, color);
 }
 
@@ -685,7 +683,6 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   /* Size of the ellipse.  */
   unsigned int width = (unsigned int)(ellipseBoundingRect.size.width);
   unsigned int height = (unsigned int)(ellipseBoundingRect.size.height);
-
 
   /* First draw the arc if required.  */
   if (options & GDDrawArcImageArcOption
