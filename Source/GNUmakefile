@@ -32,7 +32,6 @@ libgsgd_HEADER_FILES = \
 GDPlot.h \
 GDFont.h \
 GDImage.h \
-GDCom.h \
 GDLineStyle.h
 
 libgsgd_HEADER_FILES_INSTALL_DIR = gsgd
