@@ -29,7 +29,8 @@ GDImage.m \
 GDLineStyle.m \
 GDFrame.m \
 GDLegendBox.m \
-GDBinDataSet.m
+GDBinDataSet.m \
+GDPieChart.m
 
 libgsgd_HEADER_FILES = \
 GD.h \
@@ -39,7 +40,8 @@ GDImage.h \
 GDLineStyle.h \
 GDFrame.h \
 GDLegendBox.h \
-GDBinDataSet.h
+GDBinDataSet.h \
+GDPieChart.h
 
 libgsgd_HEADER_FILES_INSTALL_DIR = gsgd
 libgsgd_HEADER_FILES_DIR = ../Headers/gsgd
