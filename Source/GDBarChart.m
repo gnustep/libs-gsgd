@@ -201,8 +201,25 @@
     for (i = 0; i < count; i++)
       {
 	NSString *string = [yLabels objectAtIndex: i];
-	int y = minY + i * ((maxY - minY) / ([yLabels count] - 1));
+	int value = [string intValue];
+	int y;
 	NSPoint p1, p2;
+
+	if (total > 0)
+	  {
+	    y = minY + value * ((maxY - minY) / total);
+	  }
+	else
+	  {
+	    if (i == 0)
+	      {
+		y = minY;
+	      }
+	    else
+	      {
+		y = maxY;
+	      }
+	  }
 
 	p1 = [frame convertFrameToImage: NSMakePoint (minX - 5, y + 5)];
 	[image drawRightAlignedString: string  to: p1
