@@ -49,8 +49,7 @@ int main (void)
     for (i = 0; i < 100; i++)
       {
 	[image setPixelColor: black
-	       x: 50
-	       y: i];
+	       at: NSMakePoint (50, i)];
       }
 
     [image lineFromX: 47

@@ -60,7 +60,7 @@ class WritePlot
 	float x_ = (float)(x / 10.);
 	float y_ = (float)(Math.sin (x_));
 	
-	image.setPixelColor (black, x + 10, (int)((y_ * 50) + 100));
+	image.setPixelColor (black, new NSPoint (x + 10, (y_ * 50) + 100));
       }
 
     System.err.println ("Saving it as plot_java.png...");

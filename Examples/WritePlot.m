@@ -122,8 +122,7 @@ int main (void)
 	  float y_ = sin (x_);
 	  
 	  [image setPixelColor: black
-		 x: x + 10
-		 y: (y_ * 50) + 100];
+		 at: NSMakePoint (x + 10, (y_ * 50) + 100)];
 	}
     }
   }
