@@ -704,10 +704,20 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   gdImageSetBrush (_imagePtr, brush->_imagePtr);
 }
 
+- (GDImage *)brushImage
+{
+  return brushImage;
+}
+
 - (void) setTileImage: (GDImage *)tile
 {
   ASSIGN (tileImage, tile);
   gdImageSetTile (_imagePtr, tile->_imagePtr);
+}
+
+- (GDImage *)tileImage
+{
+  return tileImage;
 }
 
 - (void) setLineStyle: (GDLineStyle *)style
@@ -718,56 +728,50 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   gdImageSetStyle (_imagePtr, colors, length);
 }
 
-
-
-
-//--------------------------------------------------------------------
-// Copying and resizing
--(id)copy
+/*
+ * Copying
+ */
+- (id) copyWithZone: (NSZone*)zone
 {
-  //TODO
-  return nil;
-};
+  int w = [self width];
+  int h = [self height];
+  GDImage *copy = [[GDImage allocWithZone: zone] initWithWidth: w  height: h];
+  
+  [copy setInterlace: [self interlace]];
+  gdImagePaletteCopy (copy->_imagePtr, _imagePtr);
+  gdImageCopy (copy->_imagePtr, _imagePtr, 0, 0, 0, 0, w, h);
 
-//--------------------------------------------------------------------
--(void)copyRectFrom:(GDImage*)image
-				  x:(int)sourceX
-				  y:(int)sourceY
-			  width:(int)width
-			 height:(int)height
-				toX:(int)destX
-				  y:(int)destY
-{
-  gdImageCopy(_imagePtr,[image imagePtr],
-			  destX,
-			  destY,
-			  sourceX,
-			  sourceY,
-			  width,
-			  height);
-};
+  [copy setPaletteTransparentColor: [self paletteTransparentColor]];
 
-//--------------------------------------------------------------------
--(void)copyRectFrom:(GDImage*)image
-				  x:(int)sourceX
-				  y:(int)sourceY
-			  width:(int)width
-			 height:(int)height
-				toX:(int)destX
-				  y:(int)destY
-			  width:(int)destWidth
-			 height:(int)destHeight
+  return copy;
+}
+
+- (void) copyRectFrom: (GDImage *)image
+		    x: (int)sourceX
+		    y: (int)sourceY
+		width: (int)width
+	       height: (int)height
+		  toX: (int)destX
+		    y: (int)destY
 {
-  gdImageCopyResized(_imagePtr,[image imagePtr],
-					 destX,
-					 destY,
-					 sourceX,
-					 sourceY,
-					 destWidth,
-					 destHeight,
-					 width,
-					 height);
-};
+  gdImageCopy (_imagePtr, image->_imagePtr, destX, destY,
+	       sourceX, sourceY, width, height);
+}
+
+- (void) copyRectFrom: (GDImage *)image
+		    x: (int)sourceX
+		    y: (int)sourceY
+		width: (int)sourceWidth
+	       height: (int)sourceHeight
+		  toX: (int)destX
+		    y: (int)destY
+		width: (int)destWidth
+	       height: (int)destHeight
+{
+  gdImageCopyResized (_imagePtr, image->_imagePtr,
+		      destX, destY, sourceX, sourceY,
+		      destWidth, destHeight, sourceWidth, sourceHeight);
+}
 
 //--------------------------------------------------------------------
 // Fonts and text-handling
