@@ -1,1 +1,4 @@
-*obj
+config.make
+config.cache
+config.log
+config.status
