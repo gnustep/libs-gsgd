@@ -1,3 +1,9 @@
+Thu Jul 11 15:54:57 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/gsgd.jigs: Added the new GDFont and GDLineStyle methods;
+	wrapped GDFrame.
+	* Headers/gsgd/GD.h: Include the new headers.
+
 Thu Jul 11 15:46:08 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Examples/WritePie.m: Updated to demo the new pie chart class.
