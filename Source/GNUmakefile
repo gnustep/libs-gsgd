@@ -23,7 +23,6 @@ include $(GNUSTEP_MAKEFILES)/common.make
 LIBRARY_NAME = libgsgd
 
 libgsgd_OBJC_FILES = \
-GDPlot.m \
 GDFont.m \
 GDImage.m \
 GDLineStyle.m \
@@ -34,7 +33,6 @@ GDPieChart.m
 
 libgsgd_HEADER_FILES = \
 GD.h \
-GDPlot.h \
 GDFont.h \
 GDImage.h \
 GDLineStyle.h \
