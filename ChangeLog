@@ -1,3 +1,10 @@
+Thu Jul  4 19:46:19 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDImage.h: Rewritten the API for colors, pixels and
+	image size.
+	* Source/GDImage.m: Rewritten the corresponding methods.
+	* Examples/WriteFile.m: Updated to show the new stuff working.
+	
 Thu Jul  4 16:35:13 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDImage.m ([-initWithData:format:]): Fixed memory leak in
