@@ -32,7 +32,8 @@ libgsgd_HEADER_FILES = \
 GDPlot.h \
 GDFont.h \
 GDImage.h \
-GDLineStyle.h
+GDLineStyle.h \
+GD.h
 
 libgsgd_HEADER_FILES_INSTALL_DIR = gsgd
 libgsgd_HEADER_FILES_DIR = ../Headers/gsgd
@@ -43,5 +44,14 @@ ADDITIONAL_OBJCFLAGS += -Wall
 ADDITIONAL_INCLUDE_DIRS += -I../Headers
 LIBRARIES_DEPEND_UPON = -lgd
 
+# Optional Java wrappers for the library
+JAVA_WRAPPER_NAME = gsgd
+gsgd_HEADER_FILES = gsgd/GD.h
+gsgd_HEADER_FILES_DIR = ../Headers/
+
 include $(GNUSTEP_MAKEFILES)/library.make
 
+# If JIGS is installed, automatically generate Java wrappers as well.
+# Because of the '-', should not complain if java-wrapper.make can't be
+# found ... simply skip generation of java wrappers in that case.
+-include $(GNUSTEP_MAKEFILES)/java-wrapper.make
