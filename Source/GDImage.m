@@ -590,30 +590,42 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 /*
  * Drawing lines and rectangles
  */
-- (void) lineFromX: (int)x1
-		 y: (int)y1
-	       toX: (int)x2
-		 y: (int)y2
-	     color: (int)color
+- (void) drawLine: (NSPoint)startPoint
+	       to: (NSPoint)endPoint
+	    color: (int)color
 {
+  unsigned int x1 = (unsigned int)(startPoint.x);
+  unsigned int y1 = (unsigned int)(startPoint.y);
+  unsigned int x2 = (unsigned int)(endPoint.x);
+  unsigned int y2 = (unsigned int)(endPoint.y);
+
+  NSLog (@"Line from (%d, %d) to (%d, %d)", x1, y1, x2, y2);
+
   gdImageLine (_imagePtr, x1, y1, x2, y2, color);
 }
 
-- (void) rectangleFromX: (int)x1
-		      y: (int)y1
-		    toX: (int)x2
-		      y: (int)y2
-		  color: (int)color
+- (void) drawRectangle: (NSRect)aRectangle
+		 color: (int)color
 {
-  gdImageRectangle (_imagePtr, x1, y1, x2, y2, color);
+  NSPoint cornerA = aRectangle.origin;
+  NSPoint cornerB = NSMakePoint (aRectangle.origin.x, NSMaxY (aRectangle));
+  NSPoint cornerC = NSMakePoint (NSMaxX (aRectangle), NSMaxY (aRectangle));
+  NSPoint cornerD = NSMakePoint (NSMaxX (aRectangle), aRectangle.origin.y);
+
+  [self drawLine: cornerA  to: cornerB  color: color];
+  [self drawLine: cornerB  to: cornerC  color: color];
+  [self drawLine: cornerC  to: cornerD  color: color];
+  [self drawLine: cornerD  to: cornerA  color: color];
 }
 
-- (void) filledRectangleFromX: (int)x1
-			    y: (int)y1
-			  toX: (int)x2
-			    y: (int)y2
-			color: (int)color
+- (void) drawFilledRectangle: (NSRect)aRectangle
+		       color: (int)color
 {
+  unsigned int x1 = (unsigned int)(NSMinX (aRectangle));
+  unsigned int y1 = (unsigned int)(NSMinY (aRectangle));
+  unsigned int x2 = (unsigned int)(NSMaxX (aRectangle));
+  unsigned int y2 = (unsigned int)(NSMaxY (aRectangle));
+
   gdImageFilledRectangle (_imagePtr, x1, y1, x2, y2, color);
 }
 
@@ -622,34 +634,38 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
  * Filling/flooding areas with color
  */
 
-- (void) fillFromX: (int)x
-		 y: (int)y
-	usingColor: (int)color
-	  toBorder: (int)borderColor
+- (void) fillFrom: (NSPoint)startPoint
+       usingColor: (int)color
+	 toBorder: (int)borderColor
 {
+  unsigned int x = (unsigned int)(startPoint.x);
+  unsigned int y = (unsigned int)(startPoint.y);
+
   gdImageFillToBorder (_imagePtr, x, y, borderColor, color);
 }
 
-- (void) fillFromX: (int)x
-		 y: (int)y
-	usingColor: (int)color
+- (void) fillFrom: (NSPoint)startPoint
+       usingColor: (int)color
 {
+  unsigned int x = (unsigned int)(startPoint.x);
+  unsigned int y = (unsigned int)(startPoint.y);
+
   gdImageFill (_imagePtr, x, y, color);
 }
 
 /*
  * Draw polygons
  */
-- (void) polygon: (gdPoint *)points
-	   count: (int)numPoints
-	   color: (int)color
+- (void) drawPolygon: (gdPoint *)points
+	       count: (int)numPoints
+	       color: (int)color
 {
   gdImagePolygon (_imagePtr, points, numPoints, color);
 }
 
-- (void) filledPolygon: (gdPoint *)points
-		 count: (int)numPoints
-		 color: (int)color
+- (void) drawFilledPolygon: (gdPoint *)points
+		     count: (int)numPoints
+		     color: (int)color
 {
   gdImageFilledPolygon (_imagePtr, points, numPoints, color);
 }
@@ -657,15 +673,20 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 /*
  * Draw arcs
  */
-- (void) arcCenterX: (int)x
-		  y: (int)y
-	      width: (int)width
-	     height: (int)height
-	 startAngle: (int)startDegrees
-	  stopAngle: (int)stopDegrees
-	      color: (int)color
-	    options: (GDImageArcOptions)options
+- (void) drawArc: (NSRect)ellipseBoundingRect
+      startAngle: (int)startDegrees
+       stopAngle: (int)stopDegrees
+	   color: (int)color
+	 options: (GDImageArcOptions)options
 {
+  /* Center of the ellipse.  */
+  unsigned int x = (unsigned int)(NSMidX (ellipseBoundingRect));
+  unsigned int y = (unsigned int)(NSMidY (ellipseBoundingRect));
+  /* Size of the ellipse.  */
+  unsigned int width = (unsigned int)(ellipseBoundingRect.size.width);
+  unsigned int height = (unsigned int)(ellipseBoundingRect.size.height);
+
+
   /* First draw the arc if required.  */
   if (options & GDDrawArcImageArcOption
       || options & GDFillArcAreaImageArcOption)
@@ -808,29 +829,32 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 /*
  * String drawing
  */
-- (void) character: (char)c
-		 x: (int)x
-		 y: (int)y
-	     color: (int)color
-	      font: (GDFont *)font
+- (void) drawCharacter: (char)c
+		  from: (NSPoint)point
+		 color: (int)color
+		  font: (GDFont *)font
 {
+  unsigned int x = (unsigned int)(point.x);
+  unsigned int y = (unsigned int)(point.y);
+
   gdImageChar (_imagePtr, [font fontPointer], x, y, c, color);
 }
 
-- (void) characterUp: (char)c
-		   x: (int)x
-		   y: (int)y
-	       color: (int)color
-		font: (GDFont *)font
+- (void) drawCharacterUp: (char)c
+		    from: (NSPoint)point
+		   color: (int)color
+		    font: (GDFont *)font
 {
+  unsigned int x = (unsigned int)(point.x);
+  unsigned int y = (unsigned int)(point.y);
+
   gdImageCharUp (_imagePtr, [font fontPointer], x, y, c, color);
 }
 
-- (void) string: (NSString *)string
-	      x: (int)x
-	      y: (int)y
-	  color: (int)color
-	   font: (GDFont *)font
+- (void) drawString: (NSString *)string
+	       from: (NSPoint)point
+	      color: (int)color
+	       font: (GDFont *)font
 {
   /* Convert the string to iso-8859-2 as that is the charset used by
    * the default fonts.  NB - for a custom font, this might not be
@@ -838,6 +862,8 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   NSMutableData *m = [[string dataUsingEncoding: NSISOLatin2StringEncoding
 			      allowLossyConversion: YES] mutableCopy];
   unsigned char *c;
+  unsigned int x = (unsigned int)(point.x);
+  unsigned int y = (unsigned int)(point.y);
 
   [m appendBytes: "" length: 1];
   c = (unsigned char *)[m bytes];
@@ -846,11 +872,10 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   RELEASE (m);
 }
 
-- (void) stringUp: (NSString *)string
-		x: (int)x
-		y: (int)y
-	    color: (int)color
-	     font: (GDFont *)font
+- (void) drawStringUp: (NSString *)string
+		 from: (NSPoint)point
+		color: (int)color
+		 font: (GDFont *)font
 {
   /* Convert the string to iso-8859-2 as that is the charset used by
    * the default fonts.  NB - for a custom font, this might not be
@@ -858,6 +883,8 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   NSMutableData *m = [[string dataUsingEncoding: NSISOLatin2StringEncoding
 			      allowLossyConversion: YES] mutableCopy];
   unsigned char *c;
+  unsigned int x = (unsigned int)(point.x);
+  unsigned int y = (unsigned int)(point.y);
 
   [m appendBytes: "" length: 1];
   c = (unsigned char *)[m bytes];
@@ -866,15 +893,14 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   RELEASE (m);
 }
 
-- (void) stringFreeType: (NSString *)string
-		      x: (int)x
-		      y: (int)y
-		  color: (int)color
-	       fontPath: (NSString *)fontPath
-	      pointSize: (int)ptSize
-		  angle: (double)radians
-    disableAntiAliasing: (BOOL)disableAA
-	   boundingRect: (int *)rect
+- (void) drawStringFreeType: (NSString *)string
+		       from: (NSPoint)point
+		      color: (int)color
+		   fontPath: (NSString *)fontPath
+		  pointSize: (int)ptSize
+		      angle: (double)radians
+	disableAntiAliasing: (BOOL)disableAA
+	       boundingRect: (int *)rect
 {
   /* Convert the string to UTF-8 as it looks like the FT function is
    * expecting that.  */
@@ -882,6 +908,8 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 			      allowLossyConversion: YES] mutableCopy];
   unsigned char *c;
   char *error = NULL;
+  unsigned int x = (unsigned int)(point.x);
+  unsigned int y = (unsigned int)(point.y);
   
   [m appendBytes: "" length: 1];
   c = (unsigned char *)[m bytes];

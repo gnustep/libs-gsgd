@@ -295,32 +295,21 @@ enum {
  * styledBrushedColor], in which case both the style and the brush are
  * used.
  */
-- (void) lineFromX: (int)x1
-		 y: (int)y1
-	       toX: (int)x2
-		 y: (int)y2
-	     color: (int)color;
+- (void) drawLine: (NSPoint)startPoint
+	       to: (NSPoint)endPoint
+	    color: (int)color;
 
 
-/* Draw a rectangle (four lines); x1, y1 is the upper left corner, x2,
- * y2 the lower right one.  Color might be +styledColor or
+/* Draw a rectangle (four lines).  Color might be +styledColor or
  * +brushColor.  */
-- (void) rectangleFromX: (int)x1
-		      y: (int)y1
-		    toX: (int)x2
-		      y: (int)y2
-		  color: (int)color;
+- (void) drawRectangle: (NSRect)aRectangle
+		 color: (int)color;
 
-/* Draw a filled rectangular area; x1, y1 is the upper left corner,
- * x2, y2 the lower right one.  NB: this is taken very seriously by
- * libgd ... make sure x1 < x2 and y1 < y2 when you call the method,
- * else nothing will be drawn.  Color might be +tiledColor to fill the
- * rectangle using a tiled image.  */
-- (void) filledRectangleFromX: (int)x1
-			    y: (int)y1
-			  toX: (int)x2
-			    y: (int)y2
-			color: (int)color;
+/* Draw a filled rectangular area.  Color might be +tiledColor to fill
+ * the rectangle using a tiled image.  */
+- (void) drawFilledRectangle: (NSRect)aRectangle
+		       color: (int)color;
+
 
 /*
  * Filling/flooding areas with color
@@ -329,9 +318,8 @@ enum {
 /* Flood the image with color, starting from the point at x, y.  All
  * pixels around the one at x, y and of the same color, are repainted
  * with the specified color.  */
-- (void) fillFromX: (int)x
-		 y: (int)y
-	usingColor: (int)color;
+- (void) fillFrom: (NSPoint)startPoint
+       usingColor: (int)color;
 
 /* Flood the image with color, starting from the point at x, y.  All
  * pixels around the one at x, y are repainted with the specified
@@ -341,22 +329,21 @@ enum {
  * The net effect is that the image is flood up to the borders of
  * color borderColor.
  */
-- (void) fillFromX: (int)x
-		 y: (int)y
-	usingColor: (int)color
-	  toBorder: (int)borderColor;
+- (void) fillFrom: (NSPoint)startPoint
+       usingColor: (int)color
+	 toBorder: (int)borderColor;
 
 
 /*
  * Draw polygons
  */
-- (void) polygon: (gdPoint *)points
-	   count: (int)numPoints
-	   color: (int)color;
+- (void) drawPolygon: (gdPoint *)points
+	       count: (int)numPoints
+	       color: (int)color;
 
-- (void) filledPolygon: (gdPoint *)points
-		 count: (int)numPoints
-		 color: (int)color;
+- (void) drawFilledPolygon: (gdPoint *)points
+		     count: (int)numPoints
+		     color: (int)color;
 
 /*
  * Draw arcs
@@ -371,14 +358,11 @@ enum {
  * of these things can be done at once if the corresponding options
  * are ||ed together).
  */
-- (void) arcCenterX: (int)x
-		  y: (int)y
-	      width: (int)width
-	     height: (int)height
-	 startAngle: (int)startDegrees
-	  stopAngle: (int)stopDegrees
-	      color: (int)color
-	    options: (GDImageArcOptions)options;
+- (void) drawArc: (NSRect)ellipseBoundingRect
+      startAngle: (int)startDegrees
+       stopAngle: (int)stopDegrees
+	   color: (int)color
+	 options: (GDImageArcOptions)options;
 
 /* 
  * Special drawing effects
@@ -444,29 +428,25 @@ enum {
 /*
  * String drawing
  */
-- (void) character: (char)c
-		 x: (int)x
-		 y: (int)y
-	     color: (int)color
-	      font: (GDFont *)font;
+- (void) drawCharacter: (char)c
+		  from: (NSPoint)point
+		 color: (int)color
+		  font: (GDFont *)font;
 
-- (void) characterUp: (char)c
-		   x: (int)x
-		   y: (int)y
-	       color: (int)color
-		font: (GDFont *)font;
+- (void) drawCharacterUp: (char)c
+		    from: (NSPoint)point
+		   color: (int)color
+		    font: (GDFont *)font;
 
-- (void) string: (NSString *)string
-	      x: (int)x
-	      y: (int)y
-	  color: (int)color
-	   font: (GDFont *)font;
+- (void) drawString: (NSString *)string
+	       from: (NSPoint)point
+	      color: (int)color
+	       font: (GDFont *)font;
 
-- (void) stringUp: (NSString *)string
-		x: (int)x
-		y: (int)y
-	    color: (int)color
-	     font: (GDFont *)font;
+- (void) drawStringUp: (NSString *)string
+		 from: (NSPoint)point
+		color: (int)color
+		 font: (GDFont *)font;
 
 /*
  * FreeType string drawing
@@ -484,15 +464,14 @@ enum {
  * one.  You can safely pass NULL as boundingRect if you don't need
  * that info.  Raises an exception if something goes really wrong.
  */
-- (void) stringFreeType: (NSString *)string
-		      x: (int)x
-		      y: (int)y
-		  color: (int)color
-	       fontPath: (NSString *)fontPath
-	      pointSize: (int)ptSize
-		  angle: (double)radians
-    disableAntiAliasing: (BOOL)disableAA
-	   boundingRect: (int *)rect;
+- (void) drawStringFreeType: (NSString *)string
+		       from: (NSPoint)point
+		      color: (int)color
+		   fontPath: (NSString *)fontPath
+		  pointSize: (int)ptSize
+		      angle: (double)radians
+	disableAntiAliasing: (BOOL)disableAA
+	       boundingRect: (int *)rect;
 
 /* Get the bounding rect for a string without drawing it.  */
 + (void) getBoundingRect: (int *)rect
