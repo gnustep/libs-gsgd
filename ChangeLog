@@ -1,3 +1,8 @@
+Thu Jul 11 12:59:04 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDFont.h ([-boundingBoxForString:]): New method.
+	* Source/GDFont.m ([-boundingBoxForString:]): Implemented.
+
 Tue Jul  9 02:54:17 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Examples/WritePlot.java: Added workaround to prevent JVM

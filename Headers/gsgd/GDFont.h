@@ -25,6 +25,7 @@
 #define _gsgd_GDFont_h__
 
 #include <Foundation/NSObject.h>
+#include <Foundation/NSGeometry.h>
 #include <gd.h>
 
 /*
@@ -74,6 +75,9 @@
  * same size because the font is fixed size.  */
 - (int) width;
 - (int) height;
+
+/* Compute the bounding box for a string.  */
+- (NSSize) boundingBoxForString: (NSString *)text;
 
 @end
 

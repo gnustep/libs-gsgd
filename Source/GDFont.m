@@ -147,6 +147,18 @@ static GDFont *giantFont = nil;
   return _fontPtr->h;
 }
 
+- (NSSize) boundingBoxForString: (NSString *)text
+{
+  int length = [text length];
+  NSSize s;
+  
+  s.width = _fontPtr->w * length;
+  s.height = _fontPtr->h;
+  
+  return s;
+}
+
+
 @end
 
 
