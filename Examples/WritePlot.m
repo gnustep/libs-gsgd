@@ -22,6 +22,7 @@
 
 #include <gsgd/GDImage.h>
 #include <gsgd/GDLineStyle.h>
+#include <gsgd/GDFont.h>
 #include <gd.h>
 #include <math.h>
 
@@ -70,6 +71,13 @@ int main (void)
 	       y: 209
 	       color: [GDImage styledColor]];	
       }
+
+    [image string: @"y = sin (x)"
+	   x: 70
+	   y: 30
+	   color: black
+	   font: [GDFont mediumBoldFont]];
+
     {
       /* Let's plot a rough  y = sin (x)  */
       int x;
