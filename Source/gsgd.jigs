@@ -22,7 +22,7 @@ classes = (
 		     /* "getBoundingRect:stringFreeType:fontPath:pointSize:angle:"*/
 		     );
 
-  "instance methods" = ("dataWithFormat:extraInfo:",
+  "instance methods" = ("dataWithFormat:options:",
 			"dataWithFormat:",
 			"pngData",
 			"jpegData",
@@ -30,8 +30,6 @@ classes = (
 			"wbmpData",
 			"wbmpDataWithForegroundColor:",
 			"gdData",
-			"setInterlace:",
-			"interlace",
 			"width",
 			"height",
 			"totalPaletteColors",
