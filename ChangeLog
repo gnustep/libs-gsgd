@@ -1,3 +1,24 @@
+Tue Dec  3 15:44:03 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDBarChart.h: Added API to change the bar color and
+	bar shade color; to get the recommended size for the image.
+	* Source/GDBarChart.m: Implemented it.
+	
+Tue Dec  3 15:11:40 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDFont.h: New utility method to get a bounding box
+	for an array of strings, in separate category.
+	* Source/GDFont.m: Implemented the new method.
+	
+	* Headers/gsgd/GDImage.h: New utility methods to draw a centered
+	or right-aligned string, in separate category.
+	* Source/GDImage.m: Implemented the new methods.
+	
+	* Headers/gsgd/GDBarChart.h: New file.
+	* Source/GDBarChar.m: New file.
+	* Source/GNUmakefile: Added GDBarChart.h and GDBarChart.m
+	* Headers/gsgd/GD.h: Include GDBarChart.h.
+
 Tue Dec  3 13:05:35 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GNUmakefile.wrapper.objc.preamble: Added
