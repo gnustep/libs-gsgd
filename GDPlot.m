@@ -1,4 +1,4 @@
-/* GDGIFPlot.h - Interface of GDGIFPlot
+/* GDPlot.m - Implementation of GDPlot
    Copyright (C) 1999 Free Software Foundation, Inc.
    
    Written by:  Manuel Guesdon <mguesdon@orange-concept.com>
@@ -21,91 +21,38 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#ifndef _GDGIFPlot_h__
-	#define _GDGIFPlot_h__
-
 #include <gsgd/GDCom.h>
-#include <Foundation/NSArray.h>
 #include <Foundation/NSDictionary.h>
+#include <gsgd/GDPlot.h>
 
-#define GIF_PLOT__GRAPH_TAG	0
-#define GIF_PLOT__LABEL_TAG	1
-#define GIF_PLOT__AXES_TAG	2
+@implementation GDPlot
 
-typedef enum {
-    GDPlotFormat_DATA_DOUBLE,
-    GDPlotFormat_DATA_DATE,
-    GDPlotFormat_DATA_OBJECT
-} GDPlotFormat;
-		
-@class GDSimpleFont;
-@class GDGIFImage;
-
-@interface GDGIFPlot: NSObject
+/*
+-(id)init
 {
-  GDGIFImage* gifImage;
-  NSSize imageSize;
+  if ((self=[super init]))
+	{
+	};
+  return self;
+};
 
+-(void)addContentsOfFile:(NSString*)filename_
+{
+  NSDictionary* _dict=[NSDictionary dictionaryWithContentsOfFile:filename_];
+  [self addContentsOfDictionary:_dict];
+};
 
-
-
-
-  NSMutableArray *displayArray;
-  NSMutableDictionary *legendsTable;
-  NSMutableDictionary *settings;
-  NSMutableDictionary *dateData;
-  NSString *xNumberFormat;
-  NSString* *yNumberFormat;
-  NSString *dataDateFormat;
-  int count;
-  BOOL first;
-  NSPoint lastPoint;
-  NSPoint legendPoint;
-  NSPoint firstLegendPoint;
-  NSPoint lastLegendPoint;
-  double yMin;
-  double yMax;
-  double xMin;
-  double xMax;
-  double xMaxGraph;
-  double yMaxGraph;
-  double xMinGraph;
-  double yMinGraph;
-  double xNum;
-  double yNum;
-  double xTics;
-  double yTics;
-  int bgColor;
-  int borderColor;// Color of the border if it exists.
-  int axisColor;// Default color of all axis.
-  int ticColor;								// Color of the tics on all axis.
-  int numberColor;// Color of all numbers on all axis.
-  int gridColor;// Color of the grid behind the graph.
-  int plotColor;
-  int titleColor;
-  NSRect rect;
-  NSRect frame;
-  NSRect drawFrame;
-  GDPlotFormat xFormat;
-  GDPlotFormat yFormat;
-  NSSize xNumSize;
-  NSSize yNumSize;
-  NSSize titleSize;
-  NSSize xTitleSize;
-  NSSize yTitleSize;
-  NSSize legendSize;
-  NSArray* xObjects;
-  NSArray *yObjects; // If the DATA_OBJECT Format is selected.
-  int histogramCount;
-}
-
-
--(id)init;
--(void)addContentsOfFile:(NSString*)filename_;
--(void)addContentsOfDictionary:(NSDictionary*)dictionary_;
+-(void)addContentsOfDictionary:(NSDictionary*)dictionary_
+{
+};
 
 // Exception if gifImage is nil
--(void)generateGraph;
+-(void)generateGraph
+{
+  gifImage=[GDImage imageWithWidth:imageSize.width
+					   Height:imageSize.height];
+  
+};
 -(void)addLegendBoxColor:(int)color;
 -(void)addLinexArray:(NSArray*)x
 			  yArray:(NSArray*)y color:(int)lineColor;
@@ -191,7 +138,7 @@ typedef enum {
 
 
 -(void)draw;
--(GDGIFImage*)gifImage;
+-(GDImage*)gifImage;
 -(NSData*)imageData;
 -(int)imageWidth;
 -(int)imageHeight;
@@ -199,6 +146,5 @@ typedef enum {
 -(void)writeToFile:(NSString*)aFileName;
 
 -(NSDictionary*)settings;
+*/
 @end
-
-#endif // _GDGIFPlot_h__

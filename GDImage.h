@@ -1,4 +1,4 @@
-/* GDGIFImage.h - Interface of GDGIFImage
+/* GDImage.h - Interface of GDImage
    Copyright (C) 1999 Free Software Foundation, Inc.
    
    Written by:  Manuel Guesdon <mguesdon@orange-concept.com>
@@ -21,14 +21,15 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#ifndef _GDGIFImage_h__
-	#define _GDGIFImage_h__
+#ifndef _GDImage_h__
+	#define _GDImage_h__
 
 #include <gsgd/GDCom.h>
 
 @class GDSimpleFont;
 
-@interface GDGIFImage : NSObject
+//====================================================================
+@interface GDImage : NSObject
 {
     gdImagePtr imagePtr;
 };
@@ -42,9 +43,10 @@
 -(id)initWithWidth:(int)width
 			 height:(int)height;
 
--(id)initWithFilename:(NSString*)filename;
-
--(id)initWithData:(NSData*)data;
+-(id)initWithPngFilename:(NSString*)filename;
+-(id)initWithJpegFilename:(NSString*)filename;
+-(id)initWithPngData:(NSData*)data;
+-(id)initWithJpegData:(NSData*)data;
 
 
 -(void)dealloc;    
@@ -55,9 +57,12 @@
 -(BOOL)interlace;
 -(void)setInterlace:(BOOL)interlace;
 
--(NSData*)imageData;
+-(NSData*)pngImageData;
+-(NSData*)jpegImageDataWithQuality:(int)quality_;
 
--(BOOL)writeToFile:(NSString*)filename;
+-(BOOL)writeToPngFile:(NSString*)filename;
+-(BOOL)writeToJpegFile:(NSString*)filename
+		   withQuality:(int)quality_;
 
 -(void)setPixelX:(int)x
 				y:(int)y
@@ -103,8 +108,8 @@
 -(void)fillX:(int)x
 		   y:(int)y
 	   color:(int)color;
--(void)setBrush:(GDGIFImage*)brush;
--(void)setTile:(GDGIFImage*)tile;
+-(void)setBrush:(GDImage*)brush;
+-(void)setTile:(GDImage*)tile;
 -(void)setStyle:(int*)style
 		 length:(int)length;
 -(BOOL)boundsSafeX:(int)x
@@ -168,14 +173,14 @@
 
 // Copying and resizing
 -(id)copy;
--(void)copyRectFrom:(GDGIFImage*)image
+-(void)copyRectFrom:(GDImage*)image
 				  x:(int)sourceX
 				  y:(int)sourceY
 			  width:(int)width
 			 height:(int)height
 				toX:(int)destX
 				  y:(int)destY;
--(void)copyRectFrom:(GDGIFImage*)image
+-(void)copyRectFrom:(GDImage*)image
 				  x:(int)sourceX
 				  y:(int)sourceY
 			  width:(int)width
@@ -201,6 +206,43 @@
 			y:(int)y
 		color:(int)color
 	   inFont:(GDSimpleFont*)font;
+
+-(NSString*)stringTTF:(NSString*)string
+					x:(int)x
+					y:(int)y
+				color:(int)color
+			 fontPath:(NSString*)fontPath_
+			pointSize:(int)ptSize_
+				angle:(double)angle_
+  disableAntiAliasing:(BOOL)disableAA_;  
+
+-(NSString*)stringTTF:(NSString*)string
+					x:(int)x
+					y:(int)y
+				color:(int)color
+			 fontPath:(NSString*)fontPath_
+			pointSize:(int)ptSize_
+				angle:(double)angle_
+  disableAntiAliasing:(BOOL)disableAA_
+lowerLeftBoundingCorner:(NSPoint*)lowerLeft_
+lowerRightBoundingCorner:(NSPoint*)lowerRight_
+upperLeftBoundingCorner:(NSPoint*)upperLeft_
+upperRightBoundingCorner:(NSPoint*)upperRight_;
+
+//Get Bounding Corners Only
+-(NSString*)stringTTF:(NSString*)string
+					x:(int)x
+					y:(int)y
+			 fontPath:(NSString*)fontPath_
+			pointSize:(int)ptSize_
+				angle:(double)angle_
+  disableAntiAliasing:(BOOL)disableAA_
+lowerLeftBoundingCorner:(NSPoint*)lowerLeft_
+lowerRightBoundingCorner:(NSPoint*)lowerRight_
+upperLeftBoundingCorner:(NSPoint*)upperLeft_
+upperRightBoundingCorner:(NSPoint*)upperRight_;
+
+
 -(void)stringUp:(NSString*)string
 			  x:(int)x
 			  y:(int)y
@@ -209,5 +251,5 @@
 
 @end
 
-#endif // _GDGIFImage_h__
+#endif // _GDImage_h__
 

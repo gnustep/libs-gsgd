@@ -27,7 +27,7 @@
 
 #include <Foundation/NSObject.h>
 #include <Foundation/NSGeometry.h>
-typedef void* gdIOCtxPtr;
+//typedef void* gdIOCtxPtr;
 #include <gd.h>
 
 #ifndef max

@@ -42,16 +42,16 @@ LIBRARY_NAME=libgsgd
 # The Objective-C source files to be compiled
 #NSString+MiscRegex.m
 libgsgd_OBJC_FILES = \
-GDGIFPlot.m \
+GDPlot.m \
 GDSimpleFont.m \
-GDGIFImage.m \
+GDImage.m \
 GDColor.m
 
 #NSString+MiscRegex.h
 libgsgd_HEADER_FILES = \
-GDGIFPlot.h \
+GDPlot.h \
 GDSimpleFont.h \
-GDGIFImage.h \
+GDImage.h \
 GDCom.h \
 GDColor.h
 
