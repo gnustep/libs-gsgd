@@ -1,3 +1,19 @@
+Tue Dec  3 16:03:12 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Examples/GNUmakefile (after-clean): Remove images generated
+	by the new examples.
+
+Tue Dec  3 15:59:42 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Examples/WriteBarChart.m: New example.
+	* Examples/WriteBarChart.java: New example.
+	* Examples/GNUmakefile: Compile them.
+
+Tue Dec  3 15:50:39 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/gsgd.jigs: Wrap GDBarChart; expose new utility methods
+	in GDImage and GDFont.
+
 Tue Dec  3 15:44:03 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDBarChart.h: Added API to change the bar color and
