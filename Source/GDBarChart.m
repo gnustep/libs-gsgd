@@ -349,6 +349,14 @@
 	result.height = 150;
       }
 
+    /* Make sure if the width is unreasonably large, we don't use an unreasonably
+     * large height too.  */
+    if (result.height > 600)
+      {
+	result.height = 600;
+      }
+
+
     return result;
   }
 }
