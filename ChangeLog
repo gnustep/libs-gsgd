@@ -1,3 +1,9 @@
+Thu Jul 11 14:18:02 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDFrame.h: New class.
+	* Source/GDFrame.m: New class.
+	* Source/GNUmakefile: Compile the new class.
+	
 Thu Jul 11 12:59:04 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDFont.h ([-boundingBoxForString:]): New method.
