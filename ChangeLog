@@ -1,3 +1,18 @@
+Thu Jul  4 16:22:10 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDImage.h: Cleaned up the whole file.  Totally
+	rewritten the API for loading/saving of images.
+	* Source/GDImage.m: Totally rewritten the corresponding methods;
+	particularly initializers, and the methods to write images;
+	reviewed, fixed, finished, extended code to read/write images to
+	support cleanly all formats supported by libgd, except gd2: png,
+	jpg, wbmp and gd should now work well.  The API is done in such a
+	way that it can be wrapped happily in Java.
+	* Examples/: New directory.
+	* Examples/GNUmakefile: New file.
+	* Examples/ReadFile.m: New file.
+	* Examples/WriteFile.m: New file.
+	
 Thu Jul  4 16:10:01 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GNUmakefile (ADDITIONAL_OBJCFLAGS): Use -Wall when compiling.
