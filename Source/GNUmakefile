@@ -26,14 +26,16 @@ libgsgd_OBJC_FILES = \
 GDPlot.m \
 GDFont.m \
 GDImage.m \
-GDLineStyle.m
+GDLineStyle.m \
+GDFrame.m
 
 libgsgd_HEADER_FILES = \
+GD.h \
 GDPlot.h \
 GDFont.h \
 GDImage.h \
 GDLineStyle.h \
-GD.h
+GDFrame.h
 
 libgsgd_HEADER_FILES_INSTALL_DIR = gsgd
 libgsgd_HEADER_FILES_DIR = ../Headers/gsgd
