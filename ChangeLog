@@ -1,3 +1,9 @@
+Thu Jul 11 15:35:21 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDLegendBox.h: New class.
+	* Source/GDLegendBox.m: New class.
+	* Source/GNUmakefile: Added the new class.
+
 Thu Jul 11 14:20:02 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDLineStyle.h ([-lineWithColor:], [-plotLegendIconInFrame:]):
