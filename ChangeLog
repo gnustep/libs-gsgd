@@ -1,3 +1,16 @@
+Thu Jul 11 17:12:48 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Examples/WriteFile.m: Updated for change in API.
+	* Examples/WritePlot.m: Updated for change in API.
+	* Examples/WritePlot.java: Updated for change in API.
+
+Thu Jul 11 17:09:56 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDImage.h ([-setPixelColor:at:], [-pixelColorAt:]):
+	New methods replacing the existing ones to access pixel colors.
+	* Source/GDImage.m: Updated code for new API.
+	* Source/gsgd.jigs: Updated.
+
 Thu Jul 11 16:40:38 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h ([-dataWithFormat:options:]): New method replacing
