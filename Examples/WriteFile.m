@@ -45,22 +45,43 @@ int main (void)
     blue = [image allocatePaletteColorWithName: @"Blue"];
     yellow = [image allocatePaletteColorWithName: @"yellow"];
 
+
     for (i = 0; i < 100; i++)
       {
-	[image setPixelColor: red
-	       x: 47
-	       y: i];
 	[image setPixelColor: black
 	       x: 50
 	       y: i];
-	[image setPixelColor: blue
-	       x: 53
-	       y: i];
-
-	[image setPixelColor: yellow
-	       x: 56
-	       y: i];
       }
+
+    [image lineFromX: 47
+	   y: 0
+	   toX: 47
+	   y: 100
+	   color: red];
+
+    [image rectangleFromX: 20
+	   y: 20
+	   toX: 40
+	   y: 40
+	   color: blue];
+
+    [image filledRectangleFromX: 60
+	   y: 60
+	   toX: 80
+	   y: 80
+	   color: yellow];
+
+    [image rectangleFromX: 30
+	   y: 30
+	   toX: 50
+	   y: 50
+	   color: red];
+    
+    [image fillFromX: 35
+	   y: 35
+	   usingColor: black
+	   toBorder: red];
+
   }
 
   NSLog (@"Saving it as a png file...");
