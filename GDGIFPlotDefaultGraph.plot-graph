@@ -1,0 +1,75 @@
+{
+	
+	SizeInPixels = (500,200);		// (width, height)
+	BackgroundColor=(255,255,255);	// all colors are in the (red, green, blue) scale
+
+	NoDataYet = "No Data Yet";	      // Default Message when there is no data
+	Title = "Graph Title";
+	TitleColor = (0, 0, 0);			 
+	Color = (0,0,0);
+	Type = LINE;			    // Default type. Can be DOT or HISTOGRAM
+	BarWidthInPixels = 10.;		 // when using HISTOGRAM, this defines  the width of the bars.
+//      BarWidth = 10.;			 // you can use this instead to set  the bar width in terms of x axis units;
+	TitleFont = "giant";		    // Fonts available :  "giant", "large", "medium", "small", "tiny"
+
+	LegendFont = "small";
+	LegendTitle = "";			// This is the title that goes in the legend box.
+	LegendFlag = NO;			// If this flag is on, display the legend box.
+
+	LegendPositionPercents = (50,50);	// Legend position in percents of graph's coordinates. (50,50) would put the  top left corner of the legend box in the middle of the graph.
+	BoxFlag = NO;			   // Whether the graph is encased in a box.
+	AxisColor = (128, 128, 128);	    // Default color of all axis.
+	GridColor = (200, 200, 200);	    // Color of the grid behind the graph.
+	TicColor = (255,0,0);		   // Color of the tics on all axis.
+	NumberColor = (255,0,0);		// Color of all numbers on all axis.
+
+	NumberFont = "small";		   // Font for displaying numbers.
+	GridFlag = NO;			  // If this flag is on, there will be a grid. The grid will lign up with the numbers for each axis. can be set to YES only if NumbersDeltaAbs != 0
+
+	BorderFlag = NO;			// No border for the picture.
+	BorderWidthInPixels = 0;		// What is the width of the border
+	BorderColor = (0,0,0);		  // Color of the border if it exists.
+
+	DataFormat = DOUBLE;		    // Other possible values: DATE or OBJECT
+	DateFormat = "%d/%m/%y";
+	NumberFormat = "%3.1f";		 // Default axis number format  when DataFormat = DOUBLE or axis date format when DataFormat = DATE
+	AxisFlag = MAIN;			// Possible AxisFlags : MAIN lower x & left y-axis SECONDARY upper x & right y-axis BOTH lower & upper x & left & right y-axis CENTERED centered x & y-axis
+
+	Fit = YES;			      // Whether the program should fit the data displayed automatically in the graph.  
+//      Min = 0;				// If Fit = NO,  Min and Max decide of the Min and Max
+//      Max = 0;				// on both axis. If only Min  (resp. Max) is set, then Max (resp. Min)  will be computed from the data.
+
+		Unit ="";			// Unit string displayed on the axis.
+//	      NumbersDeltaAbs = 0.;	   // units between numbers on the y-axis. If 0 there are  no numbers displayed. If not specified, this is picked for you.
+//	      TicsDeltaAbs = 0.;	      // units between tics on the y-axis. If 0 there are no tics displayed. If not specified, this is picked for you.
+
+// Most of the previous settings can be offset on a per axis basis.
+
+	YAxis = {
+	  TitleFont = "small";
+	  // Other possible settings: TitleColor, TitleFont, AxisColor, GridColor, TicColor, NumberColor, NumberFont, GridFlag, Data
+	  Format, DateFormat, NumberFormat, AxisFlag, Fit, Min, Max, Unit, NumbersDeltaAbs, TicsDeltaAbs  
+	};
+
+      XAxis = {
+		TitleFont = "small";	    // Fonts available : "giant", "large", "medium", "small", "tiny"
+// Other possible settings: TitleColor, TitleFont, AxisColor, GridColor, TicColor, NumberColor, NumberFont, GridFlag, Data
+Format, DateFormat, NumberFormat, AxisFlag, Fit, Min, Max, Unit, NumbersDeltaAbs, TicsDeltaAbs  
+	};
+	Plots = (				// This is the array of data sets.
+//	      {
+//		Color = (0.,0.,255);	  // Color of this data set.
+//		Title = "Plot1" ;	     // legend title for this data set.
+//		XData = (1,2,2.5,3,4,4.5);    // XData and YData.  These should be of the same array size.
+//		YData = (0,9,3,1,4,"-1");     // Warning !!  Negative data needs to be quoted !
+//		},
+//		{
+//		Color = (0.,255.,255.);	// Another set of data.
+//		Title = "Plot2" ; 
+//		Type = DOT;		   // Here Type overrides the default type.
+//		XData = (1,2,2.5,3,4,4.5);
+//		YData = (0,3,13,2,4,"-2");    // Warning !! 
+						//Negative data needs to be quoted !
+//		}
+	); 
+}
