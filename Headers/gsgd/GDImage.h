@@ -67,7 +67,7 @@ enum {
 
 @class GDLineStyle;
 
-@class GDSimpleFont;
+@class GDFont;
 
 @interface GDImage : NSObject
 {
@@ -443,22 +443,32 @@ enum {
 		width: (int)destWidth
 	       height: (int)destHeight;
 
-/* Fonts and text-handling */
-- (void) character: (char)char_
+/*
+ * String drawing
+ */
+- (void) character: (char)c
 		 x: (int)x
 		 y: (int)y
 	     color: (int)color
-	    inFont: (GDSimpleFont *)font;
-- (void) characterUp: (char)char_
+	      font: (GDFont *)font;
+
+- (void) characterUp: (char)c
 		   x: (int)x
 		   y: (int)y
 	       color: (int)color
-	      inFont: (GDSimpleFont *)font;
+		font: (GDFont *)font;
+
 - (void) string: (NSString *)string
 	      x: (int)x
 	      y: (int)y
 	  color: (int)color
-	 inFont: (GDSimpleFont *)font;
+	   font: (GDFont *)font;
+
+- (void) stringUp: (NSString *)string
+		x: (int)x
+		y: (int)y
+	    color: (int)color
+	     font: (GDFont *)font;
 
 - (NSString *) stringTTF: (NSString *)string
 		       x: (int)x
@@ -494,12 +504,6 @@ upperRightBoundingCorner: (NSPoint *)upperRight_;
 lowerRightBoundingCorner: (NSPoint *)lowerRight_
  upperLeftBoundingCorner: (NSPoint *)upperLeft_
 upperRightBoundingCorner: (NSPoint *)upperRight_;
-
-- (void) stringUp: (NSString *)string
-		x: (int)x
-		y: (int)y
-	    color: (int)color
-	   inFont: (GDSimpleFont *)font;
 
 @end
 

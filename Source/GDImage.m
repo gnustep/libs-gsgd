@@ -30,7 +30,7 @@
 
 #include <gsgd/GDLineStyle.h>
 
-#include <gsgd/GDSimpleFont.h>
+#include <gsgd/GDFont.h>
 
 /* For cos, sin */
 #include <math.h>
@@ -773,49 +773,48 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 		      destWidth, destHeight, sourceWidth, sourceHeight);
 }
 
-//--------------------------------------------------------------------
-// Fonts and text-handling
--(void)character:(char)char_
-			   x:(int)x
-			   y:(int)y
-		   color:(int)color
-		  inFont:(GDSimpleFont*)font
+/*
+ * String drawing
+ */
+- (void) character: (char)c
+		 x: (int)x
+		 y: (int)y
+	     color: (int)color
+	      font: (GDFont *)font
 {
-  NSDebugMLog(@"GDImage character: char_=%d",(int)char_);
-  NSAssert(font,@"no Font");
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageChar(_imagePtr,[font fontPtr],x,y,char_,color);
-  NSDebugMLog(@"Stop GDImage character %@",@"");
-};
+  gdImageChar (_imagePtr, [font fontPointer], x, y, c, color);
+}
 
-//--------------------------------------------------------------------
--(void)characterUp:(char)char_
-				 x:(int)x
-				 y:(int)y
-			 color:(int)color
-			inFont:(GDSimpleFont*)font
+- (void) characterUp: (char)c
+		   x: (int)x
+		   y: (int)y
+	       color: (int)color
+		font: (GDFont *)font
 {
-  NSDebugMLog(@"GDImage characterUp: char_=%d",(int)char_);
-  NSAssert(font,@"no Font");
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageCharUp(_imagePtr,[font fontPtr],x,y,char_,color);
-  NSDebugMLog(@"Stop GDImage characterUp %@",@"");
-};
+  gdImageCharUp (_imagePtr, [font fontPointer], x, y, c, color);
+}
 
-//--------------------------------------------------------------------
--(void)string:(NSString*)string_
-			x:(int)x
-			y:(int)y
-		color:(int)color
-	   inFont:(GDSimpleFont*)font
+- (void) string: (NSString *)string
+	      x: (int)x
+	      y: (int)y
+	  color: (int)color
+	   font: (GDFont *)font
 {
-  NSDebugMLog(@"GDImage string: string_=%@",string_);
-  NSAssert(font,@"no Font");
-  NSAssert(string_,@"no String");
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageString(_imagePtr,[font fontPtr],x,y,[string_ cString],color);
-  NSDebugMLog(@"Stop GDImage string %@",@"");
-};
+  gdImageString (_imagePtr, [font fontPointer], x, y, 
+		 (unsigned char *)[string lossyCString], 
+		 color);
+}
+
+- (void) stringUp: (NSString *)string
+		x: (int)x
+		y: (int)y
+	    color: (int)color
+	     font: (GDFont *)font
+{
+  gdImageStringUp (_imagePtr, [font fontPointer], x, y, 
+		   (unsigned char *)[string lossyCString],
+		   color);
+}
 
 //--------------------------------------------------------------------
 -(NSString*)stringTTF:(NSString*)string
@@ -958,18 +957,6 @@ upperRightBoundingCorner:(NSPoint*)upperRight_
 };
 
 //--------------------------------------------------------------------
--(void)stringUp:(NSString*)string_
-			  x:(int)x
-			  y:(int)y
-		  color:(int)color
-		 inFont:(GDSimpleFont*)font
-{
-  NSDebugMLog(@"GDImage stringUp: string_=%@",string_);
-  NSAssert(font,@"no Font");
-  NSAssert(string_,@"no String");
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageStringUp(_imagePtr,[font fontPtr],x,y,[string_ cString],color);
-  NSDebugMLog(@"Stop GDImage stringUp %@",@"");
-};
+
 
 @end
