@@ -32,6 +32,11 @@ AC_PROG_CC
 AC_PROG_CPP
 
 #--------------------------------------------------------------------
+# Determine the host, build, and target systems
+#--------------------------------------------------------------------
+AC_CANONICAL_SYSTEM
+
+#--------------------------------------------------------------------
 # Find for gd
 #--------------------------------------------------------------------
 ADDITIONAL_LIBS=
@@ -47,7 +52,8 @@ AC_ARG_WITH(gd_include,
 
 if test "$with_gd_include" = ""; then
   case "$target_os" in
-    freebsd*)	with_gd_include="/usr/local/include/gd";;
+    freebsd*)	with_gd_include="/usr/local/include/gd"
+		with_gd_library="/usr/local/lib";;
   esac
 fi
 
