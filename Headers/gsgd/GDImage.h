@@ -312,9 +312,10 @@ enum {
 /* Flood the image with color, starting from the point at x, y.  All
  * pixels around the one at x, y are repainted with the specified
  * color.  The flooding repaints all pixels, no matter what their
- * original color is, unless their color is b - in which case they are
- * untouched and the flooding stops in the direction.  The net effect
- * is that the image is flood up to the borders of color b.  
+ * original color is, unless their color is borderColor - in which
+ * case they are untouched and the flooding stops in that direction.
+ * The net effect is that the image is flood up to the borders of
+ * color borderColor.
  */
 - (void) fillFromX: (int)x
 		 y: (int)y
