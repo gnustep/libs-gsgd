@@ -78,6 +78,41 @@ int main (void)
 	   color: black
 	   font: [GDFont mediumBoldFont]];
 
+    /* Here is how on my system I draw a string using a free type
+     * font.  Commented out since it depends on you having the
+     * appropriate .ttf font.  */
+#if 0
+    [image stringFreeType: @"y = sin (x)"
+	   x: 70
+	   y: 170
+	   color: black
+	   fontPath: @"/usr/share/fonts/truetype/arphic/gbsn00lp.ttf"
+	   pointSize: 10
+	   angle: 0
+	   disableAntiAliasing: NO
+	   boundingRect: NULL];
+#endif
+    
+
+    /* Here is how on my system I get the bounding rect of a string
+     * when drawn using a free type font.  Commented out since it
+     * depends on you having the appropriate .ttf font.  */
+#if 0
+    {
+      int rect[8];
+
+      [GDImage getBoundingRect: rect
+	       stringFreeType: @"y = sin (x)"
+	       fontPath: @"/usr/share/fonts/truetype/arphic/gbsn00lp.ttf" 
+	       pointSize: 10
+	       angle: 0];
+      printf ("(%d, %d), (%d, %d), (%d, %d), (%d, %d)\n",
+	      rect[0], rect[1],  rect[2], rect[3],
+	      rect[4], rect[5],  rect[6], rect[7]);
+      
+    }
+#endif
+    
     {
       /* Let's plot a rough  y = sin (x)  */
       int x;
