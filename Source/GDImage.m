@@ -292,34 +292,148 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
   gdImageInterlace (_imagePtr, interlace ? 1 : 0);
 }
 
-
-//--------------------------------------------------------------------
--(void)setPixelX:(int)x
-				y:(int)y
-			color:(int)color
+/*
+ * Image properties.
+ */
+- (int) width
 {
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageSetPixel(_imagePtr,x,y,color);
-};
+  return gdImageSX (_imagePtr);
+}
 
-//--------------------------------------------------------------------
--(int)pixelX:(int)x
-	   y:(int)y
+- (int) height
 {
-  return gdImageGetPixel(_imagePtr,x,y);
-};
+  return gdImageSY (_imagePtr); 
+}
 
-//--------------------------------------------------------------------
--(int)width
-{
-  return gdImageSX(_imagePtr);
-};
+/*
+ * Colors 
+ */
 
-//--------------------------------------------------------------------
--(int)height
++ (int) maxPaletteColors
 {
-  return gdImageSY(_imagePtr); 
-};
+  return gdMaxColors;
+}
+
++ (int) brushedColor
+{
+  return gdBrushed;
+}
+
++ (int) styledColor
+{
+  return gdStyled;
+}
+
++ (int) styledBrushedColor
+{
+  return gdStyledBrushed;
+}
+
++ (int) tiledColor
+{
+  return gdTiled;
+}
+
++ (int) transparentColor
+{
+  return gdTransparent;
+}
+
+- (int) totalPaletteColors
+{
+  return gdImageColorsTotal (_imagePtr);
+}
+
+- (int) paletteTransparentColor
+{
+  return gdImageGetTransparent (_imagePtr);
+}
+
+- (void) setPaletteTransparentColor: (int)color
+{
+  gdImageColorTransparent (_imagePtr, color);
+}
+
+- (int) allocatePaletteColorWithRed: (int)red
+			      green: (int)green
+			       blue: (int)blue
+{
+  return gdImageColorAllocate (_imagePtr, red, green, blue);
+}
+
+- (void) deallocatePaletteColor: (int)color
+{
+  return gdImageColorDeallocate (_imagePtr, color);
+}
+
+- (int) redOfPaletteColor: (int)color
+{
+  return gdImageRed (_imagePtr, color);
+}
+
+- (int) greenOfPaletteColor: (int)color
+{
+  return gdImageGreen (_imagePtr, color);
+}
+
+- (int) blueOfPaletteColor: (int)color
+{
+  return gdImageBlue (_imagePtr, color);
+}
+
+
+- (int) closestPaletteColorToRed: (int)red
+			   green: (int)green
+			    blue: (int)blue
+{
+  return gdImageColorClosest (_imagePtr, red, green, blue);  
+}
+
+- (int) exactPaletteColorWithRed: (int)red
+			   green: (int)green
+			    blue: (int)blue
+{
+  return gdImageColorExact (_imagePtr, red, green, blue);
+}
+
+- (int) resolvePaletteColorWithRed: (int)red
+			     green: (int)green 
+			      blue: (int)blue
+{
+  return gdImageColorResolve (_imagePtr, red, green, blue);
+}
+
+#if 0
++ (int) trueColorWithRed: (int)red
+		   green: (int)green
+		    blue: (int)blue
+{
+  return gdImageTrueColor (red, green, blue);
+}
+
+
++ (int) trueColorWithRed: (int)red
+		   green: (int)green
+		    blue: (int)blue
+		   alpha: (int)alpha
+{
+  return gdImageTrueColorAlpha (red, green, blue, alpha);
+}
+#endif
+
+- (void) setPixelColor: (int)color
+		     x: (int)x
+		     y: (int)y
+{
+  gdImageSetPixel (_imagePtr, x, y, color);
+}
+
+- (int) pixelColorAtX: (int)x
+		    y: (int)y
+{
+  return gdImageGetPixel (_imagePtr, x, y);
+}
+
 
 //--------------------------------------------------------------------
 // Drawing
@@ -535,119 +649,6 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 		y:midY
 		border:borderColor_
 		color:color];
-};
-
-//--------------------------------------------------------------------
-// Colors
--(int)blueOf:(int)color
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  return gdImageBlue(_imagePtr,color);
-};
-
-//--------------------------------------------------------------------
--(int)greenOf:(int)color
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  return gdImageGreen(_imagePtr,color);
-};
-
-//--------------------------------------------------------------------
--(int)redOf:(int)color
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  return gdImageRed(_imagePtr,color);
-};
-
-//--------------------------------------------------------------------
-+(int)brushed
-{
-  return gdBrushed;
-};
-
-//--------------------------------------------------------------------
-+(int)maxColors
-{
-  return gdMaxColors;
-};
-
-//--------------------------------------------------------------------
-+(int)styled
-{
-  return gdStyled;
-};
-
-//--------------------------------------------------------------------
-+(int)styledBrushed
-{
-  return gdStyledBrushed;
-};
-
-//--------------------------------------------------------------------
-+(int)dashSize
-{
-  return gdDashSize;
-};
-
-//--------------------------------------------------------------------
-+(int)tiled
-{
-  return gdTiled;
-};
-
-//--------------------------------------------------------------------
-+(int)transparent
-{
-  return gdTransparent;
-};
-
-//--------------------------------------------------------------------
--(int)newColorWithRed:(int)red
-				green:(int)green
-				 blue:(int)blue
-{
-  return gdImageColorAllocate(_imagePtr,red,green,blue);
-};
-
-//--------------------------------------------------------------------
--(int)closestColorToRed:(int)red
-				  green:(int)green
-				   blue:(int)blue
-{
-  return gdImageColorClosest(_imagePtr,red,green,blue);
-};
-
-//--------------------------------------------------------------------
--(int)exactColorWithRed:(int)red
-				  green:(int)green
-				   blue:(int)blue
-{
-  return gdImageColorExact(_imagePtr,red,green,blue);
-};
-
-//--------------------------------------------------------------------
--(int)totalColors
-{
-  return gdImageColorsTotal(_imagePtr);
-};
-
-//--------------------------------------------------------------------
--(int)transparent
-{
-  return gdImageGetTransparent(_imagePtr);
-};
-
-//--------------------------------------------------------------------
--(void)setTransparent:(int)color
-{
-  gdImageColorTransparent(_imagePtr,color);
-};
-
-//--------------------------------------------------------------------
--(void)setBackgroundColor:(int)color
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  //TODO
 };
 
 //--------------------------------------------------------------------

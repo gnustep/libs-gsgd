@@ -119,17 +119,128 @@ enum {
 - (void) setInterlace: (BOOL)interlace;
 - (BOOL) interlace;
 
-
-/* TODO - work from here down.  */
-
-- (void) setPixelX: (int)x
-		 y: (int)y
-	     color: (int)color;
-
-- (int) pixelX: (int)x
-	     y: (int)y;
+/*
+ * Image properties.
+ */
 - (int) width;
 - (int) height;
+
+/*
+ * Colors 
+ */
+
+/* Part of the work of drawing inside images consists in setting up
+ * and managing the colors you want to use.
+ *
+ * Standard palette images have a palette of 256 RGB colors.  Each
+ * image has a different palette; you can freely choose the colors you
+ * want to use in the palette of each image.  When you want to draw a
+ * pixel, or a line, or do other drawing operations, you need to
+ * supply the index (in the image palette) of the color you want to be
+ * used.  This index is an integer - normally a number between 0 and
+ * 255.
+ *
+ * Truecolor images (supported from libgd >= 2.0) allow an unlimited
+ * number of RGBA colors; you still pass an integer to each drawing
+ * operation to specify which color you want to be used; but it's no
+ * longer an index in an associated palette; there is no image palette
+ * and you get the integer associated with the color in a different
+ * way (which allows much more freedom).  Truecolor images are not
+ * currently supported in gsgd, but it should be easy to add support
+ * for them.
+ *
+ * All methods containing 'Palette' in the name make no sense and should
+ * not be used for 'TrueColor' images.
+ */
+
+/* The maximum number of colors in a palette image.  Currently
+ * 256.  */
++ (int) maxPaletteColors;
+
+/* These are `special' colors which cause special techniques to be
+ * used when passed as the color to a drawing operation.  */
++ (int) brushedColor;
++ (int) styledColor;
++ (int) styledBrushedColor;
++ (int) tiledColor;
++ (int) transparentColor;
+
+/* Number of colors currently in the image palette.  Makes *no* sense
+ * for truecolor images.  */
+- (int) totalPaletteColors;
+
+/* In palette images, it is possible to specify that a color in the
+ * palette is to be rendered as transparent if the image viewer
+ * supports it.  If the image viewer (web browser, whatever) does not
+ * support transparency, the color is rendered using its standard RGB
+ * values, so make sure you use something reasonable for RGB value in
+ * case the image viewer does not support transparency.  */
+- (int) paletteTransparentColor;
+- (void) setPaletteTransparentColor: (int)color;
+
+/* Allocate a new palette color with the specified R, G, B values.  If
+ * there is no more space in the palette for a new color, -1 is
+ * returned; otherwise, the index of the color in the palette is
+ * returned; this index must always be used to refer to this
+ * color.  */
+- (int) allocatePaletteColorWithRed: (int)red
+			      green: (int)green
+			       blue: (int)blue;
+
+/* Deallocate an existing palette color, freeing the palette entry so that
+ * it can be reused.
+ */
+- (void) deallocatePaletteColor: (int)color;
+
+/* Read the R, G, B values of a palette color.  */
+- (int) blueOfPaletteColor: (int)color;
+- (int) greenOfPaletteColor: (int)color;
+- (int) redOfPaletteColor: (int)color;
+
+
+/* Search existing colors in the palette.  */
+- (int) closestPaletteColorToRed: (int)red
+			   green: (int)green
+			    blue: (int)blue;
+
+- (int) exactPaletteColorWithRed: (int)red
+			   green: (int)green
+			    blue: (int)blue;
+
+/* The highest level routine to get a color in the palette - uses an
+ * existing color if already there; otherwise creates a new color; if
+ * there is no more space in the palette, reuses the closest existing
+ * palette color.  */
+- (int) resolvePaletteColorWithRed: (int)red
+			     green: (int)green 
+			      blue: (int)blue;
+
+#if 0
+/* For libgd >= 2.0, to get true colors.  */
++ (int) trueColorWithRed: (int)red
+		   green: (int)green
+		    blue: (int)blue;
+
++ (int) trueColorWithRed: (int)red
+		   green: (int)green
+		    blue: (int)blue
+		   alpha: (int)alpha
+#endif
+
+  /* TODO - we need named colors! */
+
+/*
+ * Accessing image pixels.
+ */
+
+- (void) setPixelColor: (int)color
+		     x: (int)x
+		     y: (int)y;
+
+- (int) pixelColorAtX: (int)x
+		    y: (int)y;
+
+/* TODO - work from here down  */
 
 /* Drawing */
 - (void) lineFromX: (int)x1
@@ -204,30 +315,6 @@ enum {
 		  color: (int)color
 	    borderColor: (int)borderColor;
 
-/* Colors */
-- (int) blueOf: (int)color;
-- (int) greenOf: (int)color;
-- (int) redOf: (int)color;
-+ (int) brushed;
-+ (int) maxColors;
-+ (int) styled;
-+ (int) styledBrushed;
-+ (int) dashSize;
-+ (int) tiled;
-+ (int) transparent;
-- (int) newColorWithRed: (int)red
-		  green: (int)green
-		   blue: (int)blue;
-- (int) closestColorToRed: (int)red
-		    green: (int)green
-		     blue: (int)blue;
-- (int) exactColorWithRed: (int)red
-		    green: (int)green
-		     blue: (int)blue;
-- (int) totalColors;
-- (int) transparent;
-- (void) setTransparent: (int)color;
-- (void) setBackgroundColor: (int)color;
 
 /* Copying and resizing */
 - (id) copy;
