@@ -1,4 +1,4 @@
-/* GDImage.h - Interface of GDImage -*-objc-*_
+/* GDImage.h - Interface of GDImage  -*-objc-*-
    Copyright (C) 1999 Free Software Foundation, Inc.
    
    Written by:  Manuel Guesdon <mguesdon@orange-concept.com>
@@ -227,7 +227,24 @@ enum {
 		   alpha: (int)alpha
 #endif
 
-  /* TODO - we need named colors! */
+
+/*
+ * Named colors	
+ */
+
+/* The following names are recognized:
+ *
+ * black, silver, gray, white, maroon, red, purple, fuchsia,
+ * green, lime, olive, yellow, navy, blue, teal, aqua
+ *
+ * (from the HTML 3.2 spec)
+ */
+
+- (int) allocatePaletteColorWithName: (NSString *)name;
+
+#if 0
++ (int) trueColorWithName: (NSString *)name;
+#endif
 
 /*
  * Accessing image pixels.
