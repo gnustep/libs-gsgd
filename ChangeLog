@@ -1,3 +1,9 @@
+Tue Dec  3 17:26:01 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GDBarChart.m ([-plotChartInFrame:]): Fix for charts with
+	very small totals.  If the total is less than 4, only draw a base
+	y line, and a top y line.
+
 Tue Dec  3 17:07:54 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDBarChart.m ([-recommendedSize]): Fix for very large
