@@ -30,6 +30,7 @@
 #include <gsgd/GDFrame.h>
 #include <gsgd/GDBinDataSet.h>
 #include <gsgd/GDPieChart.h>
+#include <gsgd/GDBarChart.h>
 #include <gsgd/GDLegendBox.h>
 
 #endif /* _gsgd_GDImage_h__ */
