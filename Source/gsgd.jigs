@@ -46,12 +46,12 @@ classes = (
 			"allocatePaletteColorWithName:",
 			"setPixelColor:at:",
 			"pixelColorAt:",
-			"lineFromX:y:toX:y:color:",
-			"rectangleFromX:y:toX:y:color:",
-			"filledRectangleFromX:y:toX:y:color:",
-			"fillFromX:y:usingColor:",
-			"fillFromX:y:usingColor:toBorder:",
-			"arcCenterX:y:width:height:startAngle:stopAngle:color:options:",
+			"drawLine:to:color:",
+			"drawRectangle:color:",
+			"drawFilledRectangle:color:",
+			"fillFrom:usingColor:",
+			"fillFrom:usingColor:toBorder:",
+			"drawArc:startAngle:stopAngle:color:options:",
 			"setBrushImage:",
 			"brushImage",
 			"setTileImage:",
@@ -59,10 +59,10 @@ classes = (
 			"setLineStyle:",
 			"copyRectFrom:x:y:width:height:toX:y:",
 			"copyRectFrom:x:y:width:height:toX:y:width:height:",
-			"character:x:y:color:font:",
-			"characterUp:x:y:color:font:",
-			"string:x:y:color:font:",
-			"stringUp:x:y:color:font:"
+			"drawCharacter:from:color:font:",
+			"drawCharacterUp:from:color:font:",
+			"drawString:from:color:font:",
+			"drawStringUp:from:color:font:"
 			/* Argh - (int *) can't be wrapped.  */
 			/*"stringFreeType:x:y:color:fontPath:pointSize:angle:disableAntiAliasing:boundingRect:" */
 			);
@@ -83,12 +83,6 @@ classes = (
     "closestPaletteColorToRed:green:blue:" = "closestPaletteColorToRGB";
     "exactPaletteColorWithRed:green:blue:" = "exactPaletteColorWithRGB";
     "resolvePaletteColorWithRed:green:blue:" = "resolvePaletteColorWithRGB";
-    "lineFromX:y:toX:y:color:" = "line";
-    "rectangleFromX:y:toX:y:color:" = "rectangle";
-    "filledRectangleFromX:y:toX:y:color:" = "filledRectangle";
-    "fillFromX:y:usingColor:" = "fill";
-    "fillFromX:y:usingColor:toBorder:" = "fillToBorder";
-    "arcCenterX:y:width:height:startAngle:stopAngle:color:options:" = "arc";
   };
   
   },
