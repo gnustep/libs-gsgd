@@ -1,3 +1,13 @@
+Fri Jul  5 16:01:45 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDImage.h: Added ivars tileImage and brushImage.
+	([-dealloc]): Do not declare.
+	([-setTile:]): Renamed to setTileImage:
+	([-setBrush:]): Renamed to setBrushImage:.
+	* Source/GDImage.m ([-dealloc]): release tileImage and brushImage.
+	([-setTileImage:]): Retain tileImage.
+	([-setBrushImage:]): Retain brushImage.
+	
 Fri Jul  5 15:37:51 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h: ([-setStyle:]): Renamed to setLineStyle:.

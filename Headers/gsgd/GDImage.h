@@ -47,6 +47,11 @@ enum {
 @interface GDImage : NSObject
 {
   gdImagePtr _imagePtr;
+
+  /* These are used to prevent the tile and brush image to be destroyed
+   * while the gdImagePtr still holds a pointer to them.  */
+  GDImage *tileImage;
+  GDImage *brushImage;
 }
 /* 
  * Designated initializers. 
@@ -71,11 +76,6 @@ enum {
 
 + (id) imageWithData: (NSData *)data
 	      format: (GDImageDataFormat)f;
-
-/*
- * Deallocating the object.
- */
-- (void) dealloc;    
 
 /*
  * Accessing the underlying gdImage object
@@ -377,14 +377,14 @@ enum {
  * being drawn.  The effect is similar to the 'brush' tool in drawing
  * programs like Gimp.
  */
-- (void) setBrush: (GDImage *)brush;
+- (void) setBrushImage: (GDImage *)brush;
 
 /* Set the tile to be used when filling areas in tiled mode.
  * To use tiled filling mode, you must pass [GDImage +tiledColor]
  * as the fill color in drawing functions.  When using tiled mode,
  * the area to fill is filled with copies of the tiled image.
  */
-- (void) setTile: (GDImage *)tile;
+- (void) setTileImage: (GDImage *)tile;
 
 /* Set the line style to be used when drawing lines in styled mode.
  * To use styled drawing mode, you must pass [GDImage +styledColor] as

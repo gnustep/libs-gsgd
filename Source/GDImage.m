@@ -156,6 +156,8 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
  */
 - (void) dealloc
 {
+  TEST_RELEASE (brushImage);
+  TEST_RELEASE (tileImage);
   gdImageDestroy (_imagePtr);
   [super dealloc];
 };
@@ -739,13 +741,15 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
  * Special drawing effects
  */
 
-- (void) setBrush: (GDImage *)brush
+- (void) setBrushImage: (GDImage *)brush
 {
+  ASSIGN (brushImage, brush);
   gdImageSetBrush (_imagePtr, brush->_imagePtr);
 }
 
-- (void) setTile: (GDImage *)tile
+- (void) setTileImage: (GDImage *)tile
 {
+  ASSIGN (tileImage, tile);
   gdImageSetTile (_imagePtr, tile->_imagePtr);
 }
 
