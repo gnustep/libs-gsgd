@@ -26,6 +26,8 @@
 
 #include <Foundation/NSObject.h>
 
+@class GDFrame;
+
 /* A GDLineStyle object is used to specify how a line is to be drawn.
  * For example, dotted or dashed lines.  A GDLineStyle object holds an 
  * array of pixel colors, which is the pattern to repeat when drawing
@@ -70,6 +72,9 @@
 + (GDLineStyle *) dashdotLineWithColor: (int)color
 			       spacing: (int)spacing;
 
+/* Return a style using a single color.  */
++ (GDLineStyle *) lineWithColor: (int)color;
+
 /*
  * Initializers
  */
@@ -108,6 +113,11 @@
 /* Return the pattern as a (int *) array (which must not be freed! it's the
  * array how it is used internally).  Used internally by GDImage.  */
 - (int *) colors;
+
+/*
+ * Drawing a legend icon for this line style
+ */
+- (void) plotLegendIconInFrame: (GDFrame *)frame;
 
 @end
 

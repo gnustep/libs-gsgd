@@ -23,7 +23,10 @@
 
 #include <gd.h>
 #include <gsgd/GDLineStyle.h>
+#include <gsgd/GDFrame.h>
+#include <gsgd/GDImage.h>
 #include <Foundation/NSException.h>
+#include <Foundation/NSGeometry.h>
 
 @implementation GDLineStyle
 
@@ -88,6 +91,18 @@
   
   return s;
 }
+
++ (GDLineStyle *) lineWithColor: (int)color
+{
+  GDLineStyle *s;
+
+  s = [[self alloc] initWithLength: 1];
+  s->colors[0] = color;
+  AUTORELEASE (s);
+  
+  return s;  
+}
+
 
 /*
  * Initializers
@@ -172,6 +187,41 @@
   return colors;
 }
 
+/*
+ * Drawing a legend icon for this line style
+ */
+- (void) plotLegendIconInFrame: (GDFrame *)frame
+{
+  if (length == 1)
+    {
+      /* Draw a square, as big as possible, with the color.  */
+      int width = [frame width];
+      int height = [frame height];
+      int side;
+      NSRect r;
+      
+      if (width > height)
+	{
+	  side = height;
+	}
+      else
+	{
+	  side = width;
+	}
 
+      r = NSMakeRect ((width - side) / 2, (height - side) / 2, side, side);
+      r = [frame convertFrameRectToImage: r];
+
+      [[frame image] filledRectangleFromX: r.origin.x
+		     y: r.origin.y
+		     toX: NSMaxX (r)
+		     y: NSMaxY (r)
+		     color: colors[0]];
+    }
+  else
+    {
+      NSLog (@"Yet to implement");
+    }
+}
 
 @end
