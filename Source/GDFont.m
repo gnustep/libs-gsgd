@@ -158,7 +158,32 @@ static GDFont *giantFont = nil;
   return s;
 }
 
-
 @end
 
+#include <Foundation/NSArray.h>
+
+@implementation GDFont (StringUtils)
+- (NSSize) boundingBoxForStrings: (NSArray *)strings
+{
+  int i, count = [strings count];
+  NSSize result = NSMakeSize (0, 0);
+  
+  for (i = 0; i < count; i++)
+    {
+      NSString *s = [strings objectAtIndex: i];
+      NSSize size = [self boundingBoxForString: s];
+
+      if (size.width > result.width)
+	{
+	  result.width = size.width;
+	}
+      if (size.height > result.height)
+	{
+	  result.height = size.height;
+	}
+    }
+  return result;
+}
+
+@end
 
