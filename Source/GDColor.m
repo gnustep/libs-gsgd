@@ -1,8 +1,11 @@
 /* GDColor.m - Implementation of GDColor
-   Copyright (C) 1999 Free Software Foundation, Inc.
+   Copyright (C) 1999-2002 Free Software Foundation, Inc.
    
    Written by:  Manuel Guesdon <mguesdon@orange-concept.com>
    Created: Dec 1999
+   
+   Modified by: Nicola Pero <n.pero@mi.flashnet.it>
+   July 2002
    
    This file is part of the GNUstep GD Library.
 
@@ -28,39 +31,39 @@
 
 @implementation GDColor
 
-+(GDColor*)colorWithRed:(int)red
-				 green:(int)green
-				  blue:(int)blue
++ (GDColor*) colorWithRed: (int)red
+		    green: (int)green
+		     blue: (int)blue
 {
-  GDColor* color=[[[self alloc] initWithRed:red
-							   green:green
-							   blue:blue]
-				   autorelease];
+  GDColor* color = [[[self alloc] initWithRed: red
+				  green: green
+				  blue: blue]
+		     autorelease];
   return color;
 };
 
--(id)initWithRed:(int)red
-		   green:(int)green
-			blue:(int)blue
+- (id) initWithRed: (int)red
+	     green: (int)green
+	      blue: (int)blue
 {
-  if ((self=[super init]))
-	{
-	  _red=red;
-	  _green=green;
-	  _blue=blue;
-	};
+  if ((self = [super init]) != nil)
+    {
+      _red = red;
+      _green = green;
+      _blue = blue;
+    };
   return self;
 };
 
--(id)copyWithZone:(NSZone*)aZone
+- (id) copyWithZone: (NSZone*)aZone
 {
-  if (NSShouldRetainWithZone(self,aZone))
+  if (NSShouldRetainWithZone (self, aZone))
     {
       return [self retain];
     }
   else
     {
-      GDColor* aCopy = NSCopyObject(self,0, aZone);
+      GDColor* aCopy = NSCopyObject (self, 0, aZone);
       aCopy->_red = _red;
       aCopy->_green = _green;
       aCopy->_blue = _blue;
@@ -68,79 +71,108 @@
     };
 };
 
--(NSString*)description
+- (NSString*) description
 {
-  return [NSString stringWithFormat:@"<%s %p (%d,%d,%d)>",
-				   object_get_class_name(self),
-				   (void*)self,
-				   _red,
-				   _green,
-				   _blue];
+  return [NSString stringWithFormat: @"<%s %p (%d,%d,%d)>",
+		   [self className],
+		   (void *)self,
+		   _red,
+		   _green,
+		   _blue];
 };
 
--(void)encodeWithCoder:(NSCoder*)aCoder
+- (void) encodeWithCoder: (NSCoder*)aCoder
 {
-  [aCoder encodeValueOfObjCType: @encode(int) at: &_red];
-  [aCoder encodeValueOfObjCType: @encode(int) at: &_green];
-  [aCoder encodeValueOfObjCType: @encode(int) at: &_blue];
+  [aCoder encodeValueOfObjCType: @encode(int)  at: &_red];
+  [aCoder encodeValueOfObjCType: @encode(int)  at: &_green];
+  [aCoder encodeValueOfObjCType: @encode(int)  at: &_blue];
 };
 
--(id)initWithCoder:(NSCoder*)aDecoder
+- (id) initWithCoder: (NSCoder*)aDecoder
 {
-  [aDecoder decodeValueOfObjCType: @encode(int) at: &_red];
-  [aDecoder decodeValueOfObjCType: @encode(int) at: &_green];
-  [aDecoder decodeValueOfObjCType: @encode(int) at: &_blue];
+  [aDecoder decodeValueOfObjCType: @encode(int)  at: &_red];
+  [aDecoder decodeValueOfObjCType: @encode(int)  at: &_green];
+  [aDecoder decodeValueOfObjCType: @encode(int)  at: &_blue];
   return self;
 };
 
--(NSComparisonResult)compare:(id)anObject
+- (NSComparisonResult) compare: (id)anObject
 {
-  if (anObject==self)
-    return NSOrderedSame;
-  if (anObject==nil || ([anObject isKindOfClass:self->isa]==NO))
-    return NSOrderedAscending;
-  else if (_red<((GDColor*)anObject)->_red)
-    return NSOrderedAscending;
-  else if (_red>((GDColor*)anObject)->_red)
-    return NSOrderedDescending;
-  else if (_green<((GDColor*)anObject)->_green)
-    return NSOrderedAscending;
-  else if (_green>((GDColor*)anObject)->_green)
-    return NSOrderedDescending;
-  else if (_blue<((GDColor*)anObject)->_blue)
-    return NSOrderedAscending;
-  else if (_blue>((GDColor*)anObject)->_blue)
-    return NSOrderedDescending;
+  if (anObject == self)
+    {
+      return NSOrderedSame;
+    }
+  if (anObject == nil || ([anObject isKindOfClass: self->isa] == NO))
+    {
+      return NSOrderedAscending;
+    }
+  else if (_red < ((GDColor*)anObject)->_red)
+    {
+      return NSOrderedAscending;
+    }
+  else if (_red > ((GDColor*)anObject)->_red)
+    {
+      return NSOrderedDescending;
+    }
+  else if (_green < ((GDColor*)anObject)->_green)
+    {
+      return NSOrderedAscending;
+    }
+  else if (_green > ((GDColor*)anObject)->_green)
+    {
+      return NSOrderedDescending;
+    }
+  else if (_blue < ((GDColor*)anObject)->_blue)
+    {
+      return NSOrderedAscending;
+    }
+  else if (_blue > ((GDColor*)anObject)->_blue)
+    {
+      return NSOrderedDescending;
+    }
   else
-    return NSOrderedSame;
+    {
+      return NSOrderedSame;
+    }
 }
 
-
--(BOOL)isEqual:(id)anObject
+- (BOOL) isEqual: (id)anObject
 {
-  if (anObject==self)
-    return YES;
-  if ([anObject isKindOfClass:self->isa]==NO)
-    return NO;
-  else if (((GDColor*)anObject)->_red!=_red
-		   || ((GDColor*)anObject)->_green!=_green
-		   || ((GDColor*)anObject)->_blue!=_blue)
-    return NO;
-  else
+  if (anObject == self)
+    {
+      return YES;
+    }
+
+  if ([anObject isKindOfClass: self->isa] == NO)
+    {
+      return NO;
+    }
+  
+  {
+    GDColor *a = (GDColor *)anObject;
+    
+    if (a->_red!=_red  ||  a->_green!=_green  ||  a->_blue!=_blue)
+      {
+	return NO;
+      }
+    else
+      {
 	return YES;
+      }
+  }
 };
 
--(int)red
+- (int) red
 {
   return _red;
 };
 
--(int)green
+- (int) green
 {
   return _green;
 };
 
--(int)blue
+- (int) blue
 {
   return _blue;
 };
