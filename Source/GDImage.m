@@ -960,9 +960,41 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
       [NSException raise: NSGenericException  
 		   format: @"Error computing bounding rect of FreeType font: %s",
 		   error];
-    }
-  
+    }  
 }
 
 
+@end
+
+
+@implementation GDImage (StringUtils)
+- (void) drawCenteredString: (NSString *)string
+		       from: (NSPoint)point
+			 to: (NSPoint)point2
+		      color: (int)color
+		       font: (GDFont *)font
+{
+  NSSize box = [font boundingBoxForString: string];
+  int width = point2.x - point.x;
+
+  [self drawString: string
+	from: NSMakePoint (point.x + ((width - box.width) / 2),
+			   point.y)
+	color: color
+	font: font];
+}
+
+- (void) drawRightAlignedString: (NSString *)string
+			     to: (NSPoint)point
+			  color: (int)color
+			   font: (GDFont *)font
+{
+  NSSize box = [font boundingBoxForString: string];
+
+  [self drawString: string
+	from: NSMakePoint (point.x - box.width, point.y)
+	color: color
+	font: font];
+  
+}
 @end
