@@ -1,3 +1,8 @@
+Tue Jul  9 02:54:17 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Examples/WritePlot.java: Added workaround to prevent JVM
+	internal crash ... now gsgd really works from java !
+
 Tue Jul  9 00:28:24 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* configure.in: Changed argument of AC_INIT to be GNUmakefile,
