@@ -22,17 +22,18 @@
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
-TOOL_NAME = ReadFile WriteFile WritePlot WritePie
+TOOL_NAME = ReadFile WriteFile WritePlot WritePie WriteBarChart
 ReadFile_OBJC_FILES = ReadFile.m
 WriteFile_OBJC_FILES = WriteFile.m
 WritePlot_OBJC_FILES = WritePlot.m
 WritePie_OBJC_FILES = WritePie.m
+WriteBarChart_OBJC_FILES = WriteBarChart.m
 
 ADDITIONAL_OBJCFLAGS += -Wall
 ADDITIONAL_TOOL_LIBS += -lgsgd
 
 JAVA_PACKAGE_NAME = gsgdtest
-gsgdtest_JAVA_FILES = WritePlot.java WritePie.java
+gsgdtest_JAVA_FILES = WritePlot.java WritePie.java WriteBarChart.java
 
 include $(GNUSTEP_MAKEFILES)/tool.make
 include $(GNUSTEP_MAKEFILES)/java.make
