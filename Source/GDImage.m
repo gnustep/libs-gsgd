@@ -420,6 +420,123 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
 }
 #endif
 
+/*
+ * Color names
+ */
+
+#define NUMBER_OF_COLOR_NAMES 16
+static struct 
+{
+  char firstLetter;
+  NSString *name;
+  int red;
+  int green;
+  int blue;
+} gsgdImageColorNameTable[NUMBER_OF_COLOR_NAMES] = 
+  {
+    {'a', @"aqua",      0, 255, 255},
+    {'b', @"black",     0,   0,   0},
+    {'b', @"blue",      0,   0, 255},
+    {'f', @"fuchsia", 255,   0, 255},
+    {'g', @"green",     0, 128,   0},
+    {'g', @"gray",    128, 128, 128},
+    {'l', @"lime",      0, 255,   0},
+    {'m', @"maroon",  128,   0,   0},
+    {'n', @"navy",      0,   0, 128},
+    {'o', @"olive",   128, 128,   0},
+    {'p', @"purple",  128,   0, 128},
+    {'r', @"red",     255,   0,   0},
+    {'s', @"silver",  192, 192, 192},
+    {'t', @"teal",      0, 128, 128},
+    {'w', @"white",   255, 255, 255},
+    {'y', @"yellow",  255, 255,   0}
+  };
+
+/* this function is called after name has already been converted to
+ * lowercase, and it's a non-empty string.  */
+static inline void 
+getColorForName (int *red, int *green, int *blue, NSString *name)
+{
+  int i;
+  unichar c = [name characterAtIndex: 0];
+
+  /* We accept colors in web notation.  */
+  if (c == '#')
+    {
+      /* TODO ! */
+      NSLog (@"Web #RRGGBB notation not implemented yet!");
+      return;
+    }
+  
+  
+  for (i = 0; i < NUMBER_OF_COLOR_NAMES; i++)
+    {
+      if (gsgdImageColorNameTable[i].firstLetter == c)
+	{
+	  if ([gsgdImageColorNameTable[i].name isEqualToString: name])
+	    {
+	      *red = gsgdImageColorNameTable[i].red;
+	      *green = gsgdImageColorNameTable[i].green;
+	      *blue = gsgdImageColorNameTable[i].blue;
+	      return;
+	    }
+	}
+    }
+  /* Return not found.  */
+  *red = -1;
+  return;
+}
+
+- (int) allocatePaletteColorWithName: (NSString *)name
+{
+  int red, green, blue;
+
+  if (name == nil  ||  [name length] < 1)
+    {
+      return -1;
+    }
+  
+  name = [name lowercaseString];
+
+  getColorForName (&red, &green, &blue, name);
+  
+  if (red == -1)
+    {
+      NSLog (@"Unknown color %@", name);
+      return -1;
+    }
+  
+  return [self allocatePaletteColorWithRed: red
+	       green: green
+	       blue: blue];
+}
+
+
+#if 0
++ (int) trueColorWithName: (NSString *)name
+{
+    int red, green, blue;
+
+  if (name == nil  ||  [name length] < 1)
+    {
+      return -1;
+    }
+  
+  name = [name lowercaseString];
+
+  getColorForName (&red, &green, &blue, name);
+  
+  if (red == -1)
+    {
+      return -1;
+    }
+  
+  return [self trueColorWithRed: red
+	       green: green
+	       blue: blue];
+}
+#endif
+
 - (void) setPixelColor: (int)color
 		     x: (int)x
 		     y: (int)y
