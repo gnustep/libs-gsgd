@@ -60,7 +60,7 @@ class WritePie
     p.setTitle ("A test plot");
     p.plotInFrame (Frame.frameForImage (image));
     
-    System.err.println ("Saving it as plot_java.png...");
+    System.err.println ("Saving it as pie_java.png...");
 
     /* FIXME ... If we don't refer the NSData class before using it,
        it's never loaded, so the object returned by image.pngData() is
