@@ -3,7 +3,7 @@
    
    Written by:  Manuel Guesdon <mguesdon@orange-concept.com>
    Created: August 1999
-   Modified by: Nicola Pero <n.pero@mi.flashnet.it>
+   Rewritten by: Nicola Pero <n.pero@mi.flashnet.it>
    July 2002
 
    This file is part of the GNUstep GD Library.

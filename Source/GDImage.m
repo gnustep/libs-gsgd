@@ -1,9 +1,9 @@
 /* GDImage.m - Implementation of GDImage
-   Copyright (C) 1999 Free Software Foundation, Inc.
+   Copyright (C) 1999, 2002 Free Software Foundation, Inc.
    
-   Written by:  Manuel Guesdon <mguesdon@orange-concept.com>
+   Written by: Manuel Guesdon <mguesdon@orange-concept.com>
    Created: August 1999
-   Modified: Nicola Pero <n.pero@mi.flashnet.it>
+   Rewritten by: Nicola Pero <n.pero@mi.flashnet.it>
    July 2002
    
    This file is part of the GNUstep GD Library.
@@ -64,7 +64,7 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
   readContext->position += len;
 
   return len;
-};
+}
 
 
 @implementation GDImage
@@ -149,7 +149,7 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
 	      format: (GDImageDataFormat)f
 {
   return [[[self alloc] initWithData: data  format: f] autorelease];
-};
+}
 
 /*
  * Deallocating the object.
@@ -160,7 +160,7 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
   TEST_RELEASE (tileImage);
   gdImageDestroy (_imagePtr);
   [super dealloc];
-};
+}
 
 /*
  * Accessing the underlying gdImage object
