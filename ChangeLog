@@ -1,3 +1,11 @@
+Fri Jul  5 13:38:48 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDImage.h: Tidied up, renamed, documented methods 
+	to draw lines, rectangles, fill areas.
+	* Source/GDImage.m: Corresponding work.
+	* Examples/WriteFile.m: Demonstrate some of the methods to draw
+	lines, rectangles, fill areas.
+
 Fri Jul  5 12:39:22 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h: Added method to allocate a palette color
