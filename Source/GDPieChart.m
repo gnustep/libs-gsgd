@@ -84,39 +84,41 @@
 - (void) plotPieInFrame: (GDFrame *)frame
 {
   GDImage *image = [frame image];
-  int diameter;
   int black;
-  NSPoint center;
+  NSRect circleRect;
 
-  /* The center of the circle.  */
+  /* We now want to get the biggest square area inside frame.  We
+   * simply choose the smallest of width and height, and draw a
+   * centered square of that size, dropping the remaining borders.
+   */
   {
     int width = [frame width];
     int height = [frame height];
-    
-    center = NSMakePoint (width / 2, height / 2);
-    center = [frame convertFrameToImage: center];
-    
+    NSRect rect;
+
     /* Draw a circle, not an ellipse.  */
     if (width > height)
       {
-	diameter = height;
+	rect = NSMakeRect ((width - height) / 2, 0,
+			   height, height);
+			   
       }
     else
       {
-	diameter = width;
+	rect = NSMakeRect (0, (height - width) / 2,
+			   width, width);
       }
+
+    circleRect = [frame convertFrameRectToImage: rect];
   }
 
   black = [image allocatePaletteColorWithName: @"black"];
   
-  [image arcCenterX: center.x
-		  y: center.y
-	      width: diameter
-	     height: diameter
+  [image drawArc: circleRect
 	 startAngle: 0
-	  stopAngle: 360
-	      color: black
-	    options: GDDrawArcImageArcOption];
+	 stopAngle: 360
+	 color: black
+	 options: GDDrawArcImageArcOption];
 
   {
     NSArray *fractions;
@@ -153,15 +155,12 @@
 					   doubleValue];
 	  }
 	
-	[image arcCenterX: center.x
-	       y: center.y
-	       width: diameter
-	       height: diameter
+	[image drawArc: circleRect
 	       startAngle: angleA
 	       stopAngle: angleB
 	       color: color
 	       options: GDFillArcAreaImageArcOption];
-	
+
 	angleA = angleB;
       }
   }
@@ -230,9 +229,8 @@
   origin.y = [frame height];
   origin = [frame convertFrameToImage: origin];
 
-  [image string: _title
-	 x: origin.x
-	 y: origin.y
+  [image drawString: _title
+	 from: origin
 	 color: [image allocatePaletteColorWithName: @"black"]
 	 font: titleFont];
   
