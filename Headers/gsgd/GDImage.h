@@ -291,10 +291,11 @@ enum {
  *
  * To get special effects, 'color' can also be [GDImage +styledColor],
  * in which case the styled pattern (which must have been set by using
- * -xxx) is used (used for drawing dashed lines etc), or [GDImage
- * +brushedColor], in which case the brushed image (which must have
- * been set by using -xxx) is used, or [GDImage styledBrushedColor],
- * in which case both the style and the brush are used.
+ * -setLineStyle:) is used (used for drawing dashed lines etc), or
+ * [GDImage +brushedColor], in which case the brushed image (which
+ * must have been set by using -xxx) is used, or [GDImage
+ * styledBrushedColor], in which case both the style and the brush are
+ * used.
  */
 - (void) lineFromX: (int)x1
 		 y: (int)y1
