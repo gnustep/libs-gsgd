@@ -42,9 +42,10 @@ GDColor.h
 
 libgsgd_HEADER_FILES_INSTALL_DIR = /$(GNUSTEP_FND_DIR)/gsgd
 
-include Makefile.preamble
+include config.make
+
+ADDITIONAL_INCLUDE_DIRS += -I../
+LIBRARIES_DEPEND_UPON = -lgd
 
 include $(GNUSTEP_MAKEFILES)/library.make
-
-include Makefile.postamble
 

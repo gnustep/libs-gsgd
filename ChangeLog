@@ -1,3 +1,12 @@
+Wed Jul  3 16:30:53 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Makefile.preamble: Removed.
+	* Makefile.postamble: Removed.
+	* GNUmakefile: Code from the preamble moved in here; do not link
+	against FoundationExt.
+
+	* LICENSE: Renamed to COPYING.LIB.  Updated to latest FSF version.
+		
 2001-08-28  Adam Fedor  <fedor@gnu.org>
 
 	* configure.in: Check system type. Add lib include for freebsd.
