@@ -1,3 +1,9 @@
+Mon Jan 13 14:27:28 2003  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GDBarChart.m ([-recommendedSize]): Make sure the frame is
+	enough to display the title.  Fixes display problem with tiny
+	charts with big titles.
+
 Tue Dec  3 17:42:45 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDBinDataSet.m ([-fractionsScaledTo:]): Fixed problem

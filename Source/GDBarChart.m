@@ -318,7 +318,9 @@
   /* Borders.  */
   result.width  += 20;
 
-  /* Title ... only affects height - ignore.  */
+  /* Title ... only affects height - ignore (except limit case when
+   * the title is wider than the graph - treated at the end.  
+   */
 
   /* The actual graph ... approximate width  */
   {
@@ -358,6 +360,23 @@
     xLabelSize.width += 20;
     
     result.width += xLabelSize.width * [keys count];
+
+    /* Make sure the title fits in the chosen frame - enlarge it if
+     * not.  */
+    if (_title != nil)
+      {
+	GDFont *titleFont;
+	NSSize box;
+	
+	titleFont = [GDFont mediumBoldFont];
+	box = [titleFont boundingBoxForString: _title];
+	/* Allow 4 pixels of border.  */
+	if (box.width + 4 > result.width)
+	  {
+	    result.width = box.width + 4;
+	  }
+      }
+
 
     /* Now, adjust the height to give a pleasant ratio.  */
     result.height = result.width / 1.5;
