@@ -1,3 +1,9 @@
+Thu Jan 16 16:59:36 2003  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GDBarChart.m ([-plotChartInFrame:]): Fixed drawing
+	the horizontal lines - in limit cases they would be drawn in
+	a position which was inconsistent with their labels.
+
 Mon Jan 13 14:27:28 2003  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDBarChart.m ([-recommendedSize]): Make sure the frame is
