@@ -36,33 +36,31 @@
 #
 
 # Additional flags to pass to the preprocessor
-ADDITIONAL_CPPFLAGS = 
+# ADDITIONAL_CPPFLAGS = 
 
 # Additional flags to pass to the Objective-C compiler
-ADDITIONAL_OBJCFLAGS =  
+# ADDITIONAL_OBJCFLAGS =  
 
 # Additional flags to pass to the C compiler
-ADDITIONAL_CFLAGS =  
+# ADDITIONAL_CFLAGS =  
 
 # Additional include directories the compiler should search
-ADDITIONAL_INCLUDE_DIRS =  -I../ -I$(GNUSTEP_SYSTEM_ROOT)/db
+ADDITIONAL_INCLUDE_DIRS = -I../
 
 # Additional LDFLAGS to pass to the linker
 ifeq ($(debug), yes)
-	ADDITIONAL_LDFLAGS = -lFoundationExt_d -lgd
+  ADDITIONAL_LDFLAGS = -lFoundationExt_d -lgd
 else
-	ADDITIONAL_LDFLAGS = -lFoundationExt -lgd
+  ADDITIONAL_LDFLAGS = -lFoundationExt -lgd
 endif
 
-#-lgnustep-xraw
-
 # Additional library directories the linker should search
-ADDITIONAL_LIB_DIRS = -L../src/$(GNUSTEP_OBJ_DIR) -L$(GNUSTEP_SYSTEM_ROOT)/lib 
+# ADDITIONAL_LIB_DIRS = 
 
 #
 # Flags dealing with installing and uninstalling
 #
 
 # Additional directories to be created during installation
-ADDITIONAL_INSTALL_DIRS =
+# ADDITIONAL_INSTALL_DIRS =
 

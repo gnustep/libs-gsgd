@@ -1,0 +1,5 @@
+Tue Jul 10 14:29:37 2001  Nicola Pero  <nicola@brainstorm.co.uk>
+
+	* README: Say that the author is Manuel Guesdon.
+	* GNUmakefile: Updated, simplified.
+	* Makefile.postamble, Makefile.preamble: Idem.
