@@ -1,6 +1,8 @@
 README
 ******
 
+gsgd was written by Manuel Guesdon <mguesdon@orange-concept.com>.
+
 gsgd is an Objc interface to libgd library. libgd is a library to create 
 PNG and Jpeg images.
 
