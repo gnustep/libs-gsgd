@@ -1,3 +1,8 @@
+Thu Jul  4 16:35:13 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GDImage.m ([-initWithData:format:]): Fixed memory leak in
+	obscure case.
+
 Thu Jul  4 16:22:10 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h: Cleaned up the whole file.  Totally
