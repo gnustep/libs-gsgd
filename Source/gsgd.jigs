@@ -44,8 +44,8 @@ classes = (
 			"exactPaletteColorWithRed:green:blue:",
 			"resolvePaletteColorWithRed:green:blue:",
 			"allocatePaletteColorWithName:",
-			"setPixelColor:x:y:",
-			"pixelColorAtX:y:",
+			"setPixelColor:at:",
+			"pixelColorAt:",
 			"lineFromX:y:toX:y:color:",
 			"rectangleFromX:y:toX:y:color:",
 			"filledRectangleFromX:y:toX:y:color:",
@@ -83,7 +83,6 @@ classes = (
     "closestPaletteColorToRed:green:blue:" = "closestPaletteColorToRGB";
     "exactPaletteColorWithRed:green:blue:" = "exactPaletteColorWithRGB";
     "resolvePaletteColorWithRed:green:blue:" = "resolvePaletteColorWithRGB";
-    "pixelColorAtX:y:" = "pixelColorAt";
     "lineFromX:y:toX:y:color:" = "line";
     "rectangleFromX:y:toX:y:color:" = "rectangle";
     "filledRectangleFromX:y:toX:y:color:" = "filledRectangle";

@@ -276,11 +276,10 @@ enum {
  */
 
 - (void) setPixelColor: (int)color
-		     x: (int)x
-		     y: (int)y;
+		    at: (NSPoint)point;
 
-- (int) pixelColorAtX: (int)x
-		    y: (int)y;
+- (int) pixelColorAt: (NSPoint)point;
+
 
 /*
  * Drawing 
