@@ -62,7 +62,9 @@ classes = (
 			"drawCharacter:from:color:font:",
 			"drawCharacterUp:from:color:font:",
 			"drawString:from:color:font:",
-			"drawStringUp:from:color:font:"
+			"drawStringUp:from:color:font:",
+			"drawCenteredString:from:to:color:font:",
+			"drawRightAlignedString:to:color:font:"
 			/* Argh - (int *) can't be wrapped.  */
 			/*"stringFreeType:x:y:color:fontPath:pointSize:angle:disableAntiAliasing:boundingRect:" */
 			);
@@ -115,7 +117,8 @@ classes = (
 		       "mediumBoldFont",
 		       "largeFont",
 		       "giantFont");
-    "instance methods" = ("width", "height", "boundingBoxForString:");
+    "instance methods" = ("width", "height", "boundingBoxForString:",
+			  "boundingBoxForStrings:");
   },
 
   {
@@ -171,6 +174,22 @@ classes = (
 
     "instance methods" = ("setDataSet:",
 			  "setTitle:",
+			  "plotInFrame:");
+  },
+
+  {
+    "java name" = "gnu.gnustep.gd.BarChart";
+    "objective-c name" = "GDBarChart";
+
+    "class methods" = ();
+
+    "initializers" = ("init");
+
+    "instance methods" = ("setDataSet:",
+			  "setTitle:",
+			  "setBarColor:",
+			  "setBarShadeColor:",
+			  "recommendedSize",
 			  "plotInFrame:");
   }
 );
