@@ -24,13 +24,13 @@ LIBRARY_NAME = libgsgd
 
 libgsgd_OBJC_FILES = \
 GDPlot.m \
-GDSimpleFont.m \
+GDFont.m \
 GDImage.m \
 GDLineStyle.m
 
 libgsgd_HEADER_FILES = \
 GDPlot.h \
-GDSimpleFont.h \
+GDFont.h \
 GDImage.h \
 GDCom.h \
 GDLineStyle.h
