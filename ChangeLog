@@ -1,3 +1,14 @@
+Mon Jul  8 19:23:25 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	First attempt at java wrappers.
+	* Headers/gsgd/GD.h: New file.
+	* Source/gsgd.jigs: New file.
+	* Source/GNUmakefile.wrapper.objc.preamble: New file.
+	* Source/GNUmakefile: Compile the java wrappers if jigs is installed;
+	added GD.h to list of headers.
+	* Examples/WritePlot.java: New example.
+	* Examples/GNUmakefile: Compile the new example.
+	
 Mon Jul  8 17:30:04 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDCom.h: Removed.
