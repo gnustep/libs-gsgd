@@ -1,3 +1,8 @@
+Tue Dec  3 17:07:54 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GDBarChart.m ([-recommendedSize]): Fix for very large
+	charts: do not allow height to be above 600.
+
 Tue Dec  3 16:39:37 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDBarChart.m ([-recommendedSize]): Fix for very small
