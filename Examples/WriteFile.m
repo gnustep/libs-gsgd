@@ -33,17 +33,38 @@ int main (void)
   image = [GDImage imageWithWidth: 100  height: 100];
   
   NSLog (@"Drawing into it...");
-  /* Temporarirly draw manually in the image.  */
   {
-    gdImage *im = [image imagePtr];
-    int white, black;
+    int i, white, black, red, blue;
     
-    /* Allocate background */
-    white = gdImageColorAllocate (im, 255, 255, 255);
-    /* Allocate drawing color */
-    black = gdImageColorAllocate (im, 0, 0, 0);
-    /* Draw rectangle */
-    gdImageRectangle (im, 0, 0, 99, 99, black);
+    /* When an image is created from scratch, the image is
+     * automatically filled at the beginning with the first allocated
+     * palette color.  */
+    white = [image allocatePaletteColorWithRed: 255
+		   green: 255
+		   blue: 255];
+    black = [image allocatePaletteColorWithRed: 0
+		   green: 0
+		   blue: 0];
+    red = [image allocatePaletteColorWithRed: 255
+		 green: 0
+		 blue: 0];
+    blue = [image allocatePaletteColorWithRed: 0
+		  green: 0
+		  blue: 255];
+    /* TODO - shouldn't we have a facility to create colors by name ? */
+
+    for (i = 0; i < 100; i++)
+      {
+	[image setPixelColor: red
+	       x: 50
+	       y: i];
+	[image setPixelColor: black
+	       x: 51
+	       y: i];
+	[image setPixelColor: blue
+	       x: 52
+	       y: i];
+      }
   }
 
   NSLog (@"Saving it as a png file...");
