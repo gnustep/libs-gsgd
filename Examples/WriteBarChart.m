@@ -1,6 +1,6 @@
 /* Generate a plot, and write it to a file.
 
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 
    Written by: Nicola Pero <nicola@brainstorm.co.uk>
    Created: July 2002
@@ -19,6 +19,10 @@
    */
 
 #include <Foundation/Foundation.h>
+
+#ifndef GNUSTEP
+#include <gnustep/base/GNUstep.h>
+#endif
 
 #include <gsgd/GDFrame.h>
 #include <gsgd/GDImage.h>

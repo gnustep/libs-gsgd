@@ -1,7 +1,7 @@
 /* Read an image from a file in a format, and writes it into another
    file in another format
 
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
 
    Written by: Nicola Pero <nicola@brainstorm.co.uk>
    Created: July 2002
@@ -20,6 +20,10 @@
    */
 
 #include <Foundation/Foundation.h>
+
+#ifndef GNUSTEP
+#include <gnustep/base/GNUstep.h>
+#endif
 
 #include <gsgd/GDImage.h>
 

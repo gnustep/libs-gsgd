@@ -1,5 +1,5 @@
 /* GDPieChart.m - A pie chart type  -*-objc-*-
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
    
    Written by: Nicola Pero <nicola@brainstorm.co.uk>
    July 2002
@@ -21,16 +21,21 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
+#include "gsgd/GDPieChart.h"
+#include "gsgd/GDImage.h"
+#include "gsgd/GDFont.h"
+#include "gsgd/GDBinDataSet.h"
+#include "gsgd/GDFrame.h"
+#include "gsgd/GDLegendBox.h"
+#include "gsgd/GDLineStyle.h"
+
 #include <Foundation/NSArray.h>
 #include <Foundation/NSValue.h>
 
-#include <gsgd/GDPieChart.h>
-#include <gsgd/GDImage.h>
-#include <gsgd/GDFont.h>
-#include <gsgd/GDBinDataSet.h>
-#include <gsgd/GDFrame.h>
-#include <gsgd/GDLegendBox.h>
-#include <gsgd/GDLineStyle.h>
+#ifndef GNUSTEP
+#include <gnustep/base/GNUstep.h>
+#endif
+
 
 @implementation GDPieChart
 

@@ -1,5 +1,5 @@
 /* GDImage.m - Implementation of GDImage
-   Copyright (C) 1999, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1999, 2002, 2003 Free Software Foundation, Inc.
    
    Written by: Manuel Guesdon <mguesdon@orange-concept.com>
    Created: August 1999
@@ -23,7 +23,10 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#include <gsgd/GDImage.h>
+#include "gsgd/GDImage.h"
+#include "gsgd/GDLineStyle.h"
+#include "gsgd/GDFont.h"
+
 #include <Foundation/NSData.h>
 #include <Foundation/NSDebug.h>
 #include <Foundation/NSDictionary.h>
@@ -31,9 +34,10 @@
 #include <Foundation/NSString.h>
 #include <Foundation/NSValue.h>
 
-#include <gsgd/GDLineStyle.h>
+#ifndef GNUSTEP
+#include <gnustep/base/GNUstep.h>
+#endif
 
-#include <gsgd/GDFont.h>
 
 /* For cos, sin */
 #include <math.h>

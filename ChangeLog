@@ -1,3 +1,9 @@
+Fri Jul 11 21:52:00 2003  Davod Ayers  <d.ayers@inode.at>
+
+	* *.m: Include GNUstep.h if GNUSTEP is not defined for OS X.
+	* *.m: Use "" in preference to <> for local headers.
+	* Headers/gsgd/GDBarChart.h: Added missing include.
+
 Thu Jan 16 16:59:36 2003  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDBarChart.m ([-plotChartInFrame:]): Fixed drawing

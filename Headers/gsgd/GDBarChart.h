@@ -25,6 +25,7 @@
 #define _gsgd_GDBarChart_h__
 
 #include <Foundation/NSObject.h>
+#include <Foundation/NSGeometry.h>
 
 @class GDBinDataSet;
 @class GDFrame;

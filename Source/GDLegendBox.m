@@ -1,5 +1,5 @@
 /* GDLegendBox.m - Draws a legend box  -*-objc-*-
-   Copyright (C) 2002 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003 Free Software Foundation, Inc.
    
    Written by: Nicola Pero <nicola@brainstorm.co.uk>
    July 2002
@@ -21,12 +21,17 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#include <gsgd/GDLegendBox.h>
-#include <gsgd/GDImage.h>
-#include <gsgd/GDFrame.h>
-#include <gsgd/GDFont.h>
-#include <gsgd/GDLineStyle.h>
+#include "gsgd/GDLegendBox.h"
+#include "gsgd/GDImage.h"
+#include "gsgd/GDFrame.h"
+#include "gsgd/GDFont.h"
+#include "gsgd/GDLineStyle.h"
+
 #include <Foundation/NSArray.h>
+
+#ifndef GNUSTEP
+#include <gnustep/base/GNUstep.h>
+#endif
 
 @implementation GDLegendBox
 
