@@ -482,7 +482,7 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 	    }
 	}
     }
-  /* Return not found.  */
+  /* Not found.  */
   *red = -1;
   return;
 }
