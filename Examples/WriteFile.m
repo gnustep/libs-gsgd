@@ -34,35 +34,31 @@ int main (void)
   
   NSLog (@"Drawing into it...");
   {
-    int i, white, black, red, blue;
+    int i, white, black, red, blue, yellow;
     
     /* When an image is created from scratch, the image is
      * automatically filled at the beginning with the first allocated
      * palette color.  */
-    white = [image allocatePaletteColorWithRed: 255
-		   green: 255
-		   blue: 255];
-    black = [image allocatePaletteColorWithRed: 0
-		   green: 0
-		   blue: 0];
-    red = [image allocatePaletteColorWithRed: 255
-		 green: 0
-		 blue: 0];
-    blue = [image allocatePaletteColorWithRed: 0
-		  green: 0
-		  blue: 255];
-    /* TODO - shouldn't we have a facility to create colors by name ? */
+    white = [image allocatePaletteColorWithName: @"white"];
+    black = [image allocatePaletteColorWithName: @"black"];
+    red = [image allocatePaletteColorWithName: @"red"];
+    blue = [image allocatePaletteColorWithName: @"Blue"];
+    yellow = [image allocatePaletteColorWithName: @"yellow"];
 
     for (i = 0; i < 100; i++)
       {
 	[image setPixelColor: red
-	       x: 50
+	       x: 47
 	       y: i];
 	[image setPixelColor: black
-	       x: 51
+	       x: 50
 	       y: i];
 	[image setPixelColor: blue
-	       x: 52
+	       x: 53
+	       y: i];
+
+	[image setPixelColor: yellow
+	       x: 56
 	       y: i];
       }
   }
