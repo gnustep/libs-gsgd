@@ -834,147 +834,71 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   RELEASE (m);
 }
 
-//--------------------------------------------------------------------
--(NSString*)stringTTF:(NSString*)string
-					x:(int)x
-					y:(int)y
-				color:(int)color
-			 fontPath:(NSString*)fontPath_
-			pointSize:(int)ptSize_
-				angle:(double)angle_
-  disableAntiAliasing:(BOOL)disableAA_
-		 boundingOnly:(BOOL)boundingOnly_
-lowerLeftBoundingCorner:(NSPoint*)lowerLeft_
-lowerRightBoundingCorner:(NSPoint*)lowerRight_
-upperLeftBoundingCorner:(NSPoint*)upperLeft_
-upperRightBoundingCorner:(NSPoint*)upperRight_
+- (void) stringFreeType: (NSString *)string
+		      x: (int)x
+		      y: (int)y
+		  color: (int)color
+	       fontPath: (NSString *)fontPath
+	      pointSize: (int)ptSize
+		  angle: (double)radians
+    disableAntiAliasing: (BOOL)disableAA
+	   boundingRect: (int *)rect
 {
-  NSString* errorString=nil;
-  int corners[8];
-  char* err=NULL;
-  NSDebugMLog(@"GDImage stringTTF: string_=%@",string);
-  NSAssert([fontPath_ length]>0,@"no Font");
-  NSAssert(string,@"no String");
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  err=gdImageStringTTF((boundingOnly_ ? NULL : _imagePtr),
-					   corners,
-					   (disableAA_ ? (-color) : (color)),
-					   [fontPath_ cString],
-					   ptSize_,
-					   angle_,
-					   x,
-					   y,
-					   [string cString]);
-  if (lowerLeft_)
-	{
-	  lowerLeft_->x=corners[0];
-	  lowerLeft_->y=corners[1];
-	};
-  if (lowerRight_)
-	{
-	  lowerRight_->x=corners[2];
-	  lowerRight_->y=corners[3];
-	};
-  if (upperLeft_)
-	{
-	  upperLeft_->x=corners[4];
-	  upperLeft_->y=corners[5];
-	};
-  if (upperRight_)
-	{
-	  upperRight_->x=corners[6];
-	  upperRight_->y=corners[7];
-	};
-  if (err)
-	errorString=[NSString stringWithCString:err];
-  NSDebugMLog(@"Stop GDImage stringTTF %@",@"");
-  return errorString;
-};
+  /* Convert the string to UTF-8 as it looks like the FT function is
+   * expecting that.  */
+  NSMutableData *m = [[string dataUsingEncoding: NSUTF8StringEncoding
+			      allowLossyConversion: YES] mutableCopy];
+  unsigned char *c;
+  char *error = NULL;
+  
+  [m appendBytes: "" length: 1];
+  c = (unsigned char *)[m bytes];
 
-//--------------------------------------------------------------------
--(NSString*)stringTTF:(NSString*)string
-					x:(int)x
-					y:(int)y
-				color:(int)color
-			 fontPath:(NSString*)fontPath_
-			pointSize:(int)ptSize_
-				angle:(double)angle_
-  disableAntiAliasing:(BOOL)disableAA_
+  error = gdImageStringFT (_imagePtr, rect,
+			   (disableAA ? (-color) : (color)),
+			   (unsigned char*)[fontPath fileSystemRepresentation],
+			   ptSize, radians, x, y, c);
+
+  RELEASE (m);
+  
+  if (error != NULL)
+    {
+      [NSException raise: NSGenericException  
+		   format: @"Error while rendering FreeType font: %s",
+		   error];
+    }
+}
+
++ (void) getBoundingRect: (int *)rect
+          stringFreeType: (NSString *)string
+	        fontPath: (NSString *)fontPath
+  	       pointSize: (int)ptSize
+	           angle: (double)radians
 {
-  return [self stringTTF:string
-			   x:x
-			   y:y
-			   color:color
-			   fontPath:fontPath_
-			   pointSize:ptSize_
-			   angle:angle_
-			   disableAntiAliasing:disableAA_
-			   boundingOnly:NO
-			   lowerLeftBoundingCorner:NULL
-			   lowerRightBoundingCorner:NULL
-			   upperLeftBoundingCorner:NULL
-			   upperRightBoundingCorner:NULL];
-};
+  /* Convert the string to UTF-8 as it looks like the FT function is
+   * expecting that.  */
+  NSMutableData *m = [[string dataUsingEncoding: NSUTF8StringEncoding
+			      allowLossyConversion: YES] mutableCopy];
+  unsigned char *c;
+  char *error = NULL;
+  
+  [m appendBytes: "" length: 1];
+  c = (unsigned char *)[m bytes];
+  
+  error = gdImageStringFT (NULL, rect, 0,	   
+			   (unsigned char*)[fontPath fileSystemRepresentation],
+			   ptSize, radians, 0, 0, c);
+  
+  RELEASE (m);
 
-//--------------------------------------------------------------------
--(NSString*)stringTTF:(NSString*)string
-					x:(int)x
-					y:(int)y
-				color:(int)color
-			 fontPath:(NSString*)fontPath_
-			pointSize:(int)ptSize_
-				angle:(double)angle_
-  disableAntiAliasing:(BOOL)disableAA_
-lowerLeftBoundingCorner:(NSPoint*)lowerLeft_
-lowerRightBoundingCorner:(NSPoint*)lowerRight_
-upperLeftBoundingCorner:(NSPoint*)upperLeft_
-upperRightBoundingCorner:(NSPoint*)upperRight_
-{
-  return [self stringTTF:string
-			   x:x
-			   y:y
-			   color:color
-			   fontPath:fontPath_
-			   pointSize:ptSize_
-			   angle:angle_
-			   disableAntiAliasing:disableAA_
-			   boundingOnly:NO
-			   lowerLeftBoundingCorner:lowerLeft_
-			   lowerRightBoundingCorner:lowerRight_
-			   upperLeftBoundingCorner:upperLeft_
-			   upperRightBoundingCorner:upperRight_];
-};
-
-
-//--------------------------------------------------------------------
--(NSString*)stringTTF:(NSString*)string
-					x:(int)x
-					y:(int)y
-			 fontPath:(NSString*)fontPath_
-			pointSize:(int)ptSize_
-				angle:(double)angle_
-  disableAntiAliasing:(BOOL)disableAA_
-lowerLeftBoundingCorner:(NSPoint*)lowerLeft_
-		 lowerRightBoundingCorner:(NSPoint*)lowerRight_
-upperLeftBoundingCorner:(NSPoint*)upperLeft_
-upperRightBoundingCorner:(NSPoint*)upperRight_
-{
-  return [self stringTTF:string
-			   x:x
-			   y:y
-			   color:1
-			   fontPath:fontPath_
-			   pointSize:ptSize_
-			   angle:angle_
-			   disableAntiAliasing:disableAA_
-			   boundingOnly:YES
-			   lowerLeftBoundingCorner:lowerLeft_
-			   lowerRightBoundingCorner:lowerRight_
-			   upperLeftBoundingCorner:upperLeft_
-			   upperRightBoundingCorner:upperRight_];
-};
-
-//--------------------------------------------------------------------
+  if (error != NULL)
+    {
+      [NSException raise: NSGenericException  
+		   format: @"Error computing bounding rect of FreeType font: %s",
+		   error];
+    }
+  
+}
 
 
 @end

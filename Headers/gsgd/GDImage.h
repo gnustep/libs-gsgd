@@ -470,40 +470,38 @@ enum {
 	    color: (int)color
 	     font: (GDFont *)font;
 
-- (NSString *) stringTTF: (NSString *)string
-		       x: (int)x
-		       y: (int)y
-		   color: (int)color
-		fontPath: (NSString *)fontPath_
-	       pointSize: (int)ptSize_
-		   angle: (double)angle_
-     disableAntiAliasing: (BOOL)disableAA_;  
+/*
+ * FreeType string drawing
+ */
 
-- (NSString *) stringTTF:(NSString *)string
-		       x:(int)x
-		       y:(int)y
-		   color:(int)color
-		fontPath:(NSString *)fontPath_
-	       pointSize:(int)ptSize_
-		   angle:(double)angle_
-     disableAntiAliasing:(BOOL)disableAA_
- lowerLeftBoundingCorner: (NSPoint *)lowerLeft_
-lowerRightBoundingCorner: (NSPoint *)lowerRight_
- upperLeftBoundingCorner: (NSPoint *)upperLeft_
-upperRightBoundingCorner: (NSPoint *)upperRight_;
+/* This method draws a string using the specified ttf font.  x, y are
+ * the origin of the string; color is the color; fontPath is the font
+ * path of the font (see the libgd doc for more info);
+ * disableAntiAliasing automatically replaces color with -color (used
+ * by libgd to signal that AA should be disabled).  boundingRect is
+ * used to return info about the actual rectangle taken up by the
+ * string.  It is an array of 8 integers, containing the x, y
+ * coordinates of the four bounding rectangle corners - the corners
+ * being enumerated counter-clockwise starting from the lower left
+ * one.  You can safely pass NULL as boundingRect if you don't need
+ * that info.  Raises an exception if something goes really wrong.
+ */
+- (void) stringFreeType: (NSString *)string
+		      x: (int)x
+		      y: (int)y
+		  color: (int)color
+	       fontPath: (NSString *)fontPath
+	      pointSize: (int)ptSize
+		  angle: (double)radians
+    disableAntiAliasing: (BOOL)disableAA
+	   boundingRect: (int *)rect;
 
-/* Get Bounding Corners Only */
-- (NSString *) stringTTF: (NSString *)string
-		       x: (int)x
-		       y: (int)y
-		fontPath: (NSString *)fontPath_
-	       pointSize: (int)ptSize_
-		   angle: (double)angle_
-     disableAntiAliasing: (BOOL)disableAA_
- lowerLeftBoundingCorner: (NSPoint *)lowerLeft_
-lowerRightBoundingCorner: (NSPoint *)lowerRight_
- upperLeftBoundingCorner: (NSPoint *)upperLeft_
-upperRightBoundingCorner: (NSPoint *)upperRight_;
+/* Get the bounding rect for a string without drawing it.  */
++ (void) getBoundingRect: (int *)rect
+          stringFreeType: (NSString *)string
+	        fontPath: (NSString *)fontPath
+  	       pointSize: (int)ptSize
+	           angle: (double)radians;
 
 @end
 
