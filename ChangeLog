@@ -1,3 +1,16 @@
+Fri Jul  5 15:37:51 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDImage.h: ([-setStyle:]): Renamed to setLineStyle:.
+	([+transparentColor]): Method removed.
+	* Source/GDImage.m ([-setLineStyle:]): Implemented.
+	([+transparentColor]): Method removed.
+	* Headers/gsgd/GDLineStyle.h: New file.
+	* Source/GDLineStyle.m: New file.
+	* Source/GNUmakefile: Added GDLineStyle.h and GDLineStyle.m.
+	* Examples/WritePlot.m: New example.
+	* Examples/GNUmakefile: Compile the new example; remove the image generated
+	by the new example on make clean.
+	
 Fri Jul  5 13:38:48 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h: Tidied up, renamed, documented methods 
