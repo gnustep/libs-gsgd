@@ -555,28 +555,57 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 }
 
 
-//--------------------------------------------------------------------
-// Drawing
--(void)lineFromX:(int)x1
-			   y:(int)y1
-			 toX:(int)x2
-			   y:(int)y2
-		   color:(int)color
+/*
+ * Drawing lines and rectangles
+ */
+- (void) lineFromX: (int)x1
+		 y: (int)y1
+	       toX: (int)x2
+		 y: (int)y2
+	     color: (int)color
 {
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageLine(_imagePtr,x1,y1,x2,y2,color);
-};
+  gdImageLine (_imagePtr, x1, y1, x2, y2, color);
+}
 
-//--------------------------------------------------------------------
--(void)dashedLineFromX:(int)x1
-					 y:(int)y1
-				   toX:(int)x2
-					 y:(int)y2
-				 color:(int)color
+- (void) rectangleFromX: (int)x1
+		      y: (int)y1
+		    toX: (int)x2
+		      y: (int)y2
+		  color: (int)color
 {
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageDashedLine(_imagePtr,x1,y1,x2,y2,color);
-};
+  gdImageRectangle (_imagePtr, x1, y1, x2, y2, color);
+}
+
+- (void) filledRectangleFromX: (int)x1
+			    y: (int)y1
+			  toX: (int)x2
+			    y: (int)y2
+			color: (int)color
+{
+  gdImageFilledRectangle (_imagePtr, x1, y1, x2, y2, color);
+}
+
+
+/*
+ * Filling/flooding areas with color
+ */
+
+- (void) fillFromX: (int)x
+		 y: (int)y
+	usingColor: (int)color
+	  toBorder: (int)borderColor
+{
+  gdImageFillToBorder (_imagePtr, x, y, borderColor, color);
+}
+
+- (void) fillFromX: (int)x
+		 y: (int)y
+	usingColor: (int)color
+{
+  gdImageFill (_imagePtr, x, y, color);
+}
+
+
 
 //--------------------------------------------------------------------
 -(void)polygon:(gdPointPtr)points
@@ -596,72 +625,9 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   gdImageFilledPolygon(_imagePtr,points,numPoints,color);
 };
 
-//--------------------------------------------------------------------
--(void)rectFromX:(int)x1
-			   y:(int)y1
-			 toX:(int)x2
-			   y:(int)y2
-		   color:(int)color
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageRectangle(_imagePtr,x1,y1,x2,y2,color);
-};
 
-//--------------------------------------------------------------------
--(void)filledRectFromX:(int)x1
-					 y:(int)y1
-				   toX:(int)x2
-					 y:(int)y2
-				 color:(int)color
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageFilledRectangle(_imagePtr,x1,y1,x2,y2,color);
-};
 
-//--------------------------------------------------------------------
--(void)fillToBorderX:(int)x
-				   y:(int)y
-			  border:(int)border
-			   color:(int)color
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageFillToBorder(_imagePtr,x,y,border,color);
-};
 
-//--------------------------------------------------------------------
--(void)fillX:(int)x
-		   y:(int)y
-	   color:(int)color;
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageFill(_imagePtr,x,y,color);
-};
-
-//--------------------------------------------------------------------
--(void)setBrush:(GDImage*)brush
-{
-  gdImageSetBrush(_imagePtr,[brush imagePtr]);
-};
-
-//--------------------------------------------------------------------
--(void)setTile:(GDImage*)tile
-{
-  gdImageSetTile(_imagePtr, [tile imagePtr]);
-};
-
-//--------------------------------------------------------------------
--(void)setStyle:(int*)style
-		 length:(int)length
-{
-  gdImageSetStyle(_imagePtr,style,length);
-};
-
-//--------------------------------------------------------------------
--(BOOL)boundsSafeX:(int)x
-				 y:(int)y
-{
-  return (gdImageBoundsSafe(_imagePtr,x,y)!=0);
-};
 
 //--------------------------------------------------------------------
 // Arcs handling
@@ -724,12 +690,12 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 
 //--------------------------------------------------------------------
 -(void)arcFillCenterX:(int)x
-					y:(int)y
-				width:(int)width
-			   height:(int)height
-				start:(int)start
-				 stop:(int)stop
-				color:(int)color
+		    y:(int)y
+		width:(int)width
+	       height:(int)height
+		start:(int)start
+		 stop:(int)stop
+		color:(int)color
 {
   NSAssert1(color>=0,@"bad color index: %d",color);
   [self arcFillCenterX:x
@@ -744,13 +710,13 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 
 //--------------------------------------------------------------------
 -(void)arcFillCenterX:(int)x
-					y:(int)y
-				width:(int)width
-			   height:(int)height
-				start:(int)start
-				 stop:(int)stop
-				color:(int)color
-		  borderColor:(int)borderColor_
+		    y:(int)y
+		width:(int)width
+	       height:(int)height
+		start:(int)start
+		 stop:(int)stop
+		color:(int)color
+	  borderColor:(int)borderColor_
 {
   int midX=0;
   int midY=0;
@@ -765,11 +731,34 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 		stop:stop
 		color:borderColor_];
 		
-  [self fillToBorderX:midX
-		y:midY
-		border:borderColor_
-		color:color];
+  [self fillFromX: midX
+	y: midY
+	usingColor: color
+	toBorder: borderColor_];
 };
+
+
+/* 
+ * Special drawing effects
+ */
+
+- (void) setBrush: (GDImage *)brush
+{
+  gdImageSetBrush (_imagePtr, brush->_imagePtr);
+}
+
+- (void) setTile: (GDImage *)tile
+{
+  gdImageSetTile (_imagePtr, tile->_imagePtr);
+}
+/*
+- (void) setStyle: (GDLineStyle *)style
+{
+  gdImageSetStyle (_imagePtr, style, length);
+}
+*/
+
+
 
 //--------------------------------------------------------------------
 // Copying and resizing
