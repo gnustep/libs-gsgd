@@ -1,9 +1,10 @@
-Mon Jul  8 17:27:32 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+Mon Jul  8 17:30:04 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDCom.h: Removed.
 	* Headers/gsgd/GDPlot.h: Do not include GDCom.h; include
 	Foundation/NSGeometry.h instead.
 	* Source/GDPlot.m: Do not include GDCom.h
+	* Source/GNUmakefile (libgsgd_HEADER_FILES): Removed GDCom.h
 	
 Mon Jul  8 17:09:26 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
