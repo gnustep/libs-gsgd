@@ -1,7 +1,9 @@
 README
 ******
 
-gsgd was written by Manuel Guesdon <mguesdon@orange-concept.com>.
+gsgd was originally written by Manuel Guesdon
+<mguesdon@orange-concept.com>.  Nicola Pero <nicola@brainstorm.co.uk>
+rearranged and reorganized much of the code.
 
 gsgd is an Objc interface to libgd library. libgd is a library to create 
 PNG and Jpeg images.
@@ -9,6 +11,4 @@ PNG and Jpeg images.
 You need libgd, available at http://www.boutell.com/gd
 
 gsgd has been tested with libgd 1.8.1 (PNG/Jpeg version).
-
-GDGIFPlot is not finished so I've commented it.
 
