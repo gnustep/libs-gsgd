@@ -34,11 +34,36 @@
 typedef unsigned GDImageDataFormat;
 
 enum {
+  /* PNG */
   GDPNGImageDataFormat = 0,
+
+  /* JPEG */
   GDJPEGImageDataFormat = 1,
+
+  /* GD (libgd specific format) */
   GDGDImageDataFormat = 2,
+
+  /* WBMP */
   GDWBMPImageDataFormat = 3
 };
+
+/* Options for drawing arcs.  You can || together the options
+ * enumerated below.  NB: we support these options on libgd < 2.0 as
+ * well.  */
+typedef unsigned GDImageArcOptions;
+
+enum {
+
+  /* Draw the arc.  */
+  GDDrawArcImageArcOption = 1,
+
+  /* Fill the area of the circle corresponding to the arc.  */
+  GDFillArcAreaImageArcOption = 2,
+
+  /* Draw lines connecting the edge of the arc to the center.  */
+  GDDrawArcEdgesImageArcOption = 4
+};
+
 
 @class GDLineStyle;
 
@@ -323,48 +348,38 @@ enum {
 	  toBorder: (int)borderColor;
 
 
-
-
-- (void) polygon: (gdPointPtr)points
+/*
+ * Draw polygons
+ */
+- (void) polygon: (gdPoint *)points
 	   count: (int)numPoints
 	   color: (int)color;
-- (void) filledPolygon: (gdPointPtr)points
+
+- (void) filledPolygon: (gdPoint *)points
 		 count: (int)numPoints
 		 color: (int)color;
 
+/*
+ * Draw arcs
+ */
 
-
-/* Arcs handling */
+/* Draw an arc of ellipse with center x, y and the specified width and
+ * height (basically, width and height are the axis of the ellipse);
+ * starting at the specified angle (in degrees) and ending at the
+ * specified angle (in degrees).  'options' decide exactly what to do
+ * - the arc, or fill the circle area corresponding to the arc with
+ * color, or draw lines connecting the center to the arc edges (more
+ * of these things can be done at once if the corresponding options
+ * are ||ed together).
+ */
 - (void) arcCenterX: (int)x
 		  y: (int)y
 	      width: (int)width
-	     height: (int)heigth
-	      start: (int)start
-	       stop: (int)stop
-	      color: (int)color;
-- (void) arcLineCenterX: (int)x
-		      y: (int)y
-		  width: (int)width
-		 height: (int)height
-		  start: (int)start
-		   stop: (int)stop
-		  color: (int)color;
-- (void) arcFillCenterX: (int)x
-		      y: (int)y
-		  width: (int)width
-		 height: (int)height
-		  start: (int)start
-		   stop: (int)stop
-		  color: (int)color;
-- (void) arcFillCenterX: (int)x
-		      y: (int)y
-		  width: (int)width
-		 height: (int)height
-		  start: (int)start
-		   stop: (int)stop
-		  color: (int)color
-	    borderColor: (int)borderColor;
-
+	     height: (int)height
+	 startAngle: (int)startDegrees
+	  stopAngle: (int)stopDegrees
+	      color: (int)color
+	    options: (GDImageArcOptions)options;
 
 /* 
  * Special drawing effects
