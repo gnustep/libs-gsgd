@@ -26,7 +26,10 @@
 #include <gsgd/GDImage.h>
 #include <Foundation/NSData.h>
 #include <Foundation/NSDebug.h>
+#include <Foundation/NSDictionary.h>
 #include <Foundation/NSException.h>
+#include <Foundation/NSString.h>
+#include <Foundation/NSValue.h>
 
 #include <gsgd/GDLineStyle.h>
 
@@ -174,12 +177,26 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
  * Writing the image
  */
 - (NSData *) dataWithFormat: (GDImageDataFormat)f
-		  extraInfo: (int)info
+		    options: (NSDictionary *)options
 {
   NSData *output = nil;
   void *bytes = NULL;
   int size;
 
+  /* Manage Interlace option.  */
+  {
+    NSString *interlace = [options objectForKey: @"Interlace"];
+    
+    if (interlace != nil  &&  [interlace isEqualToString: @"YES"])
+      {
+	gdImageInterlace (_imagePtr, 1);
+      }
+    else
+      {
+	gdImageInterlace (_imagePtr, 0);
+      }
+  }
+  
   switch (f)
     {
     case GDPNGImageDataFormat:
@@ -189,9 +206,24 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
       }
     case GDJPEGImageDataFormat:
       {
-	/* Info is quality in this case, a value between 0-95.
+	/* Quality is a value between 0-95.
 	   Pass -1 to get the default quality.  */
-	bytes = gdImageJpegPtr (_imagePtr, &size, info);
+	int q = -1;
+	{
+	  NSNumber *quality = [options objectForKey: @"Quality"];
+
+	  if (quality != nil  &&  [quality isKindOfClass: [NSNumber class]])
+	    {
+	      q = [quality intValue];
+	    }
+
+	  if (q < 0 || q > 95)
+	    {
+	      q = -1;
+	    }
+	}
+
+	bytes = gdImageJpegPtr (_imagePtr, &size, q);
 	break;
       }
     case GDGDImageDataFormat:
@@ -201,21 +233,32 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
       }
     case GDWBMPImageDataFormat:
       {
-	/* Info is the color to use as foreground in this case.
+	/* The color to use as foreground in this case.
 	   Pass -1 to get 'black' (or if black is not found, the best
 	   match for black) used.  */
-	if (info < 0)
+	int foreground = -1;
+	{
+	  NSNumber *fore = [options objectForKey: @"Foreground"];
+	  
+	  if (fore != nil  &&  [fore isKindOfClass: [NSNumber class]])
+	    {
+	      foreground = [fore intValue];
+	    }
+	}	
+
+
+	if (foreground < 0)
 	  {
-	    info = gdImageColorClosest (_imagePtr, 0, 0, 0);
+	    foreground = gdImageColorClosest (_imagePtr, 0, 0, 0);
 	    
 	    /* No colors defined in the image! */
-	    if (info < 0)
+	    if (foreground < 0)
 	      {
 		return nil;
 	      }
 	  }
 	
-	bytes = gdImageWBMPPtr (_imagePtr, &size, info);
+	bytes = gdImageWBMPPtr (_imagePtr, &size, foreground);
 	break;
       }
     default:
@@ -243,7 +286,7 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
 
 - (NSData *) dataWithFormat: (GDImageDataFormat)f
 {
-  return [self dataWithFormat: f  extraInfo: -1];
+  return [self dataWithFormat: f  options: nil];
 }
 
 - (NSData *) pngData
@@ -258,7 +301,10 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
 
 - (NSData *) jpegDataWithQuality: (int)q
 {
-  return [self dataWithFormat: GDJPEGImageDataFormat  extraInfo: q];
+  return [self dataWithFormat: GDJPEGImageDataFormat  
+	       options: [NSDictionary dictionaryWithObject: 
+					[NSNumber numberWithInt: q]
+				      forKey: @"Quality"]];
 }
 
 - (NSData *) wbmpData
@@ -268,32 +314,15 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
 
 - (NSData *) wbmpDataWithForegroundColor: (int)c
 {
-  return [self dataWithFormat: GDWBMPImageDataFormat  extraInfo: c];
+  return [self dataWithFormat: GDWBMPImageDataFormat  
+	       options: [NSDictionary dictionaryWithObject: 
+					[NSNumber numberWithInt: c]
+				      forKey: @"Foreground"]];
 }
 
 - (NSData *) gdData
 {
   return [self dataWithFormat: GDGDImageDataFormat];
-}
-
-/*
- * Setting writing properties.
- */
-- (BOOL) interlace
-{
-  if (gdImageGetInterlaced (_imagePtr))
-    {
-      return YES;
-    }
-  else
-    {
-      return NO;
-    }
-}
-
-- (void) setInterlace: (BOOL)interlace
-{
-  gdImageInterlace (_imagePtr, interlace ? 1 : 0);
 }
 
 /*
@@ -737,7 +766,6 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   int h = [self height];
   GDImage *copy = [[GDImage allocWithZone: zone] initWithWidth: w  height: h];
   
-  [copy setInterlace: [self interlace]];
   gdImagePaletteCopy (copy->_imagePtr, _imagePtr);
   gdImageCopy (copy->_imagePtr, _imagePtr, 0, 0, 0, 0, w, h);
 
