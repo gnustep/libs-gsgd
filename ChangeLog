@@ -1,3 +1,14 @@
+Mon Jul  8 15:55:19 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDFont.h: New file.
+	* Source/GDFont.m: New file.
+	* Headers/gsgd/GDSimpleFont.h: Removed, replaced by GDFont.h.
+	* Source/GDSimpleFont.m: Removed, replaced by GDFont.m.
+	* Headers/gsgd/GDImage.h: Tidied, updated text drawing code.
+	* Source/GDImage.m: Tidied, updated text drawing code.
+	* Source/GNUmakefile: Updated.
+	* Examples/WritePlot.m: Show drawing some text.
+	
 Mon Jul  8 14:20:00 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDImage.m ([-brushImage], [-tileImage]): Implemented.
