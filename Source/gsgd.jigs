@@ -141,6 +141,46 @@ classes = (
 			  "convertFrameRectToImage:",
 			  "convertImageRectToFrame:",
 			  "subFrameWithRect:");
+  },
+
+  {
+    "java name" = "gnu.gnustep.gd.LegendBox";
+    "objective-c name" = "GDLegendBox";
+
+    "class methods" = ();
+
+    "initializers" = ("init");
+
+    "instance methods" = ("setExplanation:forStyle:",
+			  "comfortableSize",
+			  "plotInFrame:");
+  },
+
+  {
+    "java name" = "gnu.gnustep.gd.BinDataSet";
+    "objective-c name" = "GDBinDataSet";
+
+    "class methods" = ();
+
+    "initializers" = ("init");
+
+    "instance methods" = ("setDataValue:forKey:",
+			  "keys",
+			  "values",
+			  "fractionsScaledTo:");
+  },
+
+  {
+    "java name" = "gnu.gnustep.gd.PieChart";
+    "objective-c name" = "GDPieChart";
+
+    "class methods" = ();
+
+    "initializers" = ("init");
+
+    "instance methods" = ("setDataSet:",
+			  "setTitle:",
+			  "plotInFrame:");
   }
 );
 }
