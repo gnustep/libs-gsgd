@@ -42,3 +42,4 @@ after-clean::
 	-rm test.png test.jpg test.wbmp
 	-rm plot.png plot_java.png
 	-rm pie.png  pie_java.png
+	-rm barchart.png barchart_java.png
