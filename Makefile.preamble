@@ -34,6 +34,7 @@
 #
 # Flags dealing with compiling and linking
 #
+include config.make
 
 # Additional flags to pass to the preprocessor
 # ADDITIONAL_CPPFLAGS = 
@@ -45,14 +46,9 @@
 # ADDITIONAL_CFLAGS =  
 
 # Additional include directories the compiler should search
-ADDITIONAL_INCLUDE_DIRS = -I../
+ADDITIONAL_INCLUDE_DIRS += -I../
 
-# Additional LDFLAGS to pass to the linker
-ifeq ($(debug), yes)
-  ADDITIONAL_LDFLAGS = -lFoundationExt_d -lgd
-else
-  ADDITIONAL_LDFLAGS = -lFoundationExt -lgd
-endif
+LIBRARIES_DEPEND_UPON = -lFoundationExt -lgd
 
 # Additional library directories the linker should search
 # ADDITIONAL_LIB_DIRS = 

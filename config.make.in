@@ -1,0 +1,7 @@
+# -*-makefile-*-
+# Extra make variables for gsgd library
+#
+
+ADDITIONAL_INCLUDE_DIRS += @ADDITIONAL_CFLAGS@
+ADDITIONAL_LIB_DIRS += @ADDITIONAL_LFLAGS@
+
