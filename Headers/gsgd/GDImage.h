@@ -40,6 +40,8 @@ enum {
   GDWBMPImageDataFormat = 3
 };
 
+@class GDLineStyle;
+
 @class GDSimpleFont;
 
 @interface GDImage : NSObject
@@ -257,49 +259,80 @@ enum {
 - (int) pixelColorAtX: (int)x
 		    y: (int)y;
 
-/* TODO - work from here down  */
+/*
+ * Drawing 
+ */
 
-/* Drawing */
+/* Draw a line in the specified color.
+ *
+ * To get special effects, 'color' can also be [GDImage +styledColor],
+ * in which case the styled pattern (which must have been set by using
+ * -xxx) is used (used for drawing dashed lines etc), or [GDImage
+ * +brushedColor], in which case the brushed image (which must have
+ * been set by using -xxx) is used, or [GDImage styledBrushedColor],
+ * in which case both the style and the brush are used.
+ */
 - (void) lineFromX: (int)x1
 		 y: (int)y1
 	       toX: (int)x2
 		 y: (int)y2
 	     color: (int)color;
 
-- (void) dashedLineFromX: (int)x1
-		       y: (int)y1
-		     toX: (int)x2
-		       y: (int)y2
-		   color: (int)color;
+
+/* Draw a rectangle (four lines); x1, y1 is the upper left corner, x2,
+ * y2 the lower right one.  Color might be +styledColor or
+ * +brushColor.  */
+- (void) rectangleFromX: (int)x1
+		      y: (int)y1
+		    toX: (int)x2
+		      y: (int)y2
+		  color: (int)color;
+
+/* Draw a filled rectangular area; x1, y1 is the upper left corner,
+ * x2, y2 the lower right one.  NB: this is taken very seriously by
+ * libgd ... make sure x1 < x2 and y1 < y2 when you call the method,
+ * else nothing will be drawn.  Color might be +tiledColor to fill the
+ * rectangle using a tiled image.  */
+- (void) filledRectangleFromX: (int)x1
+			    y: (int)y1
+			  toX: (int)x2
+			    y: (int)y2
+			color: (int)color;
+
+/*
+ * Filling/flooding areas with color
+ */
+
+/* Flood the image with color, starting from the point at x, y.  All
+ * pixels around the one at x, y and of the same color, are repainted
+ * with the specified color.  */
+- (void) fillFromX: (int)x
+		 y: (int)y
+	usingColor: (int)color;
+
+/* Flood the image with color, starting from the point at x, y.  All
+ * pixels around the one at x, y are repainted with the specified
+ * color.  The flooding repaints all pixels, no matter what their
+ * original color is, unless their color is b - in which case they are
+ * untouched and the flooding stops in the direction.  The net effect
+ * is that the image is flood up to the borders of color b.  
+ */
+- (void) fillFromX: (int)x
+		 y: (int)y
+	usingColor: (int)color
+	  toBorder: (int)borderColor;
+
+
+
+
 - (void) polygon: (gdPointPtr)points
 	   count: (int)numPoints
 	   color: (int)color;
 - (void) filledPolygon: (gdPointPtr)points
 		 count: (int)numPoints
 		 color: (int)color;
-- (void) rectFromX: (int)x1
-		 y: (int)y1
-	       toX: (int)x2
-		 y: (int)y2
-	     color: (int)color;
-- (void) filledRectFromX: (int)x1
-		       y: (int)y1
-		     toX: (int)x2
-		       y: (int)y2
-		   color: (int)color;
-- (void) fillToBorderX: (int)x
-		     y: (int)y
-		border: (int)b
-		 color: (int)color;
-- (void) fillX: (int)x
-	     y: (int)y
-	 color: (int)color;
-- (void) setBrush: (GDImage *)brush;
-- (void) setTile: (GDImage *)tile;
-- (void) setStyle: (int *)style
-	   length: (int)length;
-- (BOOL) boundsSafeX: (int)x
-		   y: (int)y;
+
+
 
 /* Arcs handling */
 - (void) arcCenterX: (int)x
@@ -331,6 +364,40 @@ enum {
 		   stop: (int)stop
 		  color: (int)color
 	    borderColor: (int)borderColor;
+
+
+/* 
+ * Special drawing effects
+ */
+
+/* Set the brush image to be used when drawing lines in brushed mode.
+ * To use brushed drawing mode, you must pass [GDImage +brushedColor]
+ * as the color in drawing functions.  When using brushed mode, the
+ * brush image is drawn in place of each pixel of the line which is
+ * being drawn.  The effect is similar to the 'brush' tool in drawing
+ * programs like Gimp.
+ */
+- (void) setBrush: (GDImage *)brush;
+
+/* Set the tile to be used when filling areas in tiled mode.
+ * To use tiled filling mode, you must pass [GDImage +tiledColor]
+ * as the fill color in drawing functions.  When using tiled mode,
+ * the area to fill is filled with copies of the tiled image.
+ */
+- (void) setTile: (GDImage *)tile;
+
+/* Set the line style to be used when drawing lines in styled mode.
+ * To use styled drawing mode, you must pass [GDImage +styledColor] as
+ * the color in drawing functions.  When using styled mode, the pixels
+ * are drawn by repeating applying the pattern specified by the
+ * GDLineStyle object.  For example, the style might specify to draw 3
+ * pixels red, then 3 pixels white, resulting in a dashed line when
+ * the style is used to draw.  A GDLineStyle might also specify to
+ * skip drawing some pixels (eg, draw 3 pixels red, then skip 3
+ * pixels).
+ */
+- (void) setStyle: (GDLineStyle *)style;
+
 
 
 /* Copying and resizing */
