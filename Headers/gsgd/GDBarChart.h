@@ -39,6 +39,9 @@
   GDBinDataSet *_dataSet;
 
   NSString *_title;
+
+  int _barColor;
+  int _barShadeColor;
 }
 
 - (id) init;
@@ -47,7 +50,11 @@
 
 - (void) setTitle: (NSString *)title;
 
-/*- (NSSize) comfortableSize; */
+- (void) setBarColor: (int)color;
+
+- (void) setBarShadeColor: (int)color;
+
+- (NSSize) recommendedSize;
 
 - (void) plotInFrame: (GDFrame *)frame;
 
