@@ -105,7 +105,8 @@ classes = (
 		       "dashedLineWithColor:",
 		       "dashedLineWithColor:spacing:",
 		       "dashdotLineWithColor:",
-		       "dashdotLineWithColor:spacing:");
+		       "dashdotLineWithColor:spacing:",
+		       "lineWithColor:");
 
     "initializers" = ("initWithLength:");
 
@@ -123,7 +124,23 @@ classes = (
 		       "mediumBoldFont",
 		       "largeFont",
 		       "giantFont");
-    "instance methods" = ("width", "height");
+    "instance methods" = ("width", "height", "boundingBoxForString:");
+  },
+
+  {
+    "java name" = "gnu.gnustep.gd.Frame";
+    "objective-c name" = "GDFrame";
+
+    "class methods" = ("frameForImage:");
+
+    "initializers" = ("initWithImage:", "initWithImage:rect:");
+
+    "instance methods" = ("image", "width", "height",
+			  "convertFrameToImage:",
+			  "convertImageToFrame:",
+			  "convertFrameRectToImage:",
+			  "convertImageRectToFrame:",
+			  "subFrameWithRect:");
   }
 );
 }
