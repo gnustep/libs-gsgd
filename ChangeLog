@@ -1,3 +1,9 @@
+Thu Jul 11 15:43:18 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDPieChart.h: New class.
+	* Source/GDPieChart.m: New class.
+	* Source/GNUmakefile: Added the new class.
+
 Thu Jul 11 15:41:20 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDBinDataSet.h: New class.
