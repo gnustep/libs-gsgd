@@ -1,3 +1,11 @@
+Mon Jul  8 17:09:26 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDImage.h: Rewritten methods to draw strings using
+	FT fonts.
+	* Source/GDImage.m: Corresponding changes.
+	* Examples/WritePlot.m (main): Added example of drawing a string
+	using a free type font, and computing the bounding rect.
+
 Mon Jul  8 16:30:04 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDImage.m ([-string:x:y:color:font:]): Convert the string
