@@ -537,6 +537,10 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 }
 #endif
 
+/*
+ * Accessing image pixels.
+ */
+
 - (void) setPixelColor: (int)color
 		     x: (int)x
 		     y: (int)y
