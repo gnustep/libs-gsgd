@@ -604,138 +604,95 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   gdImageFill (_imagePtr, x, y, color);
 }
 
-
-
-//--------------------------------------------------------------------
--(void)polygon:(gdPointPtr)points
-		 count:(int)numPoints
-		 color:(int)color
+/*
+ * Draw polygons
+ */
+- (void) polygon: (gdPoint *)points
+	   count: (int)numPoints
+	   color: (int)color
 {
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImagePolygon(_imagePtr,points,numPoints,color);
-};
+  gdImagePolygon (_imagePtr, points, numPoints, color);
+}
 
-//--------------------------------------------------------------------
--(void)filledPolygon:(gdPointPtr)points
-			   count:(int)numPoints
-			   color:(int)color
+- (void) filledPolygon: (gdPoint *)points
+		 count: (int)numPoints
+		 color: (int)color
 {
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageFilledPolygon(_imagePtr,points,numPoints,color);
-};
+  gdImageFilledPolygon (_imagePtr, points, numPoints, color);
+}
 
-
-
-
-
-//--------------------------------------------------------------------
-// Arcs handling
--(void)arcCenterX:(int)x
-				y:(int)y
-			width:(int)width
-		   height:(int)height
-			start:(int)start
-			 stop:(int)stop
-			color:(int)color
+/*
+ * Draw arcs
+ */
+- (void) arcCenterX: (int)x
+		  y: (int)y
+	      width: (int)width
+	     height: (int)height
+	 startAngle: (int)startDegrees
+	  stopAngle: (int)stopDegrees
+	      color: (int)color
+	    options: (GDImageArcOptions)options
 {
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  gdImageArc(_imagePtr,x,y,width,height,start,stop,color);
-};
+  /* First draw the arc if required.  */
+  if (options & GDDrawArcImageArcOption
+      || options & GDFillArcAreaImageArcOption)
+    {
+      gdImageArc (_imagePtr, x, y, width, height, 
+		  startDegrees, stopDegrees, color);
+    }
 
-//--------------------------------------------------------------------
-void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,int baseY)
-{
-  double _pi=acos(-1);
-  double _rad=deg*_pi/180;
-  double _cos=cos(_rad);
-  double _sin=sin(_rad);
-  *x=(int)((_cos*(double)width)/2);
-  *y=(int)((_sin*(double)height)/2);
-  (*x)+=baseX;
-  (*y)+=baseY;
-};
+  /* Draw the edges if required.  */
+  if (options & GDDrawArcEdgesImageArcOption
+      || options & GDFillArcAreaImageArcOption)
+    {
+      /* The ellipsis semiaxis.  */
+      float a = width / 2;
+      float b = height / 2;
+      
+      /* The angle in radians.  */
+      float radians;
 
-//--------------------------------------------------------------------
--(void)arcLineCenterX:(int)x
-					y:(int)y
-				width:(int)width
-			   height:(int)height
-				start:(int)start
-				 stop:(int)stop
-				color:(int)color
-{
-  int startX=0;
-  int startY=0;
-  int stopX=0;
-  int stopY=0;
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  XYFromDegWithHeight(&startX,&startY,start,width,height,x,y);
-  XYFromDegWithHeight(&stopX,&stopY,stop,width,height,x,y);
-  gdImageArc(_imagePtr,x,y,width,height,start,stop,color);
-  if (stop%360!=start%360)
-	{
-	  [self lineFromX:x
-			y:y
-			toX:startX
-			y:startY
-			color:color];
-	  [self lineFromX:x
-			y:y
-			toX:stopX
-			y:stopY
-			color:color];
-	};
-};
+#ifndef PI
+#define PI 3.14153
+#endif
 
-//--------------------------------------------------------------------
--(void)arcFillCenterX:(int)x
-		    y:(int)y
-		width:(int)width
-	       height:(int)height
-		start:(int)start
-		 stop:(int)stop
-		color:(int)color
-{
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  [self arcFillCenterX:x
-		y:y
-		width:width
-		height:height
-		start:start
-		stop:stop
-		color:color
-		borderColor:color];
-};
+      /* Connect the start point of the arc with the center.  */
+      radians = (startDegrees * PI) / 180;
+      gdImageLine (_imagePtr, 
+		   x, y,
+		   x + a * cos (radians), y + b * sin (radians), 
+		   color);
 
-//--------------------------------------------------------------------
--(void)arcFillCenterX:(int)x
-		    y:(int)y
-		width:(int)width
-	       height:(int)height
-		start:(int)start
-		 stop:(int)stop
-		color:(int)color
-	  borderColor:(int)borderColor_
-{
-  int midX=0;
-  int midY=0;
-  NSAssert1(color>=0,@"bad color index: %d",color);
-  NSAssert1(color>=0,@"bad borderColor index: %d",borderColor_);
-  XYFromDegWithHeight(&midX,&midY,(start+stop)/2,width/2,height/2,x,y);
-  [self arcLineCenterX:x
-		y:y
-		width:width
-		height:height
-		start:start
-		stop:stop
-		color:borderColor_];
-		
-  [self fillFromX: midX
-	y: midY
-	usingColor: color
-	toBorder: borderColor_];
-};
+      /* Connect the end point of the arc with the center.  */
+      radians = (stopDegrees * PI) / 180;
+      gdImageLine (_imagePtr, 
+		   x, y,
+		   x + a * cos (radians), y + b * sin (radians), 
+		   color);
+    }
 
+
+  /* Fill if required.  Warning - it currently doesn't work in all
+   * cases when drawing *over* existing images ... existing pixels of
+   * color color in the area we want to fill might cause problems.  */
+  if (options & GDFillArcAreaImageArcOption)
+    {
+      /* We search a point inside the area, and fill starting from
+       * there.  */
+
+      /* The ellipsis semiaxis.  */
+      float a = width / 2;
+      float b = height / 2;
+      
+      /* The angle at the middle of the arc, in radians.  */
+      float radians = (((startDegrees + stopDegrees) / 2) * PI) / 180;
+      
+      gdImageFillToBorder (_imagePtr, 
+			   x + (a * cos (radians) / 2),
+			   y + (b * sin (radians) / 2),
+			   color, color);
+    }
+}
 
 /* 
  * Special drawing effects
