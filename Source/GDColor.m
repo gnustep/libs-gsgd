@@ -24,7 +24,6 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#include <gsgd/GDCom.h>
 #include <gsgd/GDColor.h>
 #include <Foundation/NSString.h>
 #include <Foundation/NSArchiver.h>
@@ -46,12 +45,15 @@
 	     green: (int)green
 	      blue: (int)blue
 {
-  if ((self = [super init]) != nil)
+  self = [super init];
+
+  if (self != nil)
     {
       _red = red;
       _green = green;
       _blue = blue;
     };
+
   return self;
 };
 
@@ -63,11 +65,7 @@
     }
   else
     {
-      GDColor* aCopy = NSCopyObject (self, 0, aZone);
-      aCopy->_red = _red;
-      aCopy->_green = _green;
-      aCopy->_blue = _blue;
-      return aCopy;
+      return NSCopyObject (self, 0, aZone);
     };
 };
 
