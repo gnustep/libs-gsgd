@@ -21,8 +21,8 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#ifndef _GDCom_h__
-	#define _GDCom_h__
+#ifndef _gsgd_GDCom_h__
+#define _gsgd_GDCom_h__
 
 
 #include <Foundation/NSObject.h>
@@ -37,4 +37,4 @@
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 
-#endif //_GDCom_h__
+#endif /* _gsgd_GDCom_h__ */
