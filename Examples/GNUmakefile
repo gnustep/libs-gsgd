@@ -32,12 +32,12 @@ ADDITIONAL_OBJCFLAGS += -Wall
 ADDITIONAL_TOOL_LIBS += -lgsgd
 
 JAVA_PACKAGE_NAME = gsgdtest
-gsgdtest_JAVA_FILES = WritePlot.java
+gsgdtest_JAVA_FILES = WritePlot.java WritePie.java
 
 include $(GNUSTEP_MAKEFILES)/tool.make
 include $(GNUSTEP_MAKEFILES)/java.make
 
 after-clean::
 	-rm test.png test.jpg test.wbmp
-	-rm plot.png
-	-rm pie.png
+	-rm plot.png plot_java.png
+	-rm pie.png  pie_java.png
