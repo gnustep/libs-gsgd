@@ -81,4 +81,10 @@
 
 @end
 
+@interface GDFont (StringUtils)
+/* Compute a bounding box which is enough to contain all strings
+ * in the array.  */
+- (NSSize) boundingBoxForStrings: (NSArray *)strings;
+@end
+
 #endif /* _gsgd_GDFont_h__ */

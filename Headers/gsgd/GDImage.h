@@ -472,5 +472,25 @@ enum {
 
 @end
 
+@interface GDImage (StringUtils)
+/* Draw the string, but automatically centering it (horizontally)
+ * in the space between point and point2.
+ */
+- (void) drawCenteredString: (NSString *)string
+		       from: (NSPoint)point
+			 to: (NSPoint)point2
+		      color: (int)color
+		       font: (GDFont *)font;
+
+/* Draw the string, but automatically aligning it (horizontally)
+ * to end up at point.
+ */
+- (void) drawRightAlignedString: (NSString *)string
+			     to: (NSPoint)point
+			  color: (int)color
+			   font: (GDFont *)font;
+
+@end
+
 #endif /* _gsgd_GDImage_h__ */
 
