@@ -1,3 +1,11 @@
+Wed Jul  3 18:13:37 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDColor.h: Do not include gsgd/GDCom.h.
+	Include Foundation/NSObject.h.
+	* Source/GDColor.m: Do not include gsgd/GDCom.h.
+	([GDColor -copyWithZone:]): Do not manually set the copied red,
+	green, blue - automatically done.
+	
 Wed Jul  3 17:44:39 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/: New directory.
