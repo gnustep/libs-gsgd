@@ -28,6 +28,8 @@
 #include <Foundation/NSDebug.h>
 #include <Foundation/NSException.h>
 
+#include <gsgd/GDLineStyle.h>
+
 #include <gsgd/GDSimpleFont.h>
 
 /* For cos, sin */
@@ -332,11 +334,6 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
 + (int) tiledColor
 {
   return gdTiled;
-}
-
-+ (int) transparentColor
-{
-  return gdTransparent;
 }
 
 - (int) totalPaletteColors
@@ -751,12 +748,15 @@ void XYFromDegWithHeight(int* x,int* y,int deg,int width,int height,int baseX,in
 {
   gdImageSetTile (_imagePtr, tile->_imagePtr);
 }
-/*
-- (void) setStyle: (GDLineStyle *)style
+
+- (void) setLineStyle: (GDLineStyle *)style
 {
-  gdImageSetStyle (_imagePtr, style, length);
+  int length = [style length];
+  int *colors = [style colors];
+
+  gdImageSetStyle (_imagePtr, colors, length);
 }
-*/
+
 
 
 

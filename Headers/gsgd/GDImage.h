@@ -165,7 +165,6 @@ enum {
 + (int) styledColor;
 + (int) styledBrushedColor;
 + (int) tiledColor;
-+ (int) transparentColor;
 
 /* Number of colors currently in the image palette.  Makes *no* sense
  * for truecolor images.  */
@@ -396,7 +395,7 @@ enum {
  * skip drawing some pixels (eg, draw 3 pixels red, then skip 3
  * pixels).
  */
-- (void) setStyle: (GDLineStyle *)style;
+- (void) setLineStyle: (GDLineStyle *)style;
 
 
 
