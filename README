@@ -1,0 +1,12 @@
+README
+******
+
+gsgd is an Objc interface to libgd library. libgd is a library to create 
+GIF (now PNG) images.
+
+You need libgd, available at http://www.boutell.com/gd
+
+gsgd has been tested with libgd 1.5 (GIF version).
+
+GDGIFPlot is not finished so I've commented it.
+
