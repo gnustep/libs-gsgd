@@ -407,23 +407,13 @@ enum {
  * implementing copying the lineStyle.  */
 - (id) copyWithZone: (NSZone *)aZone;
 
-- (void) copyRectFrom: (GDImage *)image
-		    x: (int)sourceX
-		    y: (int)sourceY
-		width: (int)width
-	       height: (int)height
-		  toX: (int)destX
-		    y: (int)destY;
+- (void) copyFromImage: (GDImage *)image
+		  rect: (NSRect)sourceRectangle
+		    to: (NSPoint)destOrigin;
 
-- (void) copyRectFrom: (GDImage *)image
-		    x: (int)sourceX
-		    y: (int)sourceY
-		width: (int)sourceWidth
-	       height: (int)sourceHeight
-		  toX: (int)destX
-		    y: (int)destY
-		width: (int)destWidth
-	       height: (int)destHeight;
+- (void) copyFromImage: (GDImage *)image
+		  rect: (NSRect)sourceRectangle
+	  toScaledRect: (NSRect)destRectangle;
 
 /*
  * String drawing

@@ -1,3 +1,9 @@
+Fri Jul 12 16:01:05 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDImage.h: Renamed copy from rect methods.
+	* Source/GDImage.m: Corresponding changes.
+	* Source/gsgd.jigs: Updated.
+
 Fri Jul 12 15:50:55 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h: Improved API of all drawing operations.

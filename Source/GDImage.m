@@ -799,28 +799,35 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
   return copy;
 }
 
-- (void) copyRectFrom: (GDImage *)image
-		    x: (int)sourceX
-		    y: (int)sourceY
-		width: (int)width
-	       height: (int)height
-		  toX: (int)destX
-		    y: (int)destY
+- (void) copyFromImage: (GDImage *)image
+		  rect: (NSRect)sourceRectangle
+		    to: (NSPoint)destOrigin
 {
+  unsigned int sourceX = (unsigned int)(sourceRectangle.origin.x);
+  unsigned int sourceY = (unsigned int)(sourceRectangle.origin.y);
+  unsigned int width = (unsigned int)(sourceRectangle.size.width);
+  unsigned int height = (unsigned int)(sourceRectangle.size.height);
+  unsigned int destX = (unsigned int)(destOrigin.x);
+  unsigned int destY = (unsigned int)(destOrigin.y);
+
   gdImageCopy (_imagePtr, image->_imagePtr, destX, destY,
-	       sourceX, sourceY, width, height);
+	       sourceX, sourceY, width, height);  
 }
 
-- (void) copyRectFrom: (GDImage *)image
-		    x: (int)sourceX
-		    y: (int)sourceY
-		width: (int)sourceWidth
-	       height: (int)sourceHeight
-		  toX: (int)destX
-		    y: (int)destY
-		width: (int)destWidth
-	       height: (int)destHeight
+
+- (void) copyFromImage: (GDImage *)image
+		  rect: (NSRect)sourceRectangle
+	  toScaledRect: (NSRect)destRectangle;
 {
+  unsigned int sourceX = (unsigned int)(sourceRectangle.origin.x);
+  unsigned int sourceY = (unsigned int)(sourceRectangle.origin.y);
+  unsigned int sourceWidth = (unsigned int)(sourceRectangle.size.width);
+  unsigned int sourceHeight = (unsigned int)(sourceRectangle.size.height);
+  unsigned int destX = (unsigned int)(destRectangle.origin.x);
+  unsigned int destY = (unsigned int)(destRectangle.origin.y);
+  unsigned int destWidth = (unsigned int)(destRectangle.size.width);
+  unsigned int destHeight = (unsigned int)(destRectangle.size.height);
+
   gdImageCopyResized (_imagePtr, image->_imagePtr,
 		      destX, destY, sourceX, sourceY,
 		      destWidth, destHeight, sourceWidth, sourceHeight);
