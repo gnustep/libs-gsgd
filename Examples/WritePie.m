@@ -20,6 +20,7 @@
 
 #include <Foundation/Foundation.h>
 
+#include <gsgd/GDFrame.h>
 #include <gsgd/GDImage.h>
 #include <gsgd/GDLineStyle.h>
 #include <gsgd/GDBinDataSet.h>
