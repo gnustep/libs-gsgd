@@ -103,10 +103,7 @@
   /* Draw the line border.  */
   rectangle = [frame convertFrameRectToImage: rectangle];
   
-  [image rectangleFromX: rectangle.origin.x
-	 y: rectangle.origin.y
-	 toX: NSMaxX (rectangle)
-	 y: NSMaxY (rectangle)
+  [image drawRectangle: rectangle
 	 color: [image allocatePaletteColorWithName: @"black"]];
 
   /* Empty space between the line border and the actual legend.  */
@@ -141,9 +138,8 @@
 	origin.x = 40;
 	imageOrigin = [frame convertFrameToImage: origin];
 	
-	[image string: s
-	       x: imageOrigin.x
-	       y: imageOrigin.y
+	[image drawString: s
+	       from: imageOrigin
 	       color: [image allocatePaletteColorWithName: @"black"]
 	       font: _font];
 
