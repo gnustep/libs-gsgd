@@ -37,6 +37,9 @@
 - (id) init
 {
   _dataSet = nil;
+  _barColor = -10;
+  _barShadeColor = -10;
+
   return self;
 }
 
@@ -57,13 +60,20 @@
   ASSIGN (_title, title);
 }
 
+- (void) setBarColor: (int)color
+{
+  _barColor = color;
+}
+
+- (void) setBarShadeColor: (int)color
+{
+  _barShadeColor = color;
+}
 
 - (void) plotChartInFrame: (GDFrame *)frame
 {
   GDImage *image = [frame image];
   int black = [image allocatePaletteColorWithName: @"black"];
-  int blue = [image allocatePaletteColorWithRed: 102  green: 102  blue: 153];
-  int shade = [image allocatePaletteColorWithRed: 153  green: 153  blue: 153];
 
   /*
    * We are going to draw something like the following:
@@ -84,7 +94,6 @@
    * Then, we compute the size and layout of the x labels.
    * Then we draw the animal.
    */
-
   NSArray *values = [_dataSet values];
   NSArray *keys = [_dataSet keys];
   int i, count;
@@ -93,6 +102,18 @@
   NSMutableArray *yLabels;
   NSSize ySize;
   NSSize xLabelSize;
+
+  if (_barColor == -10)
+    {
+      _barColor = [image allocatePaletteColorWithRed: 102  green: 102  
+			 blue: 153];
+    }
+
+  if (_barShadeColor == -10)
+    {
+      _barShadeColor = [image allocatePaletteColorWithRed: 153  green: 153  
+			      blue: 153];
+    }
 
   yFont = [GDFont mediumBoldFont];
   xFont = [GDFont mediumBoldFont];
@@ -116,8 +137,8 @@
   /* Get the maximum width of the y labels.  */
   ySize.width = [yFont boundingBoxForStrings: yLabels].width;
 
-  /* Add 5 pixels on the left side, and 3 pixels on the right side.  */
-  ySize.width += 8;
+  /* Add 3 pixels on the right side.  */
+  ySize.width += 3;
 
   /* Now compute the size of the xLabels.  */
   xLabelSize = [xFont boundingBoxForStrings: keys];
@@ -197,13 +218,13 @@
 	  r = NSMakeRect (x + (xLabelSize.width / 4) + 1, minY + 1,
 			  (xLabelSize.width) /2, pixels);
 	  r = [frame convertFrameRectToImage: r];
-	  [image drawFilledRectangle:r  color: shade];
+	  [image drawFilledRectangle:r  color: _barShadeColor];
 
 	  /* Then the actual bar.  */
 	  r = NSMakeRect (x + (xLabelSize.width / 4), minY,
 			  (xLabelSize.width) /2, pixels);
 	  r = [frame convertFrameRectToImage: r];
-	  [image drawFilledRectangle:r  color: blue];
+	  [image drawFilledRectangle:r  color: _barColor];
 	}
     }
   }
@@ -262,6 +283,66 @@
 
   /* Draw the chart.  */
   [self plotChartInFrame: frame];
+}
+
+/* Compute the recommended size to draw this chart.  */
+- (NSSize) recommendedSize
+{
+  NSSize result = NSMakeSize (0, 0);
+
+  /* We compute width.  Then we choose a height which is reasonably 
+   * comparable.  */
+
+  /* Borders.  */
+  result.width  += 20;
+
+  /* Title ... only affects height - ignore.  */
+
+  /* The actual graph ... approximate width  */
+  {
+    NSArray *keys = [_dataSet keys];
+    GDFont *yFont, *xFont;
+    NSSize xLabelSize;
+
+    yFont = [GDFont mediumBoldFont];
+    xFont = [GDFont mediumBoldFont];
+
+    /* Compute the total of all values.  This is the max of the y scale.  */
+    {
+      NSArray *values = [_dataSet values];
+      int i, count;
+      double total = 0;
+      NSString *yLabel;
+
+      count = [values count];  
+      for (i = 0; i < count; i++)
+	{
+	  total += [(NSNumber *)[values objectAtIndex: i] doubleValue];
+	}
+      
+      /* Approximately, get the longest label.  */
+      yLabel = [NSString stringWithFormat: @"%d", (int)(total)];
+
+      result.width += [yFont boundingBoxForString: yLabel].width;
+    }
+    
+    /* Add 3 pixels on the right side.  */
+    result.width += 3;
+    
+    /* Now compute the size of the xLabels.  */
+    xLabelSize = [xFont boundingBoxForStrings: keys];
+    
+    /* Add 10 to each horizontal side.  */
+    xLabelSize.width += 20;
+    
+    result.width += xLabelSize.width * [keys count];
+    
+    /* Now, adjust the height to give a pleasant ratio.  */
+    
+    result.height = result.width / 1.5;
+
+    return result;
+  }
 }
 
 @end
