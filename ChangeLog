@@ -1,3 +1,12 @@
+Mon Jul  8 14:20:00 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GDImage.m ([-brushImage], [-tileImage]): Implemented.
+	([-copyWithZone:]): Implemented.
+	([-copyRectFrom:x:y:width:height:toX:y:]): Access image pointer
+	directly.
+	([-copyRectFrom:x:y:width:height:toX:y:width:height:]): Idem.
+	* Headers/gsgd/GDImage.h: Corresponding updates.
+	
 Fri Jul  5 19:24:39 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h: Rewritten API to draw arcs.
