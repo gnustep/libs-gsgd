@@ -22,6 +22,8 @@
 
 #include <gsgd/GDImage.h>
 #include <gsgd/GDLineStyle.h>
+#include <gsgd/GDBinDataSet.h>
+#include <gsgd/GDPieChart.h>
 #include <gd.h>
 #include <math.h>
 
@@ -32,59 +34,50 @@ int main (void)
   NSData *d;
 
   NSLog (@"Creating an image...");
-  image = [GDImage imageWithWidth: 220  height: 220];
+  image = [GDImage imageWithWidth: 400  height: 400];
   
   NSLog (@"Drawing into it...");
   {
-    int white, black, red, blue, yellow, gray;
+    int white;
     
-    /* When an image is created from scratch, the image is
-     * automatically filled at the beginning with the first allocated
-     * palette color.  */
+    GDBinDataSet *d;
+    GDPieChart *p;
+
+    /* Background color.  */
     white = [image allocatePaletteColorWithName: @"white"];
-    black = [image allocatePaletteColorWithName: @"black"];
-    red = [image allocatePaletteColorWithName: @"red"];
-    blue = [image allocatePaletteColorWithName: @"Blue"];
-    yellow = [image allocatePaletteColorWithName: @"yellow"];
-    gray = [image allocatePaletteColorWithName: @"Gray"];
 
-    [image arcCenterX: 110
-	   y: 110
-	   width: 200
-	   height: 200
-	   startAngle: 0
-	   stopAngle: 360
-	   color: blue
-	   options: GDDrawArcImageArcOption | GDFillArcAreaImageArcOption];
+    d = [GDBinDataSet new];
+    AUTORELEASE (d);
 
-    [image arcCenterX: 110
-	   y: 110
-	   width: 100
-	   height: 100
-	   startAngle: 0
-	   stopAngle: 360
-	   color: red
-	   options: GDDrawArcImageArcOption | GDFillArcAreaImageArcOption];
-
-    [image arcCenterX: 110
-	   y: 110
-	   width: 80
-	   height: 80
-	   startAngle: 0
-	   stopAngle: 90
-	   color: yellow
-	   options: GDDrawArcImageArcOption | GDFillArcAreaImageArcOption];
-
-    [image arcCenterX: 110
-	   y: 110
-	   width: 80
-	   height: 80
-	   startAngle: 90
-	   stopAngle: 135
-	   color: gray
-	   options: GDDrawArcImageArcOption | GDDrawArcEdgesImageArcOption];
+    /* Example charts.  */
+#if 0
+    [d setDataValue: 21703  forKey: @"30"];
+    [d setDataValue: 61402  forKey: @"Da 25 a 29"];
+    [d setDataValue: 13551  forKey: @"Da 19 a 24"];
+    [d setDataValue: 1950  forKey: @"Da 3 a 18"];
+#else
+    [d setDataValue: 1950  forKey: @"Da 3 a 18"];
+    [d setDataValue: 13551  forKey: @"Da 19 a 24"];
+    [d setDataValue: 61402  forKey: @"Da 25 a 29"];
+    [d setDataValue: 21703  forKey: @"30"];
+    [d setDataValue: 121252  forKey: @"Da 31 a 35"];
+    [d setDataValue: 94939  forKey: @"Da 36 a 40"];
+    [d setDataValue: 59593  forKey: @"Da 41 a 45"];
+    [d setDataValue: 1950  forKey: @"Da 3 a 18"];
+    [d setDataValue: 13551  forKey: @"Da 19 a 24"];
+    [d setDataValue: 61402  forKey: @"Da 25 a 29"];
+    [d setDataValue: 21703  forKey: @"30"];
+    [d setDataValue: 121252  forKey: @"Da 31 a 35"];
+    [d setDataValue: 94939  forKey: @"Da 36 a 40"];
+    [d setDataValue: 59593  forKey: @"Da 41 a 45"];
+#endif
+        
+    p = [GDPieChart new];
+    AUTORELEASE (p);
+    [p setDataSet: d];
+    [p setTitle: @"A test plot"];
+    [p plotInFrame: [GDFrame frameForImage: image]];
   }
-	
 
   NSLog (@"Saving it as pie.png...");
   d = [image pngData];
