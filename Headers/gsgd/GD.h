@@ -27,6 +27,9 @@
 #include <gsgd/GDFont.h>
 #include <gsgd/GDImage.h>
 #include <gsgd/GDLineStyle.h>
+#include <gsgd/GDFrame.h>
+#include <gsgd/GDBinDataSet.h>
+#include <gsgd/GDPieChart.h>
 
 #endif /* _gsgd_GDImage_h__ */
 
