@@ -21,12 +21,12 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#ifndef _GDPlot_h__
-	#define _GDPlot_h__
+#ifndef _gsgd_GDPlot_h__
+#define _gsgd_GDPlot_h__
 
-#include <gsgd/GDCom.h>
 #include <Foundation/NSArray.h>
 #include <Foundation/NSDictionary.h>
+#include <Foundation/NSGeometry.h>
 
 #define GIF_PLOT__GRAPH_TAG	0
 #define GIF_PLOT__LABEL_TAG	1
@@ -201,4 +201,4 @@ typedef enum {
 -(NSDictionary*)settings;
 @end
 
-#endif // _GDPlot_h__
+#endif /* _gsgd_GDPlot_h__ */
