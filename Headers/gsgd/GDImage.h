@@ -394,6 +394,7 @@ enum {
  * programs like Gimp.
  */
 - (void) setBrushImage: (GDImage *)brush;
+- (GDImage *)brushImage;
 
 /* Set the tile to be used when filling areas in tiled mode.
  * To use tiled filling mode, you must pass [GDImage +tiledColor]
@@ -401,6 +402,7 @@ enum {
  * the area to fill is filled with copies of the tiled image.
  */
 - (void) setTileImage: (GDImage *)tile;
+- (GDImage *)tileImage;
 
 /* Set the line style to be used when drawing lines in styled mode.
  * To use styled drawing mode, you must pass [GDImage +styledColor] as
@@ -414,10 +416,15 @@ enum {
  */
 - (void) setLineStyle: (GDLineStyle *)style;
 
+/*
+ * Copying
+ */
 
+/* FIXME: we currently do not copy 'temporary' drawing attributes such
+ * as tileImage, brushImage and lineStyle.  This is for laziness at
+ * implementing copying the lineStyle.  */
+- (id) copyWithZone: (NSZone *)aZone;
 
-/* Copying and resizing */
-- (id) copy;
 - (void) copyRectFrom: (GDImage *)image
 		    x: (int)sourceX
 		    y: (int)sourceY
@@ -425,11 +432,12 @@ enum {
 	       height: (int)height
 		  toX: (int)destX
 		    y: (int)destY;
+
 - (void) copyRectFrom: (GDImage *)image
 		    x: (int)sourceX
 		    y: (int)sourceY
-		width: (int)width
-	       height: (int)height
+		width: (int)sourceWidth
+	       height: (int)sourceHeight
 		  toX: (int)destX
 		    y: (int)destY
 		width: (int)destWidth
