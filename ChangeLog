@@ -1,3 +1,7 @@
+Thu Jul 11 15:46:08 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Examples/WritePie.m: Updated to demo the new pie chart class.
+
 Thu Jul 11 15:43:18 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDPieChart.h: New class.
