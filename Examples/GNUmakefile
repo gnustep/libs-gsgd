@@ -22,10 +22,11 @@
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
-TOOL_NAME = ReadFile WriteFile WritePlot
+TOOL_NAME = ReadFile WriteFile WritePlot WritePie
 ReadFile_OBJC_FILES = ReadFile.m
 WriteFile_OBJC_FILES = WriteFile.m
 WritePlot_OBJC_FILES = WritePlot.m
+WritePie_OBJC_FILES = WritePie.m
 
 ADDITIONAL_OBJCFLAGS += -Wall
 ADDITIONAL_TOOL_LIBS += -lgsgd
@@ -35,3 +36,4 @@ include $(GNUSTEP_MAKEFILES)/tool.make
 after-clean::
 	-rm test.png test.jpg test.wbmp
 	-rm plot.png
+	-rm pie.png
