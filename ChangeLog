@@ -1,3 +1,7 @@
+Fri Jul  5 17:55:13 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Examples/GNUmakefile (after-clean): Ignore errors.
+
 Fri Jul  5 17:53:11 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDColor.h: File removed.

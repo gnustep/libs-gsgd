@@ -33,5 +33,5 @@ ADDITIONAL_TOOL_LIBS += -lgsgd
 include $(GNUSTEP_MAKEFILES)/tool.make
 
 after-clean::
-	rm test.png test.jpg test.wbmp
-	rm plot.png
+	-rm test.png test.jpg test.wbmp
+	-rm plot.png
