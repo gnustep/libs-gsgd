@@ -26,7 +26,6 @@ libgsgd_OBJC_FILES = \
 GDPlot.m \
 GDSimpleFont.m \
 GDImage.m \
-GDColor.m \
 GDLineStyle.m
 
 libgsgd_HEADER_FILES = \
@@ -34,7 +33,6 @@ GDPlot.h \
 GDSimpleFont.h \
 GDImage.h \
 GDCom.h \
-GDColor.h \
 GDLineStyle.h
 
 libgsgd_HEADER_FILES_INSTALL_DIR = gsgd

@@ -1,3 +1,10 @@
+Fri Jul  5 17:53:11 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Headers/gsgd/GDColor.h: File removed.
+	* Source/GDColor.m: File removed.
+	* Source/GNUmakefile: Removed references to GDColor.h and
+	GDColor.m.
+	
 Fri Jul  5 16:01:45 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h: Added ivars tileImage and brushImage.
