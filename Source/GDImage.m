@@ -570,15 +570,19 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
  */
 
 - (void) setPixelColor: (int)color
-		     x: (int)x
-		     y: (int)y
+		    at: (NSPoint)point
 {
+  unsigned int x = (unsigned int)(point.x);
+  unsigned int y = (unsigned int)(point.y);
+
   gdImageSetPixel (_imagePtr, x, y, color);
 }
 
-- (int) pixelColorAtX: (int)x
-		    y: (int)y
+- (int) pixelColorAt: (NSPoint)point
 {
+  unsigned int x = (unsigned int)(point.x);
+  unsigned int y = (unsigned int)(point.y);
+
   return gdImageGetPixel (_imagePtr, x, y);
 }
 
