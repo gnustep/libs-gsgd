@@ -31,7 +31,11 @@ WritePie_OBJC_FILES = WritePie.m
 ADDITIONAL_OBJCFLAGS += -Wall
 ADDITIONAL_TOOL_LIBS += -lgsgd
 
+JAVA_PACKAGE_NAME = gsgdtest
+gsgdtest_JAVA_FILES = WritePlot.java
+
 include $(GNUSTEP_MAKEFILES)/tool.make
+include $(GNUSTEP_MAKEFILES)/java.make
 
 after-clean::
 	-rm test.png test.jpg test.wbmp
