@@ -381,7 +381,6 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
   return gdImageBlue (_imagePtr, color);
 }
 
-
 - (int) closestPaletteColorToRed: (int)red
 			   green: (int)green
 			    blue: (int)blue
