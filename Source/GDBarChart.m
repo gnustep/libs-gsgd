@@ -336,10 +336,18 @@
     xLabelSize.width += 20;
     
     result.width += xLabelSize.width * [keys count];
-    
+
     /* Now, adjust the height to give a pleasant ratio.  */
-    
     result.height = result.width / 1.5;
+
+    /* Make sure the height is at least 150.  If the width is very small,
+     * it might be that the height (we never computed the minimum height)
+     * computed from the width might be too small.  This is sort of a hack
+     * I suppose the real way out is computing the minimum height as well.  */
+    if (result.height < 150)
+      {
+	result.height = 150;
+      }
 
     return result;
   }
