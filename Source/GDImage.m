@@ -119,6 +119,9 @@ static int GDDataReadWrapper (void *context, char *buf, int len)
       }
     default:
       {
+	gdFree (gdCtx);
+	objc_free (ourGdSource);
+	objc_free (ctx);
 	[NSException raise: NSGenericException  
 		     format: @"Unknown data format to read"];
       }
