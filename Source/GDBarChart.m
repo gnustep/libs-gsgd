@@ -145,7 +145,15 @@
        * this case.  */
       yLabels = [NSMutableArray array];
       [yLabels addObject: @"0"];
-      [yLabels addObject: [NSString stringWithFormat: @"%d", (int)(total)]];
+      if (total > 0)
+	{
+	  [yLabels addObject: [NSString stringWithFormat: @"%d", (int)(total)]];
+	}
+      else
+	{
+	  /* Do not display the top one.  */
+	  [yLabels addObject: @""];
+	}
     }
 
   /* Get the maximum width of the y labels.  */

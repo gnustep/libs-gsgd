@@ -84,10 +84,21 @@
       output = [NSMutableArray array];
       
       total = total / max;
-      
-      for (i = 0; i < length; i++)
+
+      if (total > 0)
 	{
-	  [output addObject: [NSNumber numberWithDouble: f[i] / total]];
+	  for (i = 0; i < length; i++)
+	    {
+	      [output addObject: [NSNumber numberWithDouble: f[i] / total]];
+	    }
+	}
+      else
+	{
+	  NSNumber *zero = [NSNumber numberWithDouble: 0];
+	  for (i = 0; i < length; i++)
+	    {
+	      [output addObject: zero];
+	    }
 	}
     }
   NS_HANDLER
