@@ -1,3 +1,7 @@
+Mon Aug 25 18:00:00 2003  Matt Rice  <ratmice@yahoo.com>
+
+	* *.m: Update includes to new header layout.
+
 Fri Jul 11 21:52:00 2003  Davod Ayers  <d.ayers@inode.at>
 
 	* *.m: Include GNUstep.h if GNUSTEP is not defined for OS X.

@@ -24,7 +24,7 @@
 #include "gsgd/GDFont.h"
 
 #ifndef GNUSTEP
-#include <gnustep/base/GNUstep.h>
+#include <GNUstepBase/GNUstep.h>
 #endif
 
 /* For gdFontSmall.  */

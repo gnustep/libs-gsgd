@@ -22,7 +22,7 @@
 #include <Foundation/Foundation.h>
 
 #ifndef GNUSTEP
-#include <gnustep/base/GNUstep.h>
+#include <GNUstepBase/GNUstep.h>
 #endif
 
 #include <gsgd/GDImage.h>

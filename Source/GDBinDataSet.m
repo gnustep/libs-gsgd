@@ -28,7 +28,7 @@
 #include <Foundation/NSValue.h>
 
 #ifndef GNUSTEP
-#include <gnustep/base/GNUstep.h>
+#include <GNUstepBase/GNUstep.h>
 #endif
 
 @implementation GDBinDataSet
