@@ -111,40 +111,39 @@ enum {
  * Writing the image
  */
 
-/* Generate NSData for the image in the specified format.  Extra info
- * can be used to specify further format specific information; use -1
- * to get the default.  Valid extra information at the moment are: for
- * GDJPEGImageDataFormat, info can be the image quality (a number
- * between 0 and 95; if -1 is used, the default jpeg image quality is
- * used); for GDWBMPImageDataFormat, info can be the index of the
- * color to be rendered as black (wbmp are black and white; gd renders
- * a single color as black, and all others as white) [if -1 is used,
- * the color closest to black in the image is the color rendered as
- * black].  For all other data formats, the extraInfo is ignored.
+/* Generate NSData for the image in the specified format.  Options
+ * can be used to specify further format specific information; use nil
+ * to get the default.
+ *
+ * Valid options at the moment are:
+ *
+ * for GDJPEGImageDataFormat,
+ *   Quality: a number between 0 and 95 representing the image quality;
+ *   Interlace: a string, YES or NO (default is NO)
+ *
+ * for GDWBMPImageDataFormat, 
+ *   ForegroundColor: a number, the index of the color to be rendered
+ *   as black (wbmp are black and white; gd renders a single color
+ *   as black, and all others as white) [if not specified, the color
+ *   closest to black in the image is the color rendered as black].
+ * 
+ * for GDPNGImageDataFormat,
+ *   Interlace: a string, YES or NO (default is NO).
  */
 - (NSData *) dataWithFormat: (GDImageDataFormat)f
-		  extraInfo: (int)info;
+		    options: (NSDictionary *)options;
 
 /* Generate NSData for the image in the specified format, using the
  * default extra information.  */
 - (NSData *) dataWithFormat: (GDImageDataFormat)f;
 
-/* Simple friendly wrappers for -dataWithFormat:extraInfo:.  */
+/* Simple friendly wrappers for -dataWithFormat:options:.  */
 - (NSData *) pngData;
 - (NSData *) jpegData;
 - (NSData *) jpegDataWithQuality: (int)q;
 - (NSData *) wbmpData;
 - (NSData *) wbmpDataWithForegroundColor: (int)c;
 - (NSData *) gdData;
-
-/*
- * Setting writing properties.
- */
-
-/* Sets whether the image is written in interlace or non-interlace
- * mode (only meaningful for jpeg and png output).  */
-- (void) setInterlace: (BOOL)interlace;
-- (BOOL) interlace;
 
 /*
  * Image properties.
