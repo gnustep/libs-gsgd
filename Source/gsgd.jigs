@@ -1,0 +1,129 @@
+{ /* -*-c-*- */
+
+types = { 
+  GDImageDataFormat = unsigned;
+  GDImageArcOptions = unsigned;
+};
+
+classes = (
+
+{
+  "java name" = "gnu.gnustep.gd.Image";
+  "objective-c name" = "GDImage";
+  
+  "class methods" = ("imageWithWidth:height:",
+		     "imageWithData:format:",
+		     "maxPaletteColors",
+		     "brushedColor",
+		     "styledColor",
+		     "styledBrushedColor",
+		     "tiledColor",
+		     /* Argh - (int *) can't be wrapped.  */
+		     /* "getBoundingRect:stringFreeType:fontPath:pointSize:angle:"*/
+		     );
+
+  "instance methods" = ("dataWithFormat:extraInfo:",
+			"dataWithFormat:",
+			"pngData",
+			"jpegData",
+			"jpegDataWithQuality:",
+			"wbmpData",
+			"wbmpDataWithForegroundColor:",
+			"gdData",
+			"setInterlace:",
+			"interlace",
+			"width",
+			"height",
+			"totalPaletteColors",
+			"paletteTransparentColor",
+			"setPaletteTransparentColor:",
+			"allocatePaletteColorWithRed:green:blue:",
+			"deallocatePaletteColor:",
+			"blueOfPaletteColor:",
+			"greenOfPaletteColor:",
+			"redOfPaletteColor:",
+			"closestPaletteColorToRed:green:blue:",
+			"exactPaletteColorWithRed:green:blue:",
+			"resolvePaletteColorWithRed:green:blue:",
+			"allocatePaletteColorWithName:",
+			"setPixelColor:x:y:",
+			"pixelColorAtX:y:",
+			"lineFromX:y:toX:y:color:",
+			"rectangleFromX:y:toX:y:color:",
+			"filledRectangleFromX:y:toX:y:color:",
+			"fillFromX:y:usingColor:",
+			"fillFromX:y:usingColor:toBorder:",
+			"arcCenterX:y:width:height:startAngle:stopAngle:color:options:",
+			"setBrushImage:",
+			"brushImage",
+			"setTileImage:",
+			"tileImage",
+			"setLineStyle:",
+			"copyRectFrom:x:y:width:height:toX:y:",
+			"copyRectFrom:x:y:width:height:toX:y:width:height:",
+			"character:x:y:color:font:",
+			"characterUp:x:y:color:font:",
+			"string:x:y:color:font:",
+			"stringUp:x:y:color:font:"
+			/* Argh - (int *) can't be wrapped.  */
+			/*"stringFreeType:x:y:color:fontPath:pointSize:angle:disableAntiAliasing:boundingRect:" */
+			);
+
+  "initializers" = ("initWithWidth:height:", "initWithData:format:");
+  
+  "hardcoded constants" = ("int PNG = 0",
+			   "int JPEG = 1",
+			   "int GD = 2",
+			   "int WBMP = 3",
+			   "int DrawArc = 1",
+			   "int FillArcArea = 2",
+			   "int DrawArcEdges = 4");
+
+  "method name mapping" = { 
+    "imageWithWidth:height:" = "imageWithSize";
+    "allocatePaletteColorWithRed:green:blue:" = "allocatePaletteColorWithRGB";
+    "closestPaletteColorToRed:green:blue:" = "closestPaletteColorToRGB";
+    "exactPaletteColorWithRed:green:blue:" = "exactPaletteColorWithRGB";
+    "resolvePaletteColorWithRed:green:blue:" = "resolvePaletteColorWithRGB";
+    "pixelColorAtX:y:" = "pixelColorAt";
+    "lineFromX:y:toX:y:color:" = "line";
+    "rectangleFromX:y:toX:y:color:" = "rectangle";
+    "filledRectangleFromX:y:toX:y:color:" = "filledRectangle";
+    "fillFromX:y:usingColor:" = "fill";
+    "fillFromX:y:usingColor:toBorder:" = "fillToBorder";
+    "arcCenterX:y:width:height:startAngle:stopAngle:color:options:" = "arc";
+  };
+  
+  },
+  
+  {
+    "java name" = "gnu.gnustep.gd.LineStyle";
+    "objective-c name" = "GDLineStyle";
+
+    "class methods" = ("dottedLineWithColor:",
+		       "dottedLineWithColor:spacing:",
+		       "dashedLineWithColor:",
+		       "dashedLineWithColor:spacing:",
+		       "dashdotLineWithColor:",
+		       "dashdotLineWithColor:spacing:");
+
+    "initializers" = ("initWithLength:");
+
+    "instance methods" = ("setPixelColor:atIndex:",
+			  "setPixelTransparentAtIndex:",
+			  "length");
+  },
+
+  {
+    "java name" = "gnu.gnustep.gd.Font";
+    "objective-c name" = "GDFont";
+
+    "class methods" = ("tinyFont",
+		       "smallFont",
+		       "mediumBoldFont",
+		       "largeFont",
+		       "giantFont");
+    "instance methods" = ("width", "height");
+  }
+);
+}
