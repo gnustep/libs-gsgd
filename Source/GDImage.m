@@ -800,9 +800,18 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 	  color: (int)color
 	   font: (GDFont *)font
 {
-  gdImageString (_imagePtr, [font fontPointer], x, y, 
-		 (unsigned char *)[string lossyCString], 
-		 color);
+  /* Convert the string to iso-8859-2 as that is the charset used by
+   * the default fonts.  NB - for a custom font, this might not be
+   * appropriate!! */
+  NSMutableData *m = [[string dataUsingEncoding: NSISOLatin2StringEncoding
+			      allowLossyConversion: YES] mutableCopy];
+  unsigned char *c;
+
+  [m appendBytes: "" length: 1];
+  c = (unsigned char *)[m bytes];
+  
+  gdImageString (_imagePtr, [font fontPointer], x, y, c, color);
+  RELEASE (m);
 }
 
 - (void) stringUp: (NSString *)string
@@ -811,9 +820,18 @@ getColorForName (int *red, int *green, int *blue, NSString *name)
 	    color: (int)color
 	     font: (GDFont *)font
 {
-  gdImageStringUp (_imagePtr, [font fontPointer], x, y, 
-		   (unsigned char *)[string lossyCString],
-		   color);
+  /* Convert the string to iso-8859-2 as that is the charset used by
+   * the default fonts.  NB - for a custom font, this might not be
+   * appropriate!! */
+  NSMutableData *m = [[string dataUsingEncoding: NSISOLatin2StringEncoding
+			      allowLossyConversion: YES] mutableCopy];
+  unsigned char *c;
+
+  [m appendBytes: "" length: 1];
+  c = (unsigned char *)[m bytes];
+
+  gdImageStringUp (_imagePtr, [font fontPointer], x, y, c, color);
+  RELEASE (m);
 }
 
 //--------------------------------------------------------------------

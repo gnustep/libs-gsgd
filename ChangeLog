@@ -1,3 +1,9 @@
+Mon Jul  8 16:30:04 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GDImage.m ([-string:x:y:color:font:]): Convert the string
+	to ISO-8859-2 rather than using lossyCString.
+	([-stringUp:x:y:color:font:]): Idem.
+
 Mon Jul  8 15:55:19 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDFont.h: New file.
