@@ -40,6 +40,7 @@ libgsgd_HEADER_FILES_DIR = ../Headers/gsgd
 
 include ../config.make
 
+ADDITIONAL_OBJCFLAGS += -Wall
 ADDITIONAL_INCLUDE_DIRS += -I../Headers
 LIBRARIES_DEPEND_UPON = -lgd
 
