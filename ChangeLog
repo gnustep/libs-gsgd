@@ -1,3 +1,19 @@
+Tue Dec  3 13:05:35 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GNUmakefile.wrapper.objc.preamble: Added
+	ADDITIONAL_LIB_DIRS.
+	* Source/GDImage.m ([-drawLine:to:color:]): Removed forgotten
+	NSLog.
+	* Source/GDLegendBox: Updated for new API in GDImage.
+	* Source/GDLineStyle.m: Idem.
+	* Source/GDPieChart.m: Idem.
+	([-plotPieInFrame:]): New code to compute bounding box.
+	* Examples/WriteFile.m: Idem.
+	* Examples/WritePlot.java: Idem.
+	* Examples/WritePlot.m: Idem.
+	* Examples/WritePie.m: Include gsgd/GDFrame.h.
+	* README: Tidied a little.
+	
 Fri Jul 12 16:01:05 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Headers/gsgd/GDImage.h: Renamed copy from rect methods.
