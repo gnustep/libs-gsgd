@@ -1,5 +1,5 @@
 #
-#  Copyright (C) 2002 Free Software Foundation, Inc.
+#  Copyright (C) 1997-2002 Free Software Foundation, Inc.
 #
 #  This file is part of gsgd
 #
@@ -20,9 +20,28 @@
 
 include $(GNUSTEP_MAKEFILES)/common.make
 
-PACKAGE_NAME = gsgd
+LIBRARY_NAME = libgsgd
 
-SUBPROJECTS = Source
+libgsgd_OBJC_FILES = \
+GDPlot.m \
+GDSimpleFont.m \
+GDImage.m \
+GDColor.m
 
-include $(GNUSTEP_MAKEFILES)/aggregate.make
+libgsgd_HEADER_FILES = \
+GDPlot.h \
+GDSimpleFont.h \
+GDImage.h \
+GDCom.h \
+GDColor.h
+
+libgsgd_HEADER_FILES_INSTALL_DIR = gsgd
+libgsgd_HEADER_FILES_DIR = ../Headers/gsgd
+
+include ../config.make
+
+ADDITIONAL_INCLUDE_DIRS += -I../Headers
+LIBRARIES_DEPEND_UPON = -lgd
+
+include $(GNUSTEP_MAKEFILES)/library.make
 

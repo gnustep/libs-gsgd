@@ -1,3 +1,15 @@
+Wed Jul  3 17:44:39 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/: New directory.
+	* Headers/: New directory.
+	* Headers/gsgd/: New directory.
+	* *.m: Moved into Source/.
+	* *.h: Moved into Headers/gsgd/.
+	* Source/GNUmakefile: Compile the headers etc
+	* GNUmakefile: Old makefile moved into Source/GNUmakefile,
+	replaced with a makefile which runs Source SUBPROJECT.
+	Do not install into GNUSTEP_SYSTEM_ROOT.
+
 Wed Jul  3 16:30:53 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Makefile.preamble: Removed.
