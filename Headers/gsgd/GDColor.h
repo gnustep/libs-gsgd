@@ -1,9 +1,12 @@
-/* GDColor.h - Interface of GDColor
-   Copyright (C) 1999 Free Software Foundation, Inc.
+/* GDColor.h - Interface of GDColor -*-objc-*-
+   Copyright (C) 1999-2002 Free Software Foundation, Inc.
    
    Written by:  Manuel Guesdon <mguesdon@orange-concept.com>
    Created: Dec 1999
    
+   Modified by: Nicola Pero <n.pero@mi.flashnet.it>
+   Date: July 2002
+
    This file is part of the GNUstep GD Library.
 
    This library is free software; you can redistribute it and/or
@@ -21,11 +24,10 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */ 
 
-#ifndef _GDColor_h__
-	#define _GDColor_h__
+#ifndef _gsgd_GDColor_h__
+#define _gsgd_GDColor_h__
 
-#include <gsgd/GDCom.h>
-
+#include <Foundation/NSObject.h>
 
 @interface GDColor : NSObject <NSCoding, NSCopying>
 {
@@ -34,22 +36,22 @@
   int _blue;
 };
 
-+(GDColor*)colorWithRed:(int)red
-				 green:(int)green
-				  blue:(int)blue;
--(id)initWithRed:(int)red
-		   green:(int)green
-			blue:(int)blue;
--(id)copyWithZone:(NSZone*)aZone;
--(NSString*)description;
--(void)encodeWithCoder:(NSCoder*)aCoder;
--(id)initWithCoder:(NSCoder*)aDecoder;
--(NSComparisonResult)compare:(id)anObject;
--(BOOL)isEqual:(id)anObject;
--(int)red;
--(int)green;
--(int)blue;
++ (GDColor *) colorWithRed: (int)red
+		     green: (int)green
+		      blue: (int)blue;
+- (id) initWithRed: (int)red
+	     green: (int)green
+	      blue: (int)blue;
+- (id) copyWithZone: (NSZone*)aZone;
+- (NSString*) description;
+- (void) encodeWithCoder: (NSCoder*)aCoder;
+- (id) initWithCoder: (NSCoder*)aDecoder;
+- (NSComparisonResult) compare: (id)anObject;
+- (BOOL) isEqual: (id)anObject;
+- (int) red;
+- (int) green;
+- (int) blue;
 @end
 
-#endif // _GDColor_h__
+#endif /* _gsgd_GDColor_h__ */
 
