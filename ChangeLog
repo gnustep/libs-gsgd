@@ -1,3 +1,10 @@
+Tue Dec  3 17:42:45 2002  Nicola Pero  <n.pero@mi.flashnet.it>
+
+	* Source/GDBinDataSet.m ([-fractionsScaledTo:]): Fixed problem
+	with limit case of zero total.
+	* Source/GDBarChart.m ([-plotChartInFrame:]): Fixed display
+	with limit case of zero total.
+	
 Tue Dec  3 17:26:01 2002  Nicola Pero  <n.pero@mi.flashnet.it>
 
 	* Source/GDBarChart.m ([-plotChartInFrame:]): Fix for charts with
