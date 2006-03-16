@@ -26,3 +26,10 @@ SUBPROJECTS = Source
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make
 
+before-all:: config.make
+
+config.make: configure
+	./configure
+
+after-distclean::
+	-rm config.make

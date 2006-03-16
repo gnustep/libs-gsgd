@@ -1,3 +1,9 @@
+Thu Mar 16 16:25:36 GMT 2006  Nicola Pero <n.pero@mi.flashnet.it>
+
+	* GNUmakefile (before-all, before-distclean, config.make): Added
+	rules to automatically run configure and create/delete
+	config.make.
+
 Mon Aug 25 18:00:00 2003  Matt Rice  <ratmice@yahoo.com>
 
 	* *.m: Update includes to new header layout.
