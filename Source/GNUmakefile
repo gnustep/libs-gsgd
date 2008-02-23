@@ -46,6 +46,7 @@ GDBarChart.h
 
 libgsgd_HEADER_FILES_INSTALL_DIR = gsgd
 libgsgd_HEADER_FILES_DIR = ../Headers/gsgd
+NEEDS_GUI = NO
 
 include ../config.make
 

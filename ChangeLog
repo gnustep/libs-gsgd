@@ -1,3 +1,8 @@
+Sat Feb 23 16:51:34 2008  Nicola Pero <nicola.pero@meta-innovation.com>
+
+	* Source/GNUmakefile (NEEDS_GUI): Set to NO.
+	* Source/GNUmakefile.wrapper.objc.preamble (NEEDS_GUI): Set to NO.
+
 Thu Mar 16 16:25:36 GMT 2006  Nicola Pero <n.pero@mi.flashnet.it>
 
 	* GNUmakefile (before-all, before-distclean, config.make): Added
